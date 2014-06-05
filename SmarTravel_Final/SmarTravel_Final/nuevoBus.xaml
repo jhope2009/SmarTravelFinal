@@ -1,0 +1,11 @@
+﻿<Window x:Class="SmarTravel_Final.nuevoBus"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="nuevoBus" Height="264" Width="583" Foreground="#FFBBBABA" Background="#FF4F2A84" WindowStartupLocation="CenterScreen" WindowStyle="None">
+    <Grid>
+        <TextBlock Height="23" HorizontalAlignment="Left" Margin="101,102,0,0" Name="textBlock1" Text="Se ha ingresado correctamente el bus en el sistema." VerticalAlignment="Top" FontFamily="Comic Sans MS" FontSize="14" />
+        <Image Height="50" HorizontalAlignment="Stretch" Margin="188,34,270,0" Name="image1" Stretch="Uniform" VerticalAlignment="Top" Source="/SmarTravel_Final;component/Images/bus.png" StretchDirection="DownOnly" />
+        <TextBlock FontFamily="Comic Sans MS" FontSize="14" Height="23" HorizontalAlignment="Left" Margin="139,139,0,0" Name="saludo" Text="Gracias por registrarse el nuevo bus." VerticalAlignment="Top" />
+        <Button Content="Aceptar" Height="23" HorizontalAlignment="Left" Margin="178,181,0,0" Name="button1" VerticalAlignment="Top" Width="103" Background="#FF4F2A84" Foreground="#FFBBBABA" Click="button1_Click" />
+    </Grid>
+</Window>

@@ -1,0 +1,106 @@
+﻿<UserControl x:Class="SmarTravel_Final.panelUsuario"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300" Width="1090" Height="515" Background="#FFBBBABA">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="estilos.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+        
+    </UserControl.Resources>
+    <Grid Width="1100">
+        <Canvas Height="412" HorizontalAlignment="Left" Margin="119,103,0,0" Name="listadoTabla" VerticalAlignment="Top" Width="887" Visibility="Hidden" Background="#FF341954">
+            <DataGrid AutoGenerateColumns="True" Height="335" Name="listadoUsuarios" Width="849" Visibility="Hidden" Canvas.Left="18" Canvas.Top="26" Background="#FF4F2A84" IsReadOnly="True" RowBackground="#FF4F2A84" Foreground="#FFBBBABA" FontFamily="Century Gothic" FontSize="14" BorderBrush="#FF341954" AlternatingRowBackground="#FF4F2A84" HorizontalGridLinesBrush="Black" GridLinesVisibility="None" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" RowHeight="20" ColumnWidth="30" MinColumnWidth="20" MinRowHeight="35" CanUserAddRows="True" CanUserDeleteRows="True" CanUserResizeRows="False" HeadersVisibility="Column" MouseDoubleClick="listadoUsuarios_MouseDoubleClick" VerticalGridLinesBrush="Black" BorderThickness="0" Focusable="False" HorizontalAlignment="Left" HorizontalContentAlignment="Center" EnableRowVirtualization="False" Margin="0">
+               
+                <DataGrid.Resources>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="Background" Value="#FF4F2A84" />
+                        <Setter Property="FontWeight" Value="Bold" />
+                        <Setter Property="FontSize" Value="18" />
+                        <Setter Property="Height" Value="50" />
+                        <Setter Property="Margin" Value="10,0,0,0" />
+                    </Style>
+
+                   
+                    <Style TargetType="{x:Type DataGridCell}">
+                        <Setter Property="Margin" Value="10,0,0,0" />
+                    </Style>
+                    
+
+                </DataGrid.Resources>
+            </DataGrid>
+            <Label Canvas.Left="663" Canvas.Top="367" Content="AGREGAR USUARIO" Height="28" Name="addUser" Foreground="#FFBBBABA" FontFamily="Comic Sans MS" FontSize="14" MouseDoubleClick="addUser_MouseDoubleClick" />
+        </Canvas>
+        <Canvas Name="busquedaUsuario" Margin="117,0,415,443" Grid.Row="2" Background="#FFBBBABA" Visibility="Visible">
+            <TextBox Canvas.Left="20" Canvas.Top="23" Height="23" Name="busquedaUser" Width="402" FontFamily="Century Gothic" OverridesDefaultStyle="True" Style="{StaticResource TextBoxAzul}" />
+            <TextBlock Canvas.Left="30" Canvas.Top="59" Height="23" Name="textBlock4" Text="Rut" FontFamily="Century Gothic" FontSize="14" />
+            <TextBlock Canvas.Left="240" Canvas.Top="59" FontFamily="Century Gothic" FontSize="14" Height="23" Name="textBlock5" Text="Cargo" />
+            <TextBlock Canvas.Left="115" Canvas.Top="59" FontFamily="Century Gothic" FontSize="14" Height="23" Name="textBlock6" Text="Nombre" />
+            <CheckBox Canvas.Left="72" Canvas.Top="61" Height="16" Name="cbRut" IsChecked="False" Checked="cbRut_Checked" Background="#FF341954" />
+            <CheckBox Canvas.Left="189" Canvas.Top="61" Height="16" Name="cbNombre" Checked="cbNombre_Checked" Background="#FF341954" />
+            <CheckBox Canvas.Left="290" Canvas.Top="61" Height="16" Name="cbCargo" Checked="cbCargo_Checked" Background="#FF341954" />
+            <Button Canvas.Left="330" Canvas.Top="56" Content="Filtrar" Height="23" Name="button2" Width="92" FontFamily="Century Gothic" Click="button2_Click" Style="{StaticResource BotonAzul}" />
+        </Canvas>
+        <Canvas Name="general" Margin="117,103,94,0" Visibility="Visible" Background="#FF341954">
+            
+            <TabControl Height="344" Name="accionesUsuario" Width="889" Background="#FF341954" FontFamily="Century Gothic" Foreground="#FFBBBABA" BorderBrush="#FF341954" Margin="0,-2,0,0" Grid.Row="2" Visibility="Visible">
+                <TabItem Header="USUARIO" Name="insertUsuario" Width="130">
+                    <Grid Height="346" Width="851">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="824*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Content="Nombre Completo" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="30,28,0,0" Name="label1" VerticalAlignment="Top" FontSize="13" Foreground="#FFBBBABA" />
+                        <Label Content="Dirección" FontSize="13" Foreground="#FFBBBABA" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="33,162,0,0" Name="label2" VerticalAlignment="Top" />
+                        <Label Content="Edad" FontSize="13" Foreground="#FFBBBABA" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="30,74,0,0" Name="label3" VerticalAlignment="Top" />
+                        <Label Content="Rut" FontSize="13" Foreground="#FFBBBABA" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="30,119,0,0" Name="label4" VerticalAlignment="Top" />
+                        <Label Content="Región" FontSize="13" Foreground="#FFBBBABA" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="33,208,0,0" Name="label5" VerticalAlignment="Top" />
+                        <Label Content="Ciudad" FontSize="13" Foreground="#FFBBBABA" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="32,250,0,0" Name="label6" VerticalAlignment="Top" />
+                        <TextBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="184,28,0,0" Name="nombreCompleto" VerticalAlignment="Top" Width="265" Background="#FF341954" Foreground="#FFBBBABA" Style="{StaticResource TextBoxGris}" />
+                        <TextBox Background="#FF341954" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="184,74,0,0" Name="edad" VerticalAlignment="Top" Width="53" Foreground="#FFBBBABA" MaxLength="2" TextChanged="edad_TextChanged" KeyDown="edad_KeyDown" Style="{StaticResource TextBoxGris}" />
+                        <TextBox Background="#FF341954" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="184,119,0,0" Name="rut" VerticalAlignment="Top" Width="114" Foreground="#FFBBBABA" TextChanged="rut_TextChanged" KeyDown="rut_KeyDown" PreviewKeyDown="rut_PreviewKeyDown" MaxLength="8" Style="{StaticResource TextBoxGris}" />
+                        <TextBox Background="#FF341954" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="314,119,0,0" Name="verificador" VerticalAlignment="Top" Width="42" Foreground="#FFBBBABA" MaxLength="1" TextChanged="verificador_TextChanged" KeyDown="verificador_KeyDown" Style="{StaticResource TextBoxGris}" />
+                        <TextBox Background="#FF341954" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="184,167,0,0" Name="direccion" VerticalAlignment="Top" Width="265" Foreground="#FFBBBABA" Style="{StaticResource TextBoxGris}" />
+                        <ComboBox Grid.Column="1" Height="23" HorizontalAlignment="Right" Margin="0,213,402,0" Name="comboRegion" VerticalAlignment="Top" Width="265" FontWeight="Normal" SelectedIndex="-1" DropDownClosed="comboRegion_DropDownClosed" DropDownOpened="comboRegion_DropDownOpened" Style="{StaticResource Combo}" ItemsSource="{Binding}">
+                           
+                        </ComboBox>
+                        <ComboBox Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="184,255,0,0" Name="comboCiudad" VerticalAlignment="Top" Width="264" FontWeight="Normal" DropDownOpened="comboCiudad_DropDownOpened" DropDownClosed="comboCiudad_DropDownClosed" Style="{StaticResource Combo}" />
+                        <Label Content="Clave" FontSize="13" Foreground="#FFBBBABA" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="478,24,0,0" Name="label7" VerticalAlignment="Top" />
+                        <Label Content="Cargo" FontSize="13" Foreground="#FFBBBABA" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="478,162,0,0" Name="label8" VerticalAlignment="Top" />
+                        <Label Content="Sexo" FontSize="13" Foreground="#FFBBBABA" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="478,114,0,0" Name="label9" VerticalAlignment="Top" />
+                        <Label Content="Fono" FontSize="13" Foreground="#FFBBBABA" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="478,69,0,0" Name="label10" VerticalAlignment="Top" />
+                        <Label Content="Imagen" FontSize="13" Foreground="#FFBBBABA" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="478,208,0,0" Name="label11" VerticalAlignment="Top" />
+                        <TextBox Background="#FF341954" Foreground="#FFBBBABA" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="601,28,0,0" Name="clave" VerticalAlignment="Top" Width="204" Style="{StaticResource TextBoxGris}" />
+                        <TextBox Background="#FF341954" Foreground="#FFBBBABA" Grid.Column="1" Height="23" HorizontalAlignment="Right" Margin="0,74,46,0" Name="fono" VerticalAlignment="Top" Width="204" TextChanged="fono_TextChanged" KeyDown="fono_KeyDown" MaxLength="8" Style="{StaticResource TextBoxGris}" />
+                        <ComboBox Grid.Column="1" Height="23" HorizontalAlignment="Right" Margin="0,114,46,0" Name="comboSexo" VerticalAlignment="Top" Width="206" FontWeight="Normal" DropDownOpened="comboSexo_DropDownOpened" DropDownClosed="comboSexo_DropDownClosed" Style="{StaticResource Combo}" ItemsSource="{Binding}">
+                            <ComboBoxItem Content="MASCULINO" />
+                            <ComboBoxItem Content="FEMENINO" />
+                        </ComboBox>
+                        <ComboBox Grid.Column="1" Height="23" HorizontalAlignment="Right" Margin="0,162,46,0" Name="comboCargo" VerticalAlignment="Top" Width="206" FontWeight="Normal" DropDownClosed="comboCargo_DropDownClosed" DropDownOpened="comboCargo_DropDownOpened" Style="{StaticResource Combo}">
+                            <ComboBoxItem Content="AUXILIAR" />
+                            <ComboBoxItem Content="ADMINISTRADOR" Loaded="ComboBoxItem_Loaded" />
+                            <ComboBoxItem Content="CAJERO" />
+                            <ComboBoxItem Content="CHOFER" />
+                            <ComboBoxItem Content="CLIENTE" />
+                            <ComboBoxItem Content="SUPERVISOR" />
+                        </ComboBox>
+                        <Button Content="Examinar ..." Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="601,213,0,0" Name="button3" VerticalAlignment="Top" Width="204" FontSize="13" FontWeight="Normal" Click="button3_Click" Style="{StaticResource BotonGris}" />
+                        <Label Content="La imagen ha sido cargada exitosamente" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="573,249,0,0" Name="mensajeImagen" VerticalAlignment="Top" FontSize="11" Foreground="#FFBBBABA" Visibility="Hidden" />
+                        <Button Content="Agregar" Grid.Column="1" Height="28" HorizontalAlignment="Left" Margin="613,283,0,0" Name="button4" VerticalAlignment="Top" Width="168" FontWeight="Normal" FontSize="13" Background="#FF341954" Foreground="#FFBBBABA" Click="button4_Click" Style="{StaticResource BotonGris}" />
+                        <TextBlock Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="491,253,0,0" Name="rutaImagen" Text="" VerticalAlignment="Top" Visibility="Hidden" />
+                        
+                    </Grid>
+                </TabItem>
+                <TabItem Header="TURNOS" Width="140"></TabItem>
+                <TabItem Header="VACACIONES" Width="140" />
+                <TabItem Header="CONTRATO" Width="140" />
+                <TabItem Width="335" IsEnabled="False" />
+            </TabControl>
+        </Canvas>
+    </Grid>
+</UserControl>

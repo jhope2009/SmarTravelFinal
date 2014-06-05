@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F6F4C623-DAE3-426C-88FE-DCD0E4EAF04B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SmarTravel_Final</RootNamespace>
+    <AssemblyName>SmarTravel_Final</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MySql.Data, Version=1.0.10.1, Culture=neutral, PublicKeyToken=c5687fc88969c44d">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="alerta.xaml.cs">
+      <DependentUpon>alerta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\CiudadFacade.cs" />
+    <Compile Include="Controller\ParadaFacade.cs" />
+    <Compile Include="Controller\RecorridoFacade.cs" />
+    <Compile Include="Controller\TrayectoFacade.cs" />
+    <Compile Include="Controller\ViajeDiarioFacade.cs" />
+    <Compile Include="Controller\ViajeFacade.cs" />
+    <Compile Include="editarViajeDiario.xaml.cs">
+      <DependentUpon>editarViajeDiario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="eliminarUsuario.xaml.cs">
+      <DependentUpon>eliminarUsuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\Ciudad.cs" />
+    <Compile Include="Controller\Parada.cs" />
+    <Compile Include="Controller\Recorrido.cs" />
+    <Compile Include="Controller\Region.cs" />
+    <Compile Include="Controller\Trayecto.cs" />
+    <Compile Include="Controller\Viaje.cs" />
+    <Compile Include="Controller\ViajeDiario.cs" />
+    <Compile Include="fichaBus.xaml.cs">
+      <DependentUpon>fichaBus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="fichaPersonal.xaml.cs">
+      <DependentUpon>fichaPersonal.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="nuevoBus.xaml.cs">
+      <DependentUpon>nuevoBus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="nuevoUsuario.xaml.cs">
+      <DependentUpon>nuevoUsuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="nuevoViaje.xaml.cs">
+      <DependentUpon>nuevoViaje.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="okAlerta.xaml.cs">
+      <DependentUpon>okAlerta.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="panelBuses.xaml.cs">
+      <DependentUpon>panelBuses.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="panelPasaje.xaml.cs">
+      <DependentUpon>panelPasaje.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="panelRecorrido.xaml.cs">
+      <DependentUpon>panelRecorrido.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="panelUsuario.xaml.cs">
+      <DependentUpon>panelUsuario.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="tablaValores.xaml.cs">
+      <DependentUpon>tablaValores.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="validar.xaml.cs">
+      <DependentUpon>validar.xaml</DependentUpon>
+    </Compile>
+    <Page Include="alerta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="editarViajeDiario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="eliminarUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="estilos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="fichaBus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="fichaPersonal.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="conexionBD.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="nuevoBus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="nuevoUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="nuevoViaje.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="okAlerta.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="panelBuses.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="panelPasaje.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="panelRecorrido.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="panelUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="tablaValores.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="validar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\buses_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\usuario.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\registros.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\cerrar_sesion.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\encomiendas.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\rutas.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\buses.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\error_alerta.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\usuario_hover.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\fotoPerfil\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\delete29.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\eliminar_ficha.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bus generico gris.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\eliminar_ficha1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\bus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\busquedaIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\ok_alerta.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\2-chile_mudo.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\chilito.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

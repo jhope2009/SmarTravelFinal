@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="SmarTravel_Final.panelBuses"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" d:DesignWidth="871" d:DesignHeight="456" DataContext="{Binding}">
+    <UserControl.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="estilos.xaml"></ResourceDictionary>
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+
+    </UserControl.Resources>
+    <Grid Grid.Row="1" Height="456" HorizontalAlignment="Left" VerticalAlignment="Top" Width="872" Background="#FF341954" Grid.ColumnSpan="2" Grid.RowSpan="2">
+            <TabControl HorizontalAlignment="Left"  Name="tabControl1" VerticalAlignment="Stretch" Width="868" Background="#FF341954" BorderBrush="#FF341954" Foreground="#FFBBBABA" HorizontalContentAlignment="Left" FontFamily="Century Gothic" FontSize="12" FontWeight="Normal" Margin="2,0,0,-1">
+            <TabItem Header="REGISTRAR BUS" Name="tabRegistrarBus" Height="40" Width="130" BorderBrush="Black" FontSize="12">
+                <Grid>
+                    <TextBlock Text="Marca" Foreground="#FFBBBABA" Height="28" Name="lbMarca" Width="80" Margin="17,66,761,311" />
+                    <TextBox Height="23" HorizontalAlignment="Right" Margin="0,23,520,0" Name="txtModelo" VerticalAlignment="Top" Width="192" Background="#FF4F2A84" BorderBrush="#FFBBBABA" BorderThickness="2" AutoWordSelection="False" AcceptsTab="False" Foreground="#FFBBBABA" Style="{StaticResource TextBoxGris}" />
+                    <ComboBox Height="21" HorizontalAlignment="Right" Margin="0,143,519,0" Name="cbxEstado" VerticalAlignment="Top" Width="193" FontWeight="Normal" SelectedIndex="-1" Style="{StaticResource Combo}" ItemsSource="{Binding}">
+                        <ComboBoxItem Content="Disponible" />
+                        <ComboBoxItem Content="En taller" />
+                        <ComboBoxItem Content="Fuera de servicio" />
+                    </ComboBox>
+                    <TextBlock Text="Estado" Height="28" HorizontalAlignment="Left" Margin="17,143,0,0" Name="lblEstado" VerticalAlignment="Top" Foreground="#FFBBBABA" />
+                    <Button Content="Agregar" Height="23" Margin="692,0,26,16" Name="btnagregarbus" VerticalAlignment="Bottom" Click="btnagregarbus_Click" Style="{StaticResource BotonGris}" />
+                    <Button Content="Examinar..." Height="23" HorizontalAlignment="Left" Margin="550,323,0,0" Name="btnExaminar" VerticalAlignment="Top" Width="168" Click="btnExaminar_Click" Style="{StaticResource BotonGris}" />
+                    <Image Name="examinarBus" Stretch="Fill" FlowDirection="RightToLeft" IsManipulationEnabled="True" Canvas.Left="-10" Canvas.Top="0" Margin="451,6,26,88" Source="/SmarTravel_Final;component/Images/bus%20generico%20gris.jpg" />
+                    <TextBlock Text="Modelo" Foreground="#FFBBBABA" Height="28" Margin="17,23,761,354" Name="lbModelo" Width="80" />
+                    <TextBox Background="#FF4F2A84" BorderThickness="2" Foreground="#FFBBBABA" Height="23" HorizontalAlignment="Right" Margin="0,104,519,0" Name="txtPatente" Style="{StaticResource TextBoxGris}" VerticalAlignment="Top" Width="193" MaxLength="8" />
+                    <TextBlock Text="Patente" Foreground="#FFBBBABA" Height="28" Margin="17,104,761,273" Name="label1" Width="80" />
+                    <TextBlock Text="Fecha permiso" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="17,0,0,154" Name="label2" VerticalAlignment="Bottom" />
+                    <DatePicker Height="25" HorizontalAlignment="Left" Margin="149,223,0,0" Name="fechaPermiso" VerticalAlignment="Top" Width="203"/>
+                    <TextBlock Text="Vigencia permiso" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="17,187,0,0" Name="label3" VerticalAlignment="Top" />
+                    <RadioButton Content="SI" Height="16" HorizontalAlignment="Left" Margin="158,192,0,0" Name="rbSi" VerticalAlignment="Top" Foreground="#FFBBBABA" BorderBrush="#FF4F2A84" BorderThickness="3" />
+                    <RadioButton Content="NO" Height="16" HorizontalAlignment="Left" Margin="201,192,0,0" Name="rbNo" VerticalAlignment="Top" Foreground="#FFBBBABA" BorderBrush="#FF4F2A84" />
+                    <TextBlock Text="Año" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="18,271,0,0" Name="label5" VerticalAlignment="Top" />
+                    <TextBox Background="#FF4F2A84" BorderThickness="2" Foreground="#FFBBBABA" Height="23" HorizontalAlignment="Right" Margin="0,271,649,0" Name="año" Style="{StaticResource TextBoxGris}" VerticalAlignment="Top" Width="60" MaxLength="4" KeyDown="año_KeyDown" />
+                    <ComboBox FontWeight="Normal" Height="21" HorizontalAlignment="Right" ItemsSource="{Binding}" Margin="0,66,520,0" Name="comboMarca" SelectedIndex="-1" Style="{StaticResource Combo}" VerticalAlignment="Top" Width="193" Loaded="comboMarca_Loaded"></ComboBox>
+                    <TextBlock Text="Ciudad Ubicación" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="17,310,0,0" Name="label6" VerticalAlignment="Top" />
+                    <ComboBox FontWeight="Normal" Height="21" HorizontalAlignment="Right" ItemsSource="{Binding}" Margin="0,310,516,0" Name="comboCiudad" SelectedIndex="-1" Style="{StaticResource Combo}" VerticalAlignment="Top" Width="193" Loaded="comboCiudad_Loaded"></ComboBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="VER BUSES" Name="tabVerbuses" Height="40" Width="130" BorderBrush="Black" Selector.Selected="tabVerbuses_Selected">
+                
+                <Grid Background="#FF341954">
+                    <DataGrid AutoGenerateColumns="True" Height="393" HorizontalAlignment="Left" Margin="14,6,0,0" Name="gridBuses" VerticalAlignment="Top" Width="838" ItemsSource="{Binding}" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" SelectedCellsChanged="gridBuses_SelectedCellsChanged" CellEditEnding="gridBuses_CellEditEnding" Background="#FF4F2A84" IsReadOnly="True" RowBackground="#FF4F2A84" Foreground="#FFBBBABA" FontFamily="Century Gothic" FontSize="14" BorderBrush="#FF341954" AlternatingRowBackground="#FF4F2A84" HorizontalGridLinesBrush="#FF341954" GridLinesVisibility="None" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" RowHeight="20" ColumnWidth="250" MinColumnWidth="20" MinRowHeight="35" CanUserDeleteRows="True" CanUserResizeRows="False" HeadersVisibility="Column"  VerticalGridLinesBrush="#FF341954" BorderThickness="0" Focusable="False" SelectedIndex="-1" MouseDoubleClick="gridBuses_MouseDoubleClick">
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="Background" Value="#FF4F2A84" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                                <Setter Property="FontSize" Value="18" />
+                                <Setter Property="Height" Value="50" />
+                                <Setter Property="Margin" Value="10,0,0,0" />
+                            </Style>
+
+
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="Margin" Value="10,0,0,0" />
+                            </Style>
+                        </DataGrid.Resources>
+                    </DataGrid>
+                </Grid>
+
+            </TabItem>
+                <TabItem Height="40" Width="604" />
+        </TabControl>
+    </Grid>
+</UserControl>
