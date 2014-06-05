@@ -15,6 +15,7 @@ using MySql.Data.MySqlClient;
 using System.Data.Sql;
 using System.IO;
 using System.Data;
+using System.Windows.Media.Animation;
 
 namespace SmarTravel_Final
 {
@@ -99,28 +100,16 @@ namespace SmarTravel_Final
 
             this.panelBuses.Visibility = Visibility.Hidden;
             panelPasaje.Visibility = Visibility.Hidden;
+            efectoPanel(panelUsuario);
         }
         private void bus_Click(object sender, RoutedEventArgs e)
         {
-            var colorFondo = new SolidColorBrush(Color.FromArgb(255, (byte)52, (byte)25, (byte)84));
-            if (this.bus.Background == Brushes.White)
-                this.bus.Background = colorFondo;
-
-            else
-            {
-                this.bus.Background = Brushes.White;
-                this.usuario.Background = colorFondo;
-                this.mapa.Background = colorFondo;
-                this.encomienda.Background = colorFondo;
-                this.registo.Background = colorFondo;
-            }
-
 
             this.panelBuses.Visibility = Visibility.Visible;
             this.panelUsuario.Visibility = Visibility.Hidden;
-            panelRecorrido.Visibility = Visibility.Hidden;
+
             this.contenido.Visibility = Visibility.Visible;
-            panelPasaje.Visibility = Visibility.Hidden;
+            efectoPanel(panelBuses);
             
         }
         private void cerrarSesion_Click(object sender, RoutedEventArgs e)
@@ -251,10 +240,8 @@ namespace SmarTravel_Final
                 try
                 {
                     MySqlConnection con = conexionDB.ObtenerConexion();
-                    //string rutUser = rutUsuario.Text;
-                    //string pass = passUsuario.Password;
-                    string rutUser = "18285166-3";
-                    string pass = "FELIPE";
+                    string rutUser = rutUsuario.Text;
+                    string pass = passUsuario.Password;
                     string sql = "SELECT RUT,CLAVE,NOMBRE_COMPLETO,CARGO FROM PERSONA WHERE RUT = '" + rutUser + "' AND CLAVE COLLATE latin1_bin = '" + pass + "' AND CARGO = 'ADMINISTRADOR'";
                     MySqlCommand cmd = new MySqlCommand(sql, con);
                     dr = cmd.ExecuteReader();
@@ -331,5 +318,14 @@ namespace SmarTravel_Final
         {
             this.AddChild(inicio);
         }
+
+        private void efectoPanel(UserControl panel)
+        {
+            DoubleAnimation da = new DoubleAnimation();
+            da.From = 0.0;
+            da.To = 1;
+            da.Duration = new Duration(TimeSpan.FromSeconds(1));
+            panel.BeginAnimation(UserControl.OpacityProperty, da);
+        } 
     }
 }
