@@ -104,10 +104,23 @@ namespace SmarTravel_Final
         }
         private void bus_Click(object sender, RoutedEventArgs e)
         {
+            var colorFondo = new SolidColorBrush(Color.FromArgb(255, (byte)52, (byte)25, (byte)84));
+            if (this.bus.Background == Brushes.White)
+                this.bus.Background = colorFondo;
+
+            else
+            {
+                this.bus.Background = Brushes.White;
+                this.usuario.Background = colorFondo;
+                this.mapa.Background = colorFondo;
+                this.encomienda.Background = colorFondo;
+                this.registo.Background = colorFondo;
+            }
+
 
             this.panelBuses.Visibility = Visibility.Visible;
             this.panelUsuario.Visibility = Visibility.Hidden;
-
+            this.panelRecorrido.Visibility = Visibility.Hidden;
             this.contenido.Visibility = Visibility.Visible;
             efectoPanel(panelBuses);
             
@@ -159,6 +172,8 @@ namespace SmarTravel_Final
             panelBuses.Visibility = Visibility.Hidden;
             this.contenido.Visibility = Visibility.Visible;
             panelPasaje.Visibility = Visibility.Hidden;
+
+            efectoPanel(panelRecorrido);
             //this.busquedaUsuario.Visibility = Visibility.Hidden;
             //this.accionesUsuario.Visibility = Visibility.Hidden;
             //ESTA NO
@@ -203,6 +218,7 @@ namespace SmarTravel_Final
             //panelPasaje.comboDestino.SelectedIndex = -1;
             this.contenido.Visibility = Visibility.Visible;
             panelPasaje.gridMuestraViajes.Visibility = Visibility.Hidden;
+            efectoPanel(panelPasaje);
         }
         private void usuarioActual_Click(object sender, RoutedEventArgs e)
         {
@@ -240,8 +256,10 @@ namespace SmarTravel_Final
                 try
                 {
                     MySqlConnection con = conexionDB.ObtenerConexion();
-                    string rutUser = rutUsuario.Text;
-                    string pass = passUsuario.Password;
+                    //string rutUser = rutUsuario.Text;
+                    //string pass = passUsuario.Password;
+                    string rutUser = "18285166-3";
+                    string pass = "FELIPE";
                     string sql = "SELECT RUT,CLAVE,NOMBRE_COMPLETO,CARGO FROM PERSONA WHERE RUT = '" + rutUser + "' AND CLAVE COLLATE latin1_bin = '" + pass + "' AND CARGO = 'ADMINISTRADOR'";
                     MySqlCommand cmd = new MySqlCommand(sql, con);
                     dr = cmd.ExecuteReader();
@@ -250,6 +268,7 @@ namespace SmarTravel_Final
                         panelUsuario = new panelUsuario();
                         this.general.Children.Add(panelUsuario);
                         panelUsuario.Visibility = Visibility.Visible;
+                        efectoPanel(panelUsuario);
 
                         panelBuses = new panelBuses();
                         this.contenido.Children.Add(panelBuses);

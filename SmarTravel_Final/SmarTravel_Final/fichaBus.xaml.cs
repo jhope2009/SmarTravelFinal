@@ -60,11 +60,14 @@ namespace SmarTravel_Final
                     }
 
                     fechaPermiso.Text = dr.GetValue(7).ToString();
-                    var uri = new Uri(dr.GetValue(8).ToString());
-                    var bitmap = new BitmapImage(uri);
-                    perfilBus.Source = bitmap;
 
+                    string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location).ToString();
+                    path = path.Substring(0, path.Length - 9);
+                    path = path + "Images/fotosBuses/";
+                    path = path + dr.GetValue(8);
 
+                    var uri = new Uri(path);
+                    perfilBus.Source = new BitmapImage(uri);
                     
 
                 }
@@ -165,7 +168,7 @@ namespace SmarTravel_Final
 
                 string updateString = "UPDATE BUS SET imagen=?imagen WHERE patente=?patente";
                 MySqlCommand updateCommand = new MySqlCommand(updateString, con);
-                updateCommand.Parameters.Add("?imagen", filePath.ToString());
+                updateCommand.Parameters.Add("?imagen", open.SafeFileName);
                 updateCommand.Parameters.Add("?patente", txtPatente.Text);
                 System.IO.File.Copy(ruta, filePath, true);
                 updateCommand.ExecuteNonQuery();

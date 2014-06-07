@@ -24,6 +24,7 @@ namespace SmarTravel_Final
     public partial class panelBuses : UserControl
     {
         string nameImagen = "";
+        string nombreImagen ="";
         public panelBuses()
         {
             InitializeComponent();
@@ -103,7 +104,7 @@ namespace SmarTravel_Final
                     insertCommand.Parameters.Add("?vigencia", rbSeleccionado);
                     insertCommand.Parameters.Add("?fecha", fechaPermiso.Text);
                     insertCommand.Parameters.Add("?estado", cbxEstado.Text);
-                    insertCommand.Parameters.Add("?imagen", filePath.ToString());
+                    insertCommand.Parameters.Add("?imagen", nombreImagen);
                     insertCommand.Parameters.Add("?ciudad", numeroCiudad);
 
 
@@ -198,6 +199,7 @@ namespace SmarTravel_Final
                 var uri = new Uri(nameImagen);
                 var bitmap = new BitmapImage(uri);
                 examinarBus.Source = bitmap;
+                nombreImagen = open.SafeFileName;
             }
         }
         private Boolean validapatente1(String patente) 
@@ -301,19 +303,7 @@ namespace SmarTravel_Final
 
         }
 
-        private void comboMarca_Loaded(object sender, RoutedEventArgs e)
-        {
-            MySqlConnection con = conexionDB.ObtenerConexion();
-            string sql = "SELECT NOMBRE FROM MARCA_BUS ORDER BY NOMBRE ASC";
-            MySqlCommand cmd = new MySqlCommand(sql, con);
-
-            MySqlDataReader dr = cmd.ExecuteReader();
-
-            while (dr.Read())
-            {
-                this.comboMarca.Items.Add(dr.GetString(0));
-            }
-        }
+     
 
         private void año_KeyDown(object sender, KeyEventArgs e)
         {
@@ -323,19 +313,7 @@ namespace SmarTravel_Final
                 e.Handled = true;
         }
 
-        private void comboCiudad_Loaded(object sender, RoutedEventArgs e)
-        {
-            MySqlConnection con = conexionDB.ObtenerConexion();
-            string sql = "SELECT NOMBRE FROM CIUDAD ORDER BY NOMBRE ASC";
-            MySqlCommand cmd = new MySqlCommand(sql, con);
 
-            MySqlDataReader dr = cmd.ExecuteReader();
-
-            while (dr.Read())
-            {
-                this.comboCiudad.Items.Add(dr.GetString(0));
-            }
-        }
 
         private void fechaPermiso_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -343,6 +321,11 @@ namespace SmarTravel_Final
         }
 
         private void comboMarca_DropDownOpened(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void comboMarca_DropDownOpened_1(object sender, EventArgs e)
         {
             this.comboMarca.Items.Clear();
             MySqlConnection con = conexionDB.ObtenerConexion();
@@ -356,6 +339,23 @@ namespace SmarTravel_Final
                 this.comboMarca.Items.Add(dr.GetString(0));
             }
         }
+
+        private void comboCiudad_DropDownOpened(object sender, EventArgs e)
+        {
+            this.comboCiudad.Items.Clear();
+            MySqlConnection con = conexionDB.ObtenerConexion();
+            string sql = "SELECT NOMBRE FROM CIUDAD ORDER BY NOMBRE ASC";
+            MySqlCommand cmd = new MySqlCommand(sql, con);
+
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                this.comboCiudad.Items.Add(dr.GetString(0));
+            }
+        }
+
+        
     
     }
 }

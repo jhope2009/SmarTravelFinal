@@ -26,6 +26,8 @@ namespace SmarTravel_Final
     {
         string nameImagen = "";
         public static fichaPersonal ficha = null;
+
+        public string nombreArchivo = "";
         public panelUsuario()
         {
             InitializeComponent();
@@ -195,7 +197,8 @@ namespace SmarTravel_Final
             
             MySqlConnection con = conexionDB.ObtenerConexion();
             Microsoft.Win32.OpenFileDialog open = new Microsoft.Win32.OpenFileDialog();
-            open.Filter = "Archivos jpg(*.jpg)|*.jpg";
+            //open.Filter = "Archivos jpg(*.jpg)|*.jpg";
+            open.Filter = "Images (*.BMP;*.JPG;*.GIF;*.PNG)|*.BMP;*.JPG;*.GIF;*.PNG|" +"All files (*.*)|*.*";
             open.Title = "Archivos Imagenes";
             string ruta = "";
 
@@ -206,13 +209,8 @@ namespace SmarTravel_Final
                 ruta = open.FileName;
                 mensajeImagen.Visibility = Visibility.Visible;
                 rutaImagen.Text = ruta;
-               
-
-
                 nameImagen = open.FileName;
-                
-
- 
+                nombreArchivo = open.SafeFileName;
  
 
             }
@@ -326,14 +324,16 @@ namespace SmarTravel_Final
                     byte[] buffer_new = buffer;
                      */
 
+                   
                     string path = System.IO.Directory.GetCurrentDirectory();
                     path = path.Substring(0, path.Length - 9);
                     path = path + "Images/fotoPerfil/";
                     string filePath = path + System.IO.Path.GetFileName(nameImagen);
                     
-                    
+                  
                     System.IO.File.Copy(nameImagen, filePath, true);
-                    
+
+
                     //MySqlCommand cmdIns = new MySqlCommand(string.Format("INSERT INTO PERSONA (rut,NOMBRE_COMPLETO,edad,direccion,ciudad,fono,clave,imagen,sexo,cargo) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')", rutIngresado, nombre, edadUser, dire, numeroCiudad, telefono, pass,filePath.ToString(), sexo, cargo), con);
                    
                     string insertString = "INSERT INTO PERSONA (rut,NOMBRE_COMPLETO,edad,direccion,ciudad,fono,clave,imagen,sexo,cargo) VALUES (?rut,?nombre,?edad,?direccion,?ciudad,?fono,?clave,?imagen,?sexo,?cargo)";
@@ -345,7 +345,7 @@ namespace SmarTravel_Final
                     insertCommand.Parameters.Add("?ciudad", numeroCiudad);
                     insertCommand.Parameters.Add("?fono",telefono);
                     insertCommand.Parameters.Add("?clave", pass);
-                    insertCommand.Parameters.Add("?imagen", filePath.ToString());
+                    insertCommand.Parameters.Add("?imagen", nombreArchivo);
                     insertCommand.Parameters.Add("?sexo",sexo);
                     insertCommand.Parameters.Add("?cargo", cargo);
 

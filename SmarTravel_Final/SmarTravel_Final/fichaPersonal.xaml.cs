@@ -49,11 +49,15 @@ namespace SmarTravel_Final
                     ciudadConsulta = dr.GetValue(4).ToString();
                     fono.Text = dr.GetValue(5).ToString();
                     clave.Text = dr.GetValue(6).ToString();
-                    var uri = new Uri(dr.GetValue(7).ToString());
-                    var bitmap = new BitmapImage(uri);
-                    perfil.Source = bitmap;
-      
+                   
+                    string path = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location).ToString();
+                    path = path.Substring(0, path.Length - 9);
+                    path = path + "Images/fotoPerfil/";
+                    path = path + dr.GetValue(7);
 
+                    var uri = new Uri(path);
+                    perfil.Source = new BitmapImage(uri);
+   
                     sexo.Text = dr.GetValue(8).ToString();
                     cargo.Text = dr.GetValue(9).ToString();
 
@@ -154,7 +158,7 @@ namespace SmarTravel_Final
 
                 string updateString = "UPDATE PERSONA SET imagen=?imagen WHERE rut=?rut";
                 MySqlCommand updateCommand = new MySqlCommand(updateString, con);
-                updateCommand.Parameters.Add("?imagen", filePath.ToString());
+                updateCommand.Parameters.Add("?imagen", open.SafeFileName);
                 updateCommand.Parameters.Add("?rut", rutUser.Text);
                 System.IO.File.Copy(ruta, filePath, true);
                 updateCommand.ExecuteNonQuery();
