@@ -355,6 +355,16 @@ namespace SmarTravel_Final
             }
         }
 
+        private void comboCiudad_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void comboMarca_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         
     
     }

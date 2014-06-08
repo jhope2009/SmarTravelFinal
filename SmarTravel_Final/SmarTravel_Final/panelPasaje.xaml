@@ -12,8 +12,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-    <Grid Height="473" Width="932">
-        <TabControl Name="tabControl1" Background="#FF341954" BorderBrush="#FF341954" Foreground="#FFBBBABA" Margin="30,12,12,12">
+    <Grid Width="932" Margin="0,0,-9,0">
+        <TabControl Name="tabControl1" Background="#FF341954" BorderBrush="#FF341954" Foreground="#FFBBBABA" Margin="0,12,10,0">
             <TabItem Header="RESERVAR VIAJE" Name="tabReservaViaje" Height="40" Width="170" Selector.Selected="tabReservaViaje_Selected">
                 <Grid>
                     <Grid Height="361" HorizontalAlignment="Left" Margin="6,12,0,0" Name="gridBuscarViaje" VerticalAlignment="Top" Width="357" >
@@ -26,23 +26,24 @@
                         <Label Content="FECHA:" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="30,203,0,0" Name="label4" VerticalAlignment="Top" />
                         <Button Content="Buscar" Height="23" HorizontalAlignment="Left" Margin="205,266,0,0" Name="botonBuscar" VerticalAlignment="Top" Width="110" Style="{StaticResource BotonGris}" Click="botonBuscar_Click" />
                     </Grid>
-                    <Grid Height="361" HorizontalAlignment="Left" Margin="369,12,0,0" Name="gridMuestraViajes" VerticalAlignment="Top" Width="496" Visibility="Hidden" Background="#FF482A7A">
-                        <Grid Height="251" HorizontalAlignment="Left" Margin="40,84,0,0" Name="tablaViajes" VerticalAlignment="Top" Width="418">
+                    <Grid Height="361" HorizontalAlignment="Left" Margin="368,12,0,0" Name="gridMuestraViajes" VerticalAlignment="Top" Width="521" Visibility="Visible" Background="#FF482A7A">
+                        <Grid Height="273" HorizontalAlignment="Left" Margin="10,78,0,0" Name="tablaViajes" VerticalAlignment="Top" Width="501" Background="#FFBBBABA">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="144*" />
-                                <ColumnDefinition Width="112*" />
-                                <ColumnDefinition Width="71*" />
-                                <ColumnDefinition Width="91*" />
+                                <ColumnDefinition Width="131*" />
+                                <ColumnDefinition Width="120*" />
+                                <ColumnDefinition Width="76*" />
+                                <ColumnDefinition Width="102*" />
+                                <ColumnDefinition Width="72*"/>
                             </Grid.ColumnDefinitions>
                         </Grid>
-                        <Label Content="VIAJE" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="382,50,0,0" Name="label5" VerticalAlignment="Top" />
-                        <Label Content="HORARIO" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="205,50,0,0" Name="label6" VerticalAlignment="Top" />
-                        <Label Content="PRECIO" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="296,50,0,0" Name="label7" VerticalAlignment="Top" />
-                        <Label Content="TRAMO" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="75,50,0,0" Name="label8" VerticalAlignment="Top" />
-                        <Label Content="V  I  A  J  E  S      D  I  S  P  O  N  I  B  L  E  S" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="127,6,0,0" Name="label9" VerticalAlignment="Top" Width="252" />
+                        <Label Content="VIAJE" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="370,50,0,0" Name="label5" VerticalAlignment="Top" />
+                        <Label Content="LLEGADA" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="175,50,0,0" Name="label6" VerticalAlignment="Top" />
+                        <Label Content="PRECIO" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="276,50,0,0" Name="label7" VerticalAlignment="Top" />
+                        <Label Content="SALIDA" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="42,50,0,0" Name="label8" VerticalAlignment="Top" />
+                        <Label Content="V  I  A  J  E  S      D  I  S  P  O  N  I  B  L  E  S" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="145,0,0,0" Name="label9" VerticalAlignment="Top" Width="252" />
                     </Grid>
                 </Grid>
-            </TabItem>            
+            </TabItem>
         </TabControl>
     </Grid>
 </UserControl>

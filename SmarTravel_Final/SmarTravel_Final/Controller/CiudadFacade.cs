@@ -56,7 +56,7 @@ namespace SmarTravel_Final.Controller
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Ciudad buscarPorId: "+ex.Message);
                     ciudad = null;
                 }
                 finally
@@ -87,7 +87,7 @@ namespace SmarTravel_Final.Controller
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(" Ciudad buscarPorNombre: "+ex.Message);
                 }
                 finally
                 {

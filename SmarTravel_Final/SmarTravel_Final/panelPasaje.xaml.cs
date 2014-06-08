@@ -26,108 +26,98 @@ namespace SmarTravel_Final
         {
             InitializeComponent();
         }
-        
+
         private void botonBuscar_Click(object sender, RoutedEventArgs e)
         {
             this.gridMuestraViajes.Visibility = Visibility.Hidden;
-
             this.tablaViajes.Children.Clear();
             this.tablaViajes.RowDefinitions.Clear();
             if (this.comboOrigen.SelectedIndex > -1 && this.comboDestino.SelectedIndex > -1)
             {
                 if (this.buscarFecha.Text != "")
                 {
+                    bool existen = false;
                     Label valor;
-                    List<string> precio = new List<string>();
-                    List<int> recorrido = new List<int>();
-                    List<Trayecto> trayectos = new List<Trayecto>();
-                    //List<int> trayectos = new List<int>();
-                    List<int> viaje = new List<int>();
-                    string[] l = new string[4];
-                    List<string> identificador = new List<string>();
+                    Button ver;
+                    string[] itemsTabla = new string[4];
                     string salida = "";
                     string llegada = "";
-                    string hora = "";
-
-                    string tramo = (string)this.comboOrigen.SelectedItem + "-" + (string)this.comboDestino.SelectedItem;
                     string fecha = this.buscarFecha.Text;
+
                     Ciudad origen = CiudadFacade.buscarPorNombre(this.comboOrigen.SelectedItem.ToString());
                     Ciudad destino = CiudadFacade.buscarPorNombre(this.comboDestino.SelectedItem.ToString());
-                    /*
+
                     try
-                    {                        
-                        trayectos = TrayectoFacade.bus
-                        
-                        
-                        sql = "select t.ID, t.RECORRIDO, t.PRECIO from trayecto as t where t.ORIGEN=" + origen + " and t.DESTINO=" + destino;
-                        cmd = new MySqlCommand(string.Format(sql), con);
-                        MySqlDataReader dr1 = cmd.ExecuteReader();
-                        while (dr1.Read())
+                    {
+                        List<Viaje> viajes = ViajeFacade.buscarPorOrigenDestino(origen.nombre, destino.nombre);
+                        Console.WriteLine(viajes.Count);
+                        if (viajes.Count > 0)
                         {
-                            precio.Add((string)dr1.GetInt32(2).ToString());
-                            recorrido.Add(dr1.GetInt32(1));
-                            trayecto.Add(dr1.GetInt32(0));
-                        }
-                        dr1.Close();
-                        
-                        for (int i = 0; i < precio.Count; i++)
-                        {
-                            sql = "select vd.VIAJE, v.IDENTIFICADOR, vd.ASIENTOS_DISPONIBLES from viajes as v inner join viajes_diarios as vd on (v.ID=vd.VIAJE) where v.RECORRIDO = " + recorrido[i] + " and vd.FECHA='" + fecha + "' and vd.TRAYECTO=" + trayectos[i];
-                            cmd = new MySqlCommand(string.Format(sql), con);
-                            MySqlDataReader dr2 = cmd.ExecuteReader();
-                            while (dr2.Read())
-                            {
-                                viaje.Add(dr2.GetInt32(0));
-                                identificador.Add(dr2.GetString(1));
+                            foreach (Viaje viaje in viajes)
+                            {                                
+                                foreach (ViajeDiario vd in viaje.viajesDiarios)
+                                {
+                                    if (vd.fecha == fecha && vd.trayecto.origen.id == origen.id && vd.trayecto.destino.id == destino.id)
+                                    {
+                                        existen = true;
+                                        foreach (Horario horario in viaje.horarios)
+                                        {
+                                            if (horario.parada.ciudad.id == origen.id) salida = origen.nombre + " - " + horario.salida;
+                                            if (horario.parada.ciudad.id == destino.id) llegada = destino.nombre + " - " + horario.llegada;
+                                        }                                      
+
+                                        itemsTabla[0] = salida;
+                                        itemsTabla[1] = llegada;
+                                        itemsTabla[2] = vd.trayecto.precio.ToString();
+                                        itemsTabla[3] = viaje.identificador;
+                                        
+                                        this.tablaViajes.RowDefinitions.Add(new RowDefinition());
+                                        this.tablaViajes.RowDefinitions[this.tablaViajes.RowDefinitions.Count - 1].Height = new System.Windows.GridLength(30);
+                                        for (int n = 0; n < itemsTabla.Length; n++)
+                                        {
+                                            valor = new Label();
+                                            valor.Style = Resources["ItemViaje"] as Style;
+                                            valor.Content = itemsTabla[n];
+                                            valor.HorizontalAlignment = HorizontalAlignment.Center;
+                                            valor.SetValue(Grid.ColumnProperty, n);
+                                            valor.SetValue(Grid.RowProperty, this.tablaViajes.RowDefinitions.Count - 1);
+                                            this.tablaViajes.Children.Add(valor);
+                                        }
+                                        BitmapImage btm = new BitmapImage(new Uri("/SmarTravel_Final;component/Images/continue.png", UriKind.Relative));
+                                        Image img = new Image();
+                                        img.Source = btm;
+                                        img.Stretch = Stretch.Uniform;
+                                        
+                                        ver = new Button();
+                                        ver.Cursor = Cursors.Hand;
+                                        ver.Style = Resources["BotonSinBorde"] as Style;
+                                        ver.Content = img;
+                                        ver.Click += new RoutedEventHandler(verViaje_Click);
+                                        ver.Tag = vd.id.ToString();
+                                        ver.SetValue(Grid.ColumnProperty, 4);
+                                        ver.SetValue(Grid.RowProperty, this.tablaViajes.RowDefinitions.Count - 1);
+                                        this.tablaViajes.Children.Add(ver);
+                                    }
+                                }                               
                             }
-                            dr2.Close();
-                            for (int j = 0; j < viaje.Count; j++)
+                            if(existen == true) this.gridMuestraViajes.Visibility = Visibility.Visible;
+                            else
                             {
-                                sql = "select h.SALIDA from horarios as h inner join parada as p on (h.PARADA=p.ID) where h.VIAJE=" + viaje[j] + " and p.CIUDAD=" + origen;
-                                cmd = new MySqlCommand(string.Format(sql), con);
-                                MySqlDataReader dr3 = cmd.ExecuteReader();
-                                while (dr3.Read())
-                                {
-                                    salida = dr3.GetString(0);
-                                }
-                                dr3.Close();
-
-                                sql = "select h.LLEGADA from horarios as h inner join parada as p on (h.PARADA=p.ID) where h.VIAJE=" + viaje[j] + " and p.CIUDAD=" + destino;
-                                cmd = new MySqlCommand(string.Format(sql), con);
-                                MySqlDataReader dr4 = cmd.ExecuteReader();
-                                while (dr4.Read())
-                                {
-                                    llegada = dr4.GetString(0);
-                                }
-                                dr4.Close();
-
-                                hora = salida + " - " + llegada;
-                                l[0] = tramo;
-                                l[1] = hora;
-                                l[2] = precio[i];
-                                l[3] = identificador[j];
-
-                                this.tablaViajes.RowDefinitions.Add(new RowDefinition());
-                                this.tablaViajes.RowDefinitions[this.tablaViajes.RowDefinitions.Count - 1].Height = new System.Windows.GridLength(30);
-                                for (int n = 0; n < l.Length; n++)
-                                {
-                                    valor = new Label();
-                                    valor.Style = Resources["ItemViaje"] as Style;
-                                    valor.Content = l[n];
-                                    valor.SetValue(Grid.ColumnProperty, n);
-                                    valor.SetValue(Grid.RowProperty, this.tablaViajes.RowDefinitions.Count - 1);
-                                    this.tablaViajes.Children.Add(valor);
-                                }
+                                validar alert = new validar();
+                                alert.show("No existen viajes disponibles para esta fecha.");
                             }
                         }
-                        this.gridMuestraViajes.Visibility = Visibility.Visible;
+                        else
+                        {
+                            validar alert = new validar();
+                            alert.show("No existen viajes disponibles.");
+                        }
                     }
                     catch (Exception ex)
                     {
                         validar alert = new validar();
-                        alert.show(ex.Message);
+                        alert.show("No se pudo obtener los viajes disponibles.");
                     }
-            */
                 }
                 else
                 {
@@ -166,6 +156,12 @@ namespace SmarTravel_Final
             {
                 this.comboOrigen.Items.Add(t.origen.nombre);
             }
+        }
+
+        private void verViaje_Click(object sender, RoutedEventArgs e)
+        {
+            okAlerta alert = new okAlerta();
+            alert.show("Viendo viaje...");
         }
     }
 }

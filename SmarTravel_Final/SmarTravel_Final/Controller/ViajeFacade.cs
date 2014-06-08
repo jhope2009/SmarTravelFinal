@@ -23,13 +23,13 @@ namespace SmarTravel_Final.Controller
 
                     while (dr.Read())
                     {
-                        viaje = new Viaje(dr.GetInt32(0), dr.GetInt32(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), ViajeDiarioFacade.buscarPorViaje(id));
+                        viaje = new Viaje(dr.GetInt32(0), dr.GetInt32(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), ViajeDiarioFacade.buscarPorViaje(id), HorarioFacade.buscarPorViaje(dr.GetInt32(0)));
                     }
                     dr.Close();
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("Viaje buscarPorId: "+ex.Message);
                     viaje = null;
                 }
                 finally
@@ -42,16 +42,15 @@ namespace SmarTravel_Final.Controller
 
         public static List<Viaje> buscarPorOrigenDestino(string origen, string destino)
         {
-            List<Viaje> viajes = null;
+            List<Viaje> viajes = new List<Viaje>();
 
             if (origen != "" && destino != "")
             {
                 List<Recorrido> recorridos = RecorridoFacade.buscarPorOrigenDestino(origen, destino);
-
                 MySqlConnection con = conexionDB.ObtenerConexion();
                 try
                 {
-                    foreach (Recorrido recorrido in RecorridoFacade.buscarPorOrigenDestino(origen, destino))
+                    foreach (Recorrido recorrido in recorridos)
                     {
                         string sql = "select ID, RECORRIDO, IDENTIFICADOR, DESDE, HASTA from VIAJES WHERE RECORRIDO= " + recorrido.id;
                         MySqlCommand cmd = new MySqlCommand(sql, con);
@@ -59,14 +58,14 @@ namespace SmarTravel_Final.Controller
 
                         while (dr.Read())
                         {
-                            viajes.Add(new Viaje(dr.GetInt32(0), dr.GetInt32(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), ViajeDiarioFacade.buscarPorViaje(dr.GetInt32(0))));
+                            viajes.Add(new Viaje(dr.GetInt32(0), dr.GetInt32(1), dr.GetString(2), dr.GetString(3), dr.GetString(4), ViajeDiarioFacade.buscarPorViaje(dr.GetInt32(0)), HorarioFacade.buscarPorViaje(dr.GetInt32(0))));
                         }
                         dr.Close();
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine("List<Viaje> buscarPorOrigenDestino: "+ex.Message);
                 }
                 finally
                 {
@@ -74,6 +73,6 @@ namespace SmarTravel_Final.Controller
                 }
             }
             return viajes;
-        }
+        }        
     }
 }

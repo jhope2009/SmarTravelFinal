@@ -10,30 +10,33 @@ namespace SmarTravel_Final.Controller
         public int id;
         public int recorrido;
         public string identificador;
-        public string desde;
-        public string hasta;
+        public string fechaDesde;
+        public string fechaHasta;        
         public List<ViajeDiario> viajesDiarios;
+        public List<Horario> horarios;
 
         public Viaje() { }
 
-        public Viaje(int recorrido, string identificador, string desde, string hasta, List<ViajeDiario> viajesDiarios)
+        public Viaje(int recorrido, string identificador, string desde, string hasta, List<ViajeDiario> viajesDiarios, List<Horario> horarios)
         {
             this.id = -1;
             this.recorrido = recorrido;
             this.identificador = identificador;
-            this.desde = desde;
-            this.hasta = hasta;
+            this.fechaDesde = desde;
+            this.fechaHasta = hasta;
             this.viajesDiarios = viajesDiarios;
+            this.horarios = horarios;
         }
 
-        public Viaje(int id, int recorrido, string identificador, string desde, string hasta, List<ViajeDiario> viajesDiarios)
+        public Viaje(int id, int recorrido, string identificador, string desde, string hasta, List<ViajeDiario> viajesDiarios, List<Horario> horarios)
         {
             this.id = id;
             this.recorrido = recorrido;
             this.identificador = identificador;
-            this.desde = desde;
-            this.hasta = hasta;
+            this.fechaDesde = desde;
+            this.fechaHasta = hasta;
             this.viajesDiarios = viajesDiarios;
+            this.horarios = horarios;
         }
     }
 }
