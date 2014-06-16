@@ -1,0 +1,39 @@
+﻿<Window x:Class="SmarTravel_Final.ChoferDatosEspecificos"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Topmost="True"
+        Title="ChoferDatosEspecificos" Height="345" Width="714" Background="#FF341954" IsEnabled="True">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="estilos.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="164*" />
+            <RowDefinition Height="206*" />
+        </Grid.RowDefinitions>
+        <GroupBox Header="Datos Chofer" FontFamily="Century Gothic" FontSize="14" Foreground="#FFBBBABA" Height="287" HorizontalAlignment="Left" Margin="12,12,0,0" Name="groupBox1" VerticalAlignment="Top" Width="415" Grid.RowSpan="2">
+            <Grid DataContext="{Binding ElementName=textBox1}">
+                <TextBlock Height="23" HorizontalAlignment="Left" Margin="18,62,0,0" Name="txtChoferRut" Text="Rut" VerticalAlignment="Top" />
+                <TextBlock Height="23" HorizontalAlignment="Left" Margin="18,18,0,0" Name="txtChoferNombre" Text="Nombre" VerticalAlignment="Top" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="177,62,0,0" Name="txtBRutChofer" VerticalAlignment="Top" Width="143" Style="{StaticResource TextBoxGris}" IsReadOnly="True" />
+                <Button Content="Generar Contrato &#10; Guardar Datos Chofer" Height="49" Margin="18,207,0,0" Name="btnGenerarContrato" VerticalAlignment="Top" HorizontalAlignment="Left" Width="363" Style="{StaticResource BotonGris}" Click="btnGenerarContrato_Click" />
+                <TextBlock Height="40" HorizontalAlignment="Left" Margin="18,143,0,0" Name="txtVencimientoLicencia" Text="Fecha de Vencimiento &#10;licencia de conducir" VerticalAlignment="Top" Width="153" FontSize="13" />
+                <DatePicker Height="25" HorizontalAlignment="Left" Margin="177,143,0,0" Name="dateVencimientoLicencia" VerticalAlignment="Top" Width="204" SelectedDateFormat="Short" IsEnabled="True" BorderThickness="1" Focusable="False" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="177,15,0,0" Name="txtBNombre" VerticalAlignment="Top" Width="204" Style="{StaticResource TextBoxGris}" IsReadOnly="True" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="339,62,0,0" Name="txtBdigVerificadorChofer" VerticalAlignment="Top" Width="42" Style="{StaticResource TextBoxGris}" />
+                <TextBlock Height="23" HorizontalAlignment="Left" Margin="18,105,0,0" Name="txtNumerolicencia" Text="Numero licencia" VerticalAlignment="Top" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="177,102,0,0" Name="txtBNumerolicencia" VerticalAlignment="Top" Width="204" Style="{StaticResource TextBoxGris}" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="Licencia Conducir" FontFamily="Century Gothic" FontSize="14" Foreground="#FFBBBABA" Height="286" HorizontalAlignment="Left" Margin="433,13,0,0" Name="groupBox2" VerticalAlignment="Top" Width="252" Grid.RowSpan="2">
+            <Grid>
+                <Image Height="205" HorizontalAlignment="Left" Margin="24,20,0,0" Name="imgLicenciaConducir" Stretch="Fill" VerticalAlignment="Top" Width="200" />
+                <Button Content="Cargar Foto" Height="23" HorizontalAlignment="Left" Margin="24,233,0,0" Name="btnCargarLicencia" VerticalAlignment="Top" Width="200" Style="{StaticResource BotonGris}" Click="btnCargarLicencia_Click" />
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>
