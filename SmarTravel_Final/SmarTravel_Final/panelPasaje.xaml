@@ -24,10 +24,11 @@
                         <ComboBox Height="23" HorizontalAlignment="Left" Margin="101,105,0,0" Name="comboOrigen" Style="{StaticResource Combo}" VerticalAlignment="Top" Width="214" SelectionChanged="comboOrigen_SelectionChanged" />
                         <DatePicker Height="25" HorizontalAlignment="Left" Margin="101,203,0,0" Name="buscarFecha" VerticalAlignment="Top" Width="170" BorderBrush="#FFBBBABA" Foreground="#FF341954" />
                         <Label Content="FECHA:" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="30,203,0,0" Name="label4" VerticalAlignment="Top" />
-                        <Button Content="Buscar" Height="23" HorizontalAlignment="Left" Margin="205,266,0,0" Name="botonBuscar" VerticalAlignment="Top" Width="110" Style="{StaticResource BotonGris}" Click="botonBuscar_Click" />
+                        <Button Content="Buscar" Height="19
+                                " HorizontalAlignment="Left" Margin="205,266,0,0" Name="botonBuscar" VerticalAlignment="Top" Width="110" Style="{StaticResource BotonGris}" Click="botonBuscar_Click" />
                     </Grid>
                     <Grid Height="361" HorizontalAlignment="Left" Margin="368,12,0,0" Name="gridMuestraViajes" VerticalAlignment="Top" Width="521" Visibility="Visible" Background="#FF482A7A">
-                        <Grid Height="273" HorizontalAlignment="Left" Margin="10,78,0,0" Name="tablaViajes" VerticalAlignment="Top" Width="501" Background="#FFBBBABA">
+                        <Grid Height="283" HorizontalAlignment="Left" Margin="0,78,0,0" Name="tablaViajes" VerticalAlignment="Top" Width="521" Background="#FFBBBABA">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="131*" />
                                 <ColumnDefinition Width="120*" />
