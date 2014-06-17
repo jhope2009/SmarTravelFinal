@@ -1252,7 +1252,7 @@ namespace SmarTravel_Final
             }
             catch (Exception ex)
             {
-                Console.WriteLine("cDestinoEditar_DropDownClosed: "+ex.Message);
+                Console.WriteLine(ex.Message);
             }
 
         }
