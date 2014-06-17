@@ -62,9 +62,6 @@
     <Compile Include="alerta.xaml.cs">
       <DependentUpon>alerta.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChoferDatosEspecificos.xaml.cs">
-      <DependentUpon>ChoferDatosEspecificos.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controller\CiudadFacade.cs" />
     <Compile Include="Controller\Horario.cs" />
     <Compile Include="Controller\HorarioFacade.cs" />
@@ -88,9 +85,6 @@
     <Compile Include="Controller\ViajeDiario.cs" />
     <Compile Include="fichaBus.xaml.cs">
       <DependentUpon>fichaBus.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="fichaChofer.xaml.cs">
-      <DependentUpon>fichaChofer.xaml</DependentUpon>
     </Compile>
     <Compile Include="fichaPersonal.xaml.cs">
       <DependentUpon>fichaPersonal.xaml</DependentUpon>
@@ -125,13 +119,12 @@
     <Compile Include="validar.xaml.cs">
       <DependentUpon>validar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ventaPasaje.xaml.cs">
+      <DependentUpon>ventaPasaje.xaml</DependentUpon>
+    </Compile>
     <Page Include="alerta.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ChoferDatosEspecificos.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="editarViajeDiario.xaml">
       <SubType>Designer</SubType>
@@ -148,10 +141,6 @@
     <Page Include="fichaBus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="fichaChofer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="fichaPersonal.xaml">
       <SubType>Designer</SubType>
@@ -207,6 +196,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="validar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ventaPasaje.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
