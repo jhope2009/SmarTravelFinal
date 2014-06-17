@@ -50,6 +50,7 @@ namespace SmarTravel_Final
                     try
                     {
                         List<Viaje> viajes = ViajeFacade.buscarPorOrigenDestino(origen.nombre, destino.nombre);
+                        Console.WriteLine(viajes.Count);
                         if (viajes.Count > 0)
                         {
                             foreach (Viaje viaje in viajes)
@@ -92,7 +93,7 @@ namespace SmarTravel_Final
                                         ver.Style = Resources["BotonSinBorde"] as Style;
                                         ver.Content = img;
                                         ver.Click += new RoutedEventHandler(verViaje_Click);
-                                        ver.Tag = viaje.id.ToString()+"/"+vd.id.ToString();
+                                        ver.Tag = vd.id.ToString();
                                         ver.SetValue(Grid.ColumnProperty, 4);
                                         ver.SetValue(Grid.RowProperty, this.tablaViajes.RowDefinitions.Count - 1);
                                         this.tablaViajes.Children.Add(ver);
@@ -159,12 +160,8 @@ namespace SmarTravel_Final
 
         private void verViaje_Click(object sender, RoutedEventArgs e)
         {
-            Button b = (Button)sender;
-            string[] tag = b.Tag.ToString().Split('/');            
-            int idViaje = Convert.ToInt32(tag[0]);
-            int idDiario = Convert.ToInt32(tag[1]);
-            ventaPasaje vp = new ventaPasaje(idViaje, idDiario);
-            vp.ShowDialog();
+            okAlerta alert = new okAlerta();
+            alert.show("Viendo viaje...");
         }
     }
 }
