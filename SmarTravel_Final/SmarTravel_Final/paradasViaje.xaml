@@ -1,0 +1,56 @@
+﻿<Window x:Class="SmarTravel_Final.paradasViaje"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="paradasViaje" Height="314.105" Width="302.88" Background="#FF341954" FontFamily="Century Gothic" WindowStartupLocation="CenterScreen" WindowStyle="None" ResizeMode="NoResize">
+    <Window.Resources>
+
+        <Style TargetType="{x:Type Button}" x:Key="BotonGris">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="#FFBBBABA" />
+            <Setter Property="TextBlock.TextAlignment" Value="Center" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border CornerRadius="10,10,10,10" Background="Transparent" BorderBrush="#FFBBBABA" BorderThickness="1,1,1,1" >
+                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Foreground" Value="#FF341954" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type Button}">
+                                <Border CornerRadius="10,10,10,10" Background="#FFBBBABA" BorderBrush="#FF341954" BorderThickness="1,1,1,1" >
+                                    <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+
+                                </Border>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </Window.Resources>
+    <Grid>
+        <Grid Height="245" HorizontalAlignment="Left" Margin="10,10,0,0" x:Name="gridParadas" VerticalAlignment="Top" Width="283" Visibility="Visible" Background="#FF482A7A">
+            <Grid Height="202" HorizontalAlignment="Left" Margin="0,43,0,0" x:Name="tablaParadas" VerticalAlignment="Top" Width="283" Background="#FFBBBABA">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="132*" />
+                    <ColumnDefinition Width="75*" />
+                    <ColumnDefinition Width="76*" />
+                </Grid.ColumnDefinitions>
+            </Grid>
+            <Label Content="LLEGADA" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="208,15,0,0" x:Name="label6" VerticalAlignment="Top" />
+            <Label Content="SALIDA" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="137,15,0,0" x:Name="label8" VerticalAlignment="Top" />
+            <Label Content="PARADA" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="10,15,0,0" x:Name="label8_Copy" VerticalAlignment="Top" />
+        </Grid>
+        <Button Content="Cerrar" Height="37" HorizontalAlignment="Left" Margin="10,260,0,0" x:Name="botonCerrar" VerticalAlignment="Top" Width="283" Style="{StaticResource BotonGris}" Click="botonBuscar_Click" Cursor="Hand" />
+
+    </Grid>
+</Window>
