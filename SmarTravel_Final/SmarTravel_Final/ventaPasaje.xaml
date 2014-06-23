@@ -35,7 +35,7 @@
         <Label Content="DESCUENTO:     $" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="2,56,0,0" x:Name="label4_Copy4" VerticalAlignment="Top" Width="114" Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" />
         <TextBox x:Name="textoTarifa" HorizontalAlignment="Left" Height="28" Margin="0,23,0,0" Grid.Row="5" TextWrapping="Wrap" Text="99990" VerticalAlignment="Top" Width="120" Style="{DynamicResource TextBoxTransparente}" FontSize="16" Grid.Column="3" IsReadOnly="True"/>
         <TextBox x:Name="textoDescuento" HorizontalAlignment="Left" Height="28" Margin="0,56,0,0" Grid.Row="5" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="120" Style="{DynamicResource TextBoxTransparente}" FontSize="16" Grid.Column="3" IsReadOnly="True"/>
-        <Button Name="reservar" Content="Reservar" Grid.Column="3" HorizontalAlignment="Left" Margin="184,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="190" Style="{DynamicResource BotonGris}" Height="40" Cursor="Hand"/>
+        <Button Name="reservar" Content="Reservar" Grid.Column="3" HorizontalAlignment="Left" Margin="184,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="190" Style="{DynamicResource BotonGris}" Height="40" Cursor="Hand" Click="reservar_Click"/>
         <Button Name="cancelar" Content="Cancelar" Grid.Column="3" HorizontalAlignment="Left" Margin="41,10,0,0" Grid.Row="7" VerticalAlignment="Top" Width="120" Style="{DynamicResource BotonGris}" Click="Button_Click" Height="40" Cursor="Hand"/>
         <Button Name="botonParadas" Content="Paradas" Grid.Column="3" HorizontalAlignment="Left" Margin="276,75,0,0" Grid.Row="1" VerticalAlignment="Top" Width="98" Style="{DynamicResource BotonGris}" Height="21" Cursor="Hand" Click="botonParadas_Click" />
         <Label Content="SALIDA:" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="2,10,0,0" x:Name="label4_Copy7" VerticalAlignment="Top" Width="70" Grid.Row="2" Grid.Column="2" />
@@ -54,7 +54,7 @@
                     </Grid.ColumnDefinitions>
                 </Grid>
                 <Label Content="ASIENTO:" Foreground="#FF341954" Height="28" HorizontalAlignment="Left" Margin="178,10,0,0" x:Name="label4_Copy6" VerticalAlignment="Top" Width="64" />
-                <TextBox x:Name="textoAsiento" HorizontalAlignment="Left" Height="43" Margin="242,5,0,0" TextWrapping="Wrap" Text="-" VerticalAlignment="Top" Width="65" Style="{DynamicResource TextBoxTransparente}" FontSize="20" IsReadOnly="True" Foreground="#FF341954"/>
+                <TextBox x:Name="textoAsiento" HorizontalAlignment="Left" Height="43" Margin="242,5,0,0" TextWrapping="Wrap" Text="99" VerticalAlignment="Top" Width="65" Style="{DynamicResource TextBoxTransparente}" FontSize="20" IsReadOnly="True" Foreground="#FF341954"/>
             </Grid>
             <Label Content="DISPONIBLES:" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="166,20,0,0" x:Name="label4_Copy10" VerticalAlignment="Top" Width="83" />
             <TextBox x:Name="textoDisponibles" HorizontalAlignment="Left" Height="33" Margin="249,15,0,0" TextWrapping="Wrap" Text="0/0" VerticalAlignment="Top" Width="120" Style="{DynamicResource TextBoxTransparente}" FontSize="20" IsReadOnly="True"/>

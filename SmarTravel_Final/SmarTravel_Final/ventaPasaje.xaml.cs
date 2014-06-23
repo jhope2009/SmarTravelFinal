@@ -28,7 +28,7 @@ namespace SmarTravel_Final
             this.idViaje = idViaje;
             this.idDiario = idDiario;
             InitializeComponent();
-        }                
+        }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -36,7 +36,7 @@ namespace SmarTravel_Final
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
-        {            
+        {
             Viaje viaje = ViajeFacade.buscarPorId(this.idViaje);
             ViajeDiario viajeDiario = new ViajeDiario();
             foreach (ViajeDiario vd in viaje.viajesDiarios)
@@ -48,15 +48,15 @@ namespace SmarTravel_Final
                 if (h.parada.ciudad.nombre == viajeDiario.trayecto.origen.nombre) this.textoSalida.Text = h.salida;
                 if (h.parada.ciudad.nombre == viajeDiario.trayecto.destino.nombre) this.textoLlegada.Text = h.llegada;
             }
-           
+
             if (viajeDiario.id > -1)
-            {                
+            {
                 int precio = TrayectoFacade.buscarPorId(viajeDiario.trayecto.id).precio;
-                
+
                 this.textoFecha.Text = viajeDiario.fecha;
                 this.textoOrigen.Text = viajeDiario.trayecto.origen.nombre;
                 this.textoDestino.Text = viajeDiario.trayecto.destino.nombre;
-                
+
                 this.textoTarifa.Text = precio.ToString();
                 this.textoTotal.Text = precio.ToString();
             }
@@ -88,14 +88,14 @@ namespace SmarTravel_Final
                 {
                     MySqlConnection con = conexionDB.ObtenerConexion();
                     try
-                    {                        
+                    {
                         string sql = "select p.NOMBRE_COMPLETO, c.DESCUENTO from persona as p inner join cliente as c on(p.RUT=c.RUT) WHERE p.RUT = '" + this.textoCliente.Text.ToString() + "'";
                         MySqlCommand cmd = new MySqlCommand(sql, con);
                         MySqlDataReader dr = cmd.ExecuteReader();
                         if (dr.HasRows)
                         {
                             while (dr.Read())
-                            {                                
+                            {
                                 this.textoNombre.Text = dr.GetString(0);
                                 this.textoPorcentaje.Text = dr.GetInt32(1).ToString() + " %";
                                 int precio = Convert.ToInt32(this.textoTarifa.Text);
@@ -133,7 +133,7 @@ namespace SmarTravel_Final
                     finally
                     {
                         con.Close();
-                    }                    
+                    }
                 }
                 else
                 {
@@ -150,8 +150,39 @@ namespace SmarTravel_Final
 
         private void botonParadas_Click(object sender, RoutedEventArgs e)
         {
-            paradasViaje pv = new paradasViaje(this.idViaje,this.textoOrigen.Text.ToString(), this.textoDestino.Text.ToString());
-            pv.Show();
-        }                
+            paradasViaje pv = new paradasViaje(this.idViaje, this.textoOrigen.Text.ToString(), this.textoDestino.Text.ToString());
+            pv.ShowDialog();
+        }
+
+        private void reservar_Click(object sender, RoutedEventArgs e)
+        {
+            if(this.textoAsiento.Text != "")
+            {
+                try
+                {
+                    string fechaVenta = DateTime.Today.ToString("dd-MM-yyyy");
+
+                    Pasaje pasaje = new Pasaje(ViajeDiarioFacade.buscarPorId(this.idDiario), Convert.ToInt32(this.textoTotal.Text.ToString()), fechaVenta, Convert.ToInt32(this.textoAsiento.Text.ToString()), "VIGENTE");
+                    if (textoNombre.Text != "")
+                    {
+                        pasaje.cliente = ClienteFacade.buscarPorRut(this.textoCliente.Text.ToString());
+                    }
+                    PasajeFacade.guardar(pasaje);
+
+                    okAlerta alert = new okAlerta();
+                    alert.show("Viaje reservado exitosamente.");
+                }
+                catch (Exception ex)
+                {
+                    validar alert = new validar();
+                    alert.show("No se pudo realizar la reserva del viaje.");
+                }
+            }
+            else
+            {                
+                validar alert = new validar();
+                alert.show("Seleccione un asiento para el viaje");
+            }             
+        }
     }
 }
