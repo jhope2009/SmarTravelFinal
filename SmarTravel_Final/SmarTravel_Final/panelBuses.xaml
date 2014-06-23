@@ -5,15 +5,15 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" d:DesignWidth="871" d:DesignHeight="456" DataContext="{Binding}">
     <UserControl.Resources>
-    <ResourceDictionary>
-        <ResourceDictionary.MergedDictionaries>
-            <ResourceDictionary Source="estilos.xaml"></ResourceDictionary>
-        </ResourceDictionary.MergedDictionaries>
-    </ResourceDictionary>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="estilos.xaml"></ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
 
     </UserControl.Resources>
     <Grid Grid.Row="1" Height="456" HorizontalAlignment="Left" VerticalAlignment="Top" Width="872" Background="#FF341954" Grid.ColumnSpan="2" Grid.RowSpan="2">
-            <TabControl HorizontalAlignment="Left"  Name="tabControl1" VerticalAlignment="Stretch" Width="868" Background="#FF341954" BorderBrush="#FF341954" Foreground="#FFBBBABA" HorizontalContentAlignment="Left" FontFamily="Century Gothic" FontSize="12" FontWeight="Normal" Margin="2,0,0,-1">
+        <TabControl HorizontalAlignment="Left"  Name="tabControl1" VerticalAlignment="Stretch" Width="868" Background="#FF341954" BorderBrush="#FF341954" Foreground="#FFBBBABA" HorizontalContentAlignment="Left" FontFamily="Century Gothic" FontSize="12" FontWeight="Normal" Margin="2,0,0,-1">
             <TabItem Header="REGISTRAR BUS" Name="tabRegistrarBus" Height="40" Width="130" BorderBrush="Black" FontSize="12">
                 <Grid>
                     <TextBlock Text="Marca" Foreground="#FFBBBABA" Height="28" Name="lbMarca" Width="80" Margin="17,66,761,311" />
@@ -43,9 +43,9 @@
                 </Grid>
             </TabItem>
             <TabItem Header="VER BUSES" Name="tabVerbuses" Height="40" Width="130" BorderBrush="Black" Selector.Selected="tabVerbuses_Selected">
-                
+
                 <Grid Background="#FF341954">
-                    <DataGrid AutoGenerateColumns="True" Height="393" HorizontalAlignment="Left" Margin="14,6,0,0" Name="gridBuses" VerticalAlignment="Top" Width="838" ItemsSource="{Binding}" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" SelectedCellsChanged="gridBuses_SelectedCellsChanged" CellEditEnding="gridBuses_CellEditEnding" Background="#FF4F2A84" IsReadOnly="True" RowBackground="#FF4F2A84" Foreground="#FFBBBABA" FontFamily="Century Gothic" FontSize="14" BorderBrush="#FF341954" AlternatingRowBackground="#FF4F2A84" HorizontalGridLinesBrush="#FF341954" GridLinesVisibility="None" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" RowHeight="20" ColumnWidth="250" MinColumnWidth="20" MinRowHeight="35" CanUserDeleteRows="True" CanUserResizeRows="False" HeadersVisibility="Column"  VerticalGridLinesBrush="#FF341954" BorderThickness="0" Focusable="False" SelectedIndex="-1" MouseDoubleClick="gridBuses_MouseDoubleClick">
+                    <DataGrid AutoGenerateColumns="True" Height="393" HorizontalAlignment="Left" Margin="14,6,0,0" Name="gridBuses" VerticalAlignment="Top" Width="838" ItemsSource="{Binding}" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" Background="#FF4F2A84" IsReadOnly="True" RowBackground="#FF4F2A84" Foreground="#FFBBBABA" FontFamily="Century Gothic" FontSize="14" BorderBrush="#FF341954" AlternatingRowBackground="#FF4F2A84" HorizontalGridLinesBrush="#FF341954" GridLinesVisibility="None" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" RowHeight="20" ColumnWidth="250" MinColumnWidth="20" MinRowHeight="35" CanUserDeleteRows="True" CanUserResizeRows="False" HeadersVisibility="Column"  VerticalGridLinesBrush="#FF341954" BorderThickness="0" Focusable="False" SelectedIndex="-1" MouseDoubleClick="gridBuses_MouseDoubleClick" DataContext="{Binding}">
                         <DataGrid.Resources>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="Background" Value="#FF4F2A84" />
@@ -64,7 +64,27 @@
                 </Grid>
 
             </TabItem>
-                <TabItem Height="40" Width="604" />
+            <TabItem Header="CHOFERES" Name="tabChoferes" Height="40" Width="130" BorderBrush="Black" Selector.Selected="tabChoferes_Selected">
+                <DataGrid AutoGenerateColumns="True" Height="393" HorizontalAlignment="Left" Margin="14,6,0,0" Name="gridChoferes" VerticalAlignment="Top" Width="838" ItemsSource="{Binding}" CanUserAddRows="False" SelectionMode="Single" SelectionUnit="FullRow" Background="#FF4F2A84" IsReadOnly="True" RowBackground="#FF4F2A84" Foreground="#FFBBBABA" FontFamily="Century Gothic" FontSize="14" BorderBrush="#FF341954" AlternatingRowBackground="#FF4F2A84" HorizontalGridLinesBrush="#FF341954" GridLinesVisibility="None" CanUserReorderColumns="False" CanUserResizeColumns="False" CanUserSortColumns="False" RowHeight="20" ColumnWidth="250" MinColumnWidth="20" MinRowHeight="35" CanUserDeleteRows="True" CanUserResizeRows="False" HeadersVisibility="Column"  VerticalGridLinesBrush="#FF341954" BorderThickness="0" Focusable="False" SelectedIndex="-1" MouseDoubleClick="gridChoferes_MouseDoubleClick">
+                    <DataGrid.Resources>
+                        <Style TargetType="{x:Type DataGridColumnHeader}">
+                            <Setter Property="Background" Value="#FF4F2A84" />
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="FontSize" Value="18" />
+                            <Setter Property="Height" Value="50" />
+                            <Setter Property="Margin" Value="10,0,0,0" />
+                        </Style>
+
+
+                        <Style TargetType="{x:Type DataGridCell}">
+                            <Setter Property="Margin" Value="10,0,0,0" />
+                        </Style>
+                    </DataGrid.Resources>
+                </DataGrid>
+            </TabItem>
+            <TabItem Height="40" Width="474" />
+
+
         </TabControl>
     </Grid>
 </UserControl>

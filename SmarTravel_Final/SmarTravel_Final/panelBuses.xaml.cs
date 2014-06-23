@@ -23,33 +23,70 @@ namespace SmarTravel_Final
     /// </summary>
     public partial class panelBuses : UserControl
     {
+        string ruta = "";
         string nameImagen = "";
-        string nombreImagen ="";
         public panelBuses()
         {
             InitializeComponent();
         }
-        public static Boolean validar1(params string[] values)
+        private Boolean validapatente1(String patente)
         {
-            validar mensajeValidacion = new validar();
-            for (int i = 0; i < values.Length; i += 2)
+            validar validapatente = new validar();
+            if (patente.Length == 8)
             {
-                if (values[i] == "")
+                for (int i = 0; i < patente.Length; i++)
                 {
-                    mensajeValidacion.show("Falta llenar el siguiente campo:  " + values[i + 1]);
-                    return false;
+                    if (i == 0 || i == 1)
+                    {
+                        if ((int)patente[i] < 65 || (int)patente[i] > 90)
+                        {
+                            Console.WriteLine("1");
+                            validapatente.show("Formato de la patente incorrecto: EJ XX-XX-00 o XX-00-XX");
+                            return false;
+                        }
+                    }
+                    if (i == 2 || i == 5)
+                    {
+                        if (patente[i].Equals(' ') == false)
+                        {
+                            Console.WriteLine("2");
+                            validapatente.show("Formato de la patente incorrecto: EJ XX-XX-00 o XX-00-XX");
+                            return false;
+                        }
+                    }
+
+                    if (i == 3 || i == 4)
+                    {
+                        if ((int)patente[i] < 48 || (int)patente[i] > 57 && (int)patente[i] < 65 || (int)patente[i] > 90)
+                        {
+                            Console.WriteLine("3");
+                            validapatente.show("Formato de la patente incorrecto: EJ XX-XX-00 o XX-00-XX");
+                            return false;
+                        }
+                    }
+                    if (i == 6 || i == 7)
+                    {
+                        if ((int)patente[i] < 48 || (int)patente[i] > 57)
+                        {
+                            Console.WriteLine("4");
+                            validapatente.show("Formato de la patente incorrecto ej: XX-XX-00 o XX-00-XX");
+                            return false;
+                        }
+                    }
                 }
+                return true;
             }
-            return true;
+            else
+            {
+                validapatente.show("Los caracteres de la patente deben ser 8");
+                return false;
+            }
         }
         private void btnagregarbus_Click(object sender, RoutedEventArgs e)
         {
-
-            // Validar Campos antes de obtener contenido.
-
-            if (validar1(txtModelo.Text, lbModelo.Text, comboMarca.Text, lbMarca.Text, cbxEstado.Text, lblEstado.Text, fechaPermiso.Text, label2.Text, año.Text, label5.Text, comboCiudad.Text, label6.Text) && validapatente1(txtPatente.Text))
+            if (panelUsuario.validar1(txtModelo.Text, lbModelo.Text, comboMarca.Text, lbMarca.Text, cbxEstado.Text, lblEstado.Text, fechaPermiso.Text, label2.Text, año.Text, label5.Text, comboCiudad.Text, label6.Text) && validapatente1(txtPatente.Text))
             {
-                
+
                 string rbSeleccionado = "";
 
                 if (rbSi.IsChecked == true)
@@ -104,7 +141,7 @@ namespace SmarTravel_Final
                     insertCommand.Parameters.Add("?vigencia", rbSeleccionado);
                     insertCommand.Parameters.Add("?fecha", fechaPermiso.Text);
                     insertCommand.Parameters.Add("?estado", cbxEstado.Text);
-                    insertCommand.Parameters.Add("?imagen", nombreImagen);
+                    insertCommand.Parameters.Add("?imagen", filePath.ToString());
                     insertCommand.Parameters.Add("?ciudad", numeroCiudad);
 
 
@@ -145,10 +182,33 @@ namespace SmarTravel_Final
                     MessageBox.Show(ex.Message);
                 }
             }
-             
+
         }
-             
-        
+
+        private void tabChoferes_Selected(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("Niga");
+            System.Data.DataTable dtChoferes = new System.Data.DataTable("MyTable");
+            try
+            {
+                MySqlConnection con = conexionDB.ObtenerConexion();
+                MySqlCommand cmd;
+                string query = "select p.Nombre_Completo , p.Rut, c.Numero_licencia, c.Vencimiento_licencia ";
+                query += "from persona as p inner join chofer as c on p.rut = c.persona";
+
+                cmd = new MySqlCommand(query, con);
+                MySqlDataAdapter returnVal = new MySqlDataAdapter(query, con);
+                returnVal.Fill(dtChoferes);
+                gridChoferes.DataContext = dtChoferes.DefaultView;
+
+
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
 
         private void tabVerbuses_Selected(object sender, RoutedEventArgs e)
         {
@@ -166,11 +226,11 @@ namespace SmarTravel_Final
                 //this.gridBuses.Columns[0].Width = 160;
                 this.gridBuses.DataContext = dtBuses.DefaultView;
 
-                
+
                 //this.gridBuses.Columns[1].Width = 160;
                 //this.gridBuses.Columns[2].Width = 160;
                 //this.gridBuses.Columns[3].Width = 100;
-                
+
 
             }
             catch (Exception ex)
@@ -186,7 +246,7 @@ namespace SmarTravel_Final
             Microsoft.Win32.OpenFileDialog open = new Microsoft.Win32.OpenFileDialog();
             open.Filter = "Archivos jpg(*.jpg)|*.jpg";
             open.Title = "Archivos Imagenes";
-            string ruta = "";
+            ruta = "";
 
             Nullable<bool> result = open.ShowDialog();
             if (result == true)
@@ -199,97 +259,19 @@ namespace SmarTravel_Final
                 var uri = new Uri(nameImagen);
                 var bitmap = new BitmapImage(uri);
                 examinarBus.Source = bitmap;
-                nombreImagen = open.SafeFileName;
+
             }
-        }
-        private Boolean validapatente1(String patente) 
-        {
-            validar validapatente = new validar();
-            if (patente.Length==8)
-            {
-                for (int i = 0; i < patente.Length; i++)
-                {
-                    if (i == 0 || i == 1)
-                    {
-                        if ((int)patente[i] < 65 || (int)patente[i] > 90)
-                        {
-                            Console.WriteLine("1");
-                            validapatente.show("Formato de la patente incorrecto: EJ XX-XX-00 o XX-00-XX");
-                            return false;
-                        }
-                    }
-                    if (i == 2 || i == 5)
-                    {
-                        if (patente[i].Equals(' ')==false)
-                        {
-                            Console.WriteLine("2");
-                            validapatente.show("Formato de la patente incorrecto: EJ XX-XX-00 o XX-00-XX");
-                            return false;
-                        }
-                    }
-
-                    if (i == 3 || i == 4)
-                    {
-                        if ((int)patente[i] < 48 || (int)patente[i] > 57 && (int)patente[i] < 65 || (int)patente[i] > 90)
-                        {
-                            Console.WriteLine("3");
-                            validapatente.show("Formato de la patente incorrecto: EJ XX-XX-00 o XX-00-XX");
-                            return false;
-                        }
-                    }
-                    if (i == 6 || i == 7)
-                    {
-                        if ((int)patente[i] < 48 || (int)patente[i] > 57)
-                        {
-                            Console.WriteLine("4");
-                            validapatente.show("Formato de la patente incorrecto ej: XX-XX-00 o XX-00-XX");
-                            return false;
-                        }
-                    }
-                }
-                return true;
-            }
-            else
-            {
-                validapatente.show("Los caracteres de la patente deben ser 8");
-                return false;
-            }
-        }
-
-       
-        private void gridBuses_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
-        {
-            /*
-            foreach (var item in e.AddedCells)
-            {
-                var col = item.Column as DataGridColumn;
-                var fc = col.GetCellContent(item.Item);
-
-                if (fc is TextBlock)
-                {
-                    this.TXTPRUEBA.Text = (fc as TextBlock).Text;
-                }
-
-            }*/
-        }
-
-
-        private void gridBuses_CellEditEnding(object sender,
-                                  DataGridCellEditEndingEventArgs e)
-        {
-
-            //this.TXTPRUEBA.Text = this.gridBuses.SelectedCells.ToString();
         }
 
         private void gridBuses_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            
+
             string patenteBus = "";
             foreach (DataRowView dr in this.gridBuses.SelectedItems)
             {
-               
+
                 patenteBus = dr[2].ToString();
-                
+
 
             }
 
@@ -298,36 +280,22 @@ namespace SmarTravel_Final
             ficha.Show();
         }
 
-        private void comboBox1_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void gridChoferes_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            string rutTable = "";
+            foreach (DataRowView dr in gridChoferes.SelectedItems)
+            {
+                rutTable = dr[1].ToString();
+            }
 
+            fichaChofer fichac = new fichaChofer();
+            fichac.llenarficha(rutTable);
+            Console.WriteLine(rutTable);
+            fichac.Show();
         }
 
-     
-
-        private void año_KeyDown(object sender, KeyEventArgs e)
+        private void comboMarca_Loaded(object sender, RoutedEventArgs e)
         {
-            if (e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
-                e.Handled = false;
-            else
-                e.Handled = true;
-        }
-
-
-
-        private void fechaPermiso_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
-        {
-
-        }
-
-        private void comboMarca_DropDownOpened(object sender, EventArgs e)
-        {
-            
-        }
-
-        private void comboMarca_DropDownOpened_1(object sender, EventArgs e)
-        {
-            this.comboMarca.Items.Clear();
             MySqlConnection con = conexionDB.ObtenerConexion();
             string sql = "SELECT NOMBRE FROM MARCA_BUS ORDER BY NOMBRE ASC";
             MySqlCommand cmd = new MySqlCommand(sql, con);
@@ -338,11 +306,19 @@ namespace SmarTravel_Final
             {
                 this.comboMarca.Items.Add(dr.GetString(0));
             }
+
         }
 
-        private void comboCiudad_DropDownOpened(object sender, EventArgs e)
+        private void año_KeyDown(object sender, KeyEventArgs e)
         {
-            this.comboCiudad.Items.Clear();
+            if (e.Key >= Key.D0 && e.Key <= Key.D9 || e.Key >= Key.NumPad0 && e.Key <= Key.NumPad9)
+                e.Handled = false;
+            else
+                e.Handled = true;
+        }
+
+        private void comboCiudad_Loaded(object sender, RoutedEventArgs e)
+        {
             MySqlConnection con = conexionDB.ObtenerConexion();
             string sql = "SELECT NOMBRE FROM CIUDAD ORDER BY NOMBRE ASC";
             MySqlCommand cmd = new MySqlCommand(sql, con);
@@ -355,17 +331,7 @@ namespace SmarTravel_Final
             }
         }
 
-        private void comboCiudad_Loaded(object sender, RoutedEventArgs e)
-        {
 
-        }
 
-        private void comboMarca_Loaded(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        
-    
     }
 }

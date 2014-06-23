@@ -12,9 +12,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MySql.Data.MySqlClient;
+using PdfSharp;
+using PdfSharp.Drawing;
+using PdfSharp.Pdf;
 using System.Data.Sql;
 using System.Data;
 using System.IO;
+using System.Diagnostics;
 
 
 namespace SmarTravel_Final
@@ -280,13 +284,76 @@ namespace SmarTravel_Final
             }
             return true;
         }
+
+        private Boolean validarut(string srut, string dig)
+        {
+            validar validarut = new validar();
+            int suma = 0, digito, multiplicador = 2, rutdig = 0;
+            int nrut = Convert.ToInt32(srut);
+            if (dig.Equals("k") || dig.Equals("K"))
+            {
+                rutdig = 100;
+                Console.WriteLine(dig);
+
+            }
+            else
+                rutdig = Convert.ToInt32(dig);
+
+            if (nrut > 6000000 && nrut < 30000000)
+            {
+                while (nrut != 0)
+                {
+                    digito = nrut % 10;
+                    suma = suma + digito * multiplicador;
+                    nrut = nrut / 10;
+                    if (multiplicador == 7)
+                        multiplicador = 2;
+                    else
+                        multiplicador++;
+
+                }
+                suma = suma % 11;
+                suma = 11 - suma;
+                if (suma == 11)
+                    suma = 0;
+                if (suma != 10)
+                {
+                    if (rutdig == suma)
+                        return true;
+                    else
+                    {
+                        validarut.show("El rut ingresado no es válido");
+                        return false;
+                    }
+                }
+                else
+                {
+                    if (dig == "K" || dig == "k")
+                        return true;
+                    else
+                    {
+                        validarut.show("El rut ingresado no es válido");
+                        return false;
+                    }
+                }
+
+            }
+            else
+            {
+                Console.WriteLine(nrut);
+                validarut.show("El rango del rut ingresado no esta entre las personas vivas");
+                return false;
+            }
+
+        }
         private void button4_Click(object sender, RoutedEventArgs e)
         {
             Boolean validar = validarIngreso();
 
-            if (validar)
+            if (validar && validarut(rut.Text, verificador.Text))
             {
-
+                ChoferDatosEspecificos datosEspecificos = new ChoferDatosEspecificos();
+                validar validachofer = new validar();
                 MySqlConnection con = conexionDB.ObtenerConexion();
                 string nombre = nombreCompleto.Text;
                 int edadUser = int.Parse(edad.Text);
@@ -303,7 +370,6 @@ namespace SmarTravel_Final
                 string rutIngresado = rutUsuario + "-" + rut_verificador;
                 try
                 {
-
                     string sqlID_CIUDAD = "SELECT ID FROM CIUDAD WHERE NOMBRE = '" + ciudad + "'";
                     MySqlCommand cmd = new MySqlCommand(sqlID_CIUDAD, con);
 
@@ -324,64 +390,142 @@ namespace SmarTravel_Final
                     byte[] buffer_new = buffer;
                      */
 
-                   
                     string path = System.IO.Directory.GetCurrentDirectory();
                     path = path.Substring(0, path.Length - 9);
                     path = path + "Images/fotoPerfil/";
                     string filePath = path + System.IO.Path.GetFileName(nameImagen);
-                    
-                  
+
+
                     System.IO.File.Copy(nameImagen, filePath, true);
 
-
                     //MySqlCommand cmdIns = new MySqlCommand(string.Format("INSERT INTO PERSONA (rut,NOMBRE_COMPLETO,edad,direccion,ciudad,fono,clave,imagen,sexo,cargo) VALUES ('{0}','{1}','{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}')", rutIngresado, nombre, edadUser, dire, numeroCiudad, telefono, pass,filePath.ToString(), sexo, cargo), con);
-                   
+
                     string insertString = "INSERT INTO PERSONA (rut,NOMBRE_COMPLETO,edad,direccion,ciudad,fono,clave,imagen,sexo,cargo) VALUES (?rut,?nombre,?edad,?direccion,?ciudad,?fono,?clave,?imagen,?sexo,?cargo)";
                     MySqlCommand insertCommand = new MySqlCommand(insertString, con);
                     insertCommand.Parameters.Add("?rut", rutIngresado);
                     insertCommand.Parameters.Add("?nombre", nombre);
                     insertCommand.Parameters.Add("?edad", edadUser);
-                    insertCommand.Parameters.Add("?direccion",dire);
+                    insertCommand.Parameters.Add("?direccion", dire);
                     insertCommand.Parameters.Add("?ciudad", numeroCiudad);
-                    insertCommand.Parameters.Add("?fono",telefono);
+                    insertCommand.Parameters.Add("?fono", telefono);
                     insertCommand.Parameters.Add("?clave", pass);
-                    insertCommand.Parameters.Add("?imagen", nombreArchivo);
-                    insertCommand.Parameters.Add("?sexo",sexo);
+                    insertCommand.Parameters.Add("?imagen", filePath.ToString());
+                    insertCommand.Parameters.Add("?sexo", sexo);
                     insertCommand.Parameters.Add("?cargo", cargo);
 
 
                     insertCommand.ExecuteNonQuery();
                     con.Close();
 
+                    if (comboCargo.SelectedIndex == 3)
+                    {
+                        edad.Text = "";
+                        direccion.Text = "";
+                        fono.Text = "";
+                        clave.Text = "";
+                        comboSexo.Text = "";
+                        comboCiudad.Text = "";
+                        comboCiudad.Items.Clear();
+                        comboRegion.Text = "";
+                        this.mensajeImagen.Visibility = Visibility.Hidden;
+                    }
+                    else
+                    {
+                        Console.WriteLine(comboCargo.SelectedIndex);
+                        if (comboCargo.SelectedIndex == 0 || comboCargo.SelectedIndex == 2 || comboCargo.SelectedIndex == 5)
+                        {
 
-                    nombreCompleto.Text = "";
-                    edad.Text = "";
-                    rut.Text = "";
-                    verificador.Text = "";
-                    direccion.Text = "";
-                    fono.Text = "";
-                    clave.Text = "";
-                    comboSexo.Text = "";
-                    comboCiudad.Text = "";
-                    comboCiudad.Items.Clear();
-                    comboRegion.Text = "";
-                    comboCargo.Text = "";
-                    this.mensajeImagen.Visibility = Visibility.Hidden;
-                    nuevoUsuario mensajeNuevo = new nuevoUsuario();
-                    mensajeNuevo.show(nombre);
+                            generarContratoT("Temuco");
+                        }
+                        nombreCompleto.Text = "";
+                        edad.Text = "";
+                        rut.Text = "";
+                        verificador.Text = "";
+                        direccion.Text = "";
+                        fono.Text = "";
+                        clave.Text = "";
+                        comboSexo.Text = "";
+                        comboCiudad.Text = "";
+                        comboCiudad.Items.Clear();
+                        comboRegion.Text = "";
+                        comboCargo.Text = "";
+                        this.mensajeImagen.Visibility = Visibility.Hidden;
+                        nuevoUsuario mensajeNuevo = new nuevoUsuario();
+                        mensajeNuevo.show(nombre);
+                    }
+
+
                 }
-
 
                 catch (Exception ex)
                 {
 
                     MessageBox.Show(ex.Message);
                 }
-                finally
+
+                if (comboCargo.SelectedIndex == 3)
                 {
-                    con.Close();
+
+                    datosEspecificos.txtBNombre.Text = nombreCompleto.Text;
+                    datosEspecificos.txtBRutChofer.Text = rut.Text;
+                    datosEspecificos.txtBdigVerificadorChofer.Text = verificador.Text;
+                    datosEspecificos.Show();
+                    comboCargo.SelectedIndex = -1;
+                    rut.Text = "";
+                    verificador.Text = "";
+                    nombreCompleto.Text = "";
+
                 }
+
             }
+        }
+        private string generarContratoT(string ciudad)
+        {
+            DateTime today = DateTime.Today;
+            string[] textocontrato = new string[12];
+            textocontrato[0] = ciudad + ", " + today.ToString(("d"));
+            textocontrato[1] = "Oficina SmarTravel";
+            textocontrato[2] = "Rudecindo Ortega 02950 salida norte, Temuco";
+            textocontrato[3] = "Representante legal Felipe Lagos Morapastene";
+
+            textocontrato[4] = "Se remite el presente contrato con efectos de  solicitar,  que  se  autorice  ";
+            textocontrato[5] = "la  suscripción  del  contrato  de  ejecución  de  servicios  que  adjunto  se  acompaña. ";
+            textocontrato[6] = "El   cual   ya  ha   sido   rubricado  por   el   interesado  a   realizarse  en  base  a  los ";
+            textocontrato[7] = "siguientes  datos:\n";
+            textocontrato[8] = "a)Personal  contratado :  Sr(a) " + nombreCompleto.Text + "   Rut :  " + rut.Text + "-" + verificador.Text;
+            textocontrato[9] = "\nb)Funciones y o tareas a desempeñar: " + comboCargo.Text + " de empresa de transporte\n";
+            textocontrato[10] = "c)Remuneraciones: XXX.XXX.XXX\n";
+            textocontrato[11] = "Duración del contrato: Indefinido\n";
+
+            PdfDocument pdf = new PdfDocument();
+            pdf.Info.Title = "";
+            PdfPage pdfPage = pdf.AddPage();
+            pdfPage.Orientation = PdfSharp.PageOrientation.Landscape;
+            pdfPage.Size = PdfSharp.PageSize.B5;
+            XGraphics graph = XGraphics.FromPdfPage(pdfPage);
+            XImage image = XImage.FromFile("Timbre.jpg");
+            graph.DrawImage(image, 300, 350, 116, 118);
+
+            XFont font = new XFont("Verdana", 12);
+            graph.DrawString(textocontrato[0], font, XBrushes.Black, new XRect(540, 40, 10, 0), XStringFormats.Default);
+            graph.DrawString(textocontrato[1], font, XBrushes.Black, new XRect(40, 100, 10, 0), XStringFormats.Default); //fecha e inicio de pagina
+            graph.DrawString(textocontrato[2], font, XBrushes.Black, new XRect(40, 115, 10, 0), XStringFormats.Default);
+            graph.DrawString(textocontrato[3], font, XBrushes.Black, new XRect(40, 130, 10, 0), XStringFormats.Default);
+            int rango = 200;
+            int ejey = 170;
+            for (int i = 4; i < 12; i++)
+            {
+
+                graph.DrawString(textocontrato[i], font, XBrushes.Black, new XRect(ejey, rango, 10, 0), XStringFormats.Default); //contenido del contrato
+                rango += 18;
+                ejey = 100;
+            }
+            string pdfFilename = rut.Text + "-" + verificador.Text + ".pdf";
+            string path = @"C:\Contratos\";
+            pdf.Save(path + pdfFilename);
+
+            Process.Start(path + pdfFilename);
+            return path + pdfFilename;
         }
         private void rut_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -636,6 +780,19 @@ namespace SmarTravel_Final
 
             busquedaUser.Text = "";
 
+        }
+        public static Boolean validar1(params string[] values)
+        {
+            validar mensajeValidacion = new validar();
+            for (int i = 0; i < values.Length; i += 2)
+            {
+                if (values[i] == "")
+                {
+                    mensajeValidacion.show("Falta llenar el siguiente campo:  " + values[i + 1]);
+                    return false;
+                }
+            }
+            return true;
         }
 
         

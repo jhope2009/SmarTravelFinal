@@ -9,8 +9,8 @@ namespace SmarTravel_Final
 
         public static MySqlConnection ObtenerConexion()
         {
-            MySqlConnection conectar = new MySqlConnection("server=localhost; database=buses; Uid=root; pwd=admin;");
-            //MySqlConnection conectar = new MySqlConnection("server=localhost; database=buses; Uid=root; pwd=;");
+            //MySqlConnection conectar = new MySqlConnection("server=localhost; database=buses; Uid=root; pwd=admin;");
+            MySqlConnection conectar = new MySqlConnection("server=localhost; database=buses; Uid=root; pwd=;");
             conectar.Open();
             return conectar;
         }
