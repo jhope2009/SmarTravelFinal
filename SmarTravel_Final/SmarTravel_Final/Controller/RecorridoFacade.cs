@@ -189,7 +189,14 @@ namespace SmarTravel_Final.Controller
                     recorrido.id = (int)dr.GetInt32(0);
                 }
                 dr.Close();
-                cmd = new MySqlCommand(string.Format("INSERT INTO RECORRIDO (ID, PARADA) VALUES ('{0}','{1}')", recorrido.id, recorrido.parada.id), con);
+
+                Parada destino = recorrido.parada;
+                while(destino.siguiente.id != -1)
+                {
+                    destino = destino.siguiente;
+                }
+
+                cmd = new MySqlCommand(string.Format("INSERT INTO RECORRIDO (ID, PARADA, ORIGEN, DESTINO_FINAL) VALUES ('{0}','{1}','{2}','{3}')", recorrido.id, recorrido.parada.id, recorrido.parada.ciudad.id, destino.ciudad.id), con);
                 cmd.ExecuteNonQuery();
 
                 ParadaFacade.guardar(recorrido.parada, recorrido.id);

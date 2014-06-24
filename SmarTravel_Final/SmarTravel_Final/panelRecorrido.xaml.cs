@@ -790,14 +790,6 @@ namespace SmarTravel_Final
                     this.cDestinoEditar.Items.Add(ciudad.ciudad.nombre);
                 }
             }
-<<<<<<< HEAD
-=======
-            catch (Exception ex)
-            {
-                Console.WriteLine("cDestinoEditar_DropDownClosed: "+ex.Message);
-            }
-
->>>>>>> origin/ventaPasajes
         }
 
         private void verValores_Click(object sender, RoutedEventArgs e)
@@ -1223,7 +1215,7 @@ namespace SmarTravel_Final
             var button = sender as Button;
             var fila = button.Tag;
 
-            editarViajeDiario edit = new editarViajeDiario ();
+            editarNewViajeDiario edit = new editarNewViajeDiario();
             edit.Show();
 
             edit.getIdViaje(Convert.ToInt32(fila.ToString()));

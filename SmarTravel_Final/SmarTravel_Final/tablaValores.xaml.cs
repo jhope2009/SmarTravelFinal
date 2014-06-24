@@ -196,6 +196,7 @@ namespace SmarTravel_Final
         {
             if (this.lp.Count > 1)
             {
+                bool okPrecios = true;
                 TextBox txt;                
                 int idParada = -1;
                 List<Trayecto> trayectos = new List<Trayecto>();
@@ -208,7 +209,7 @@ namespace SmarTravel_Final
 
                     if (row != 0 && col != 0)
                     {
-                        txt = (TextBox)ui;
+                        txt = (TextBox)ui;                        
                         precios[row - 1, col - 1] = txt.Text;
                     }
                 }
@@ -233,6 +234,7 @@ namespace SmarTravel_Final
                     {
                         for (int j = i + 1; j < lp.Count; j++)
                         {
+                            if (Convert.ToInt32(precios[i, j]) <= 0) okPrecios = false;
                             trayectos.Add(new Trayecto(CiudadFacade.buscarPorNombre(lp[i]), CiudadFacade.buscarPorNombre(lp[j]), Convert.ToInt32(precios[i, j])));
                         }
                     }
@@ -240,11 +242,19 @@ namespace SmarTravel_Final
 
                     try
                     {
-                        RecorridoFacade.guardar(recorrido);
-                        okAlerta alert = new okAlerta();
-                        alert.show("Recorrido Ingresado Correctamente");
-                        this.DialogResult = true;
-                        this.Close();
+                        if (okPrecios == true)
+                        {
+                            RecorridoFacade.guardar(recorrido);
+                            okAlerta alert = new okAlerta();
+                            alert.show("Recorrido Ingresado Correctamente");
+                            this.DialogResult = true;
+                            this.Close();
+                        }
+                        else
+                        {
+                            validar alert = new validar();
+                            alert.show("La Tarifa del trayecto debe ser MAYOR que 0");
+                        }                        
                     }
                     catch (Exception ex)
                     {

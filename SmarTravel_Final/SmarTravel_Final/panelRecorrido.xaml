@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
              mc:Ignorable="d" 
-             d:DesignWidth="904" d:DesignHeight="460" Background="#FFBBBABA" FontFamily="Century Gothic" DataContext="{Binding}" Loaded="UserControl_Loaded" >
+             d:DesignWidth="904" d:DesignHeight="460" Background="#BBBABA" FontFamily="Century Gothic" DataContext="{Binding}" Loaded="UserControl_Loaded" >
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -13,13 +13,8 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
-<<<<<<< HEAD
-        <Grid>
-            <TabControl Name="tabControl1" Background="#FF341954" BorderBrush="#FF341954" Foreground="#FFBBBABA" Margin="-2,12,2,-14">
-=======
     <Grid>
-        <TabControl Name="tabControl1" Background="#FF341954" BorderBrush="#FF341954" Foreground="#FFBBBABA" Margin="0,-2,0,0">
->>>>>>> origin/ventaPasajes
+        <TabControl Name="tabControl1" Background="#FF341954" BorderBrush="#FF341954" Foreground="#FFBBBABA" Margin="-2,12,2,-14">
             <TabItem Header="NUEVO RECORRIDO" Name="tabNuevoRecorrido" Height="40" Width="170" Selector.Selected="tabNuevoRecorrido_Selected">
                 <Grid Name="gridNuevoRecorrido" Height="419" Width="904">
                     <Grid.ColumnDefinitions>
@@ -29,9 +24,9 @@
                     <ListBox Height="311" HorizontalAlignment="Left" Name="listCiudad" VerticalAlignment="Top" Width="224" Margin="43,62,0,0" MouseDoubleClick="listCiudad_MouseDoubleClick" Background="#FF482A7A" BorderBrush="#FF482A7A" Foreground="#FFBBBABA" />
 
                     <Label Content="C I U D A D E S" Height="28" HorizontalAlignment="Left" Margin="109,30,0,0" Name="label1" VerticalAlignment="Top" Foreground="#FFBBBABA" />
-                    <Label Content="N  U  E  V  O       R  E  C  O  R  R  I  D  O" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="131,30,0,0" Name="label2" VerticalAlignment="Top" Grid.Column="1" Width="225" />
+                    <Label Content="N  U  E  V  O       R  E  C  O  R  R  I  D  O" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="110,30,0,0" Name="label2" VerticalAlignment="Top" Grid.Column="1" Width="225" />
 
-                    <Grid Grid.Column="1" Height="275" HorizontalAlignment="Center" Margin="111,62,137,0" Name="grid1" VerticalAlignment="Top" Width="260">
+                    <Grid Grid.Column="1" Height="275" HorizontalAlignment="Center" Margin="82,62,173,0" Name="grid1" VerticalAlignment="Top" Width="253">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="42*" />
                             <RowDefinition Height="233*" />
@@ -39,18 +34,13 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="170*" />
                         </Grid.ColumnDefinitions>
-                        <ListBox Grid.Row="1" Height="223" HorizontalAlignment="Left" Margin="0,4,0,0" Name="listNuevoRecorrido" VerticalAlignment="Top" Width="260" Background="#FF482A7A" BorderBrush="#FF482A7A" Foreground="#FFBBBABA" MouseDoubleClick="listNuevoRecorrido_MouseDoubleClick" Cursor="Hand" FontSize="18" AllowDrop="True" />
-                        <Rectangle Height="36" HorizontalAlignment="Left" Name="rectangle1" Stroke="#FF482A7A" VerticalAlignment="Top" Width="260" Fill="#FF482A7A" />
+                        <ListBox Grid.Row="1" Height="223" HorizontalAlignment="Left" Margin="0,4,0,0" Name="listNuevoRecorrido" VerticalAlignment="Top" Width="253" Background="#FF482A7A" BorderBrush="#FF482A7A" Foreground="#FFBBBABA" MouseDoubleClick="listNuevoRecorrido_MouseDoubleClick" Cursor="Hand" FontSize="18" AllowDrop="True" />
+                        <Rectangle Height="36" HorizontalAlignment="Left" Name="rectangle1" Stroke="#FF482A7A" VerticalAlignment="Top" Width="253" Fill="#FF482A7A" />
                         <Label HorizontalContentAlignment="Center" Content="Paradas" Height="30" HorizontalAlignment="Center" Margin="0,6,0,1" Name="label3" VerticalAlignment="Center" Width="224" Foreground="#FFBABBBB" />
                     </Grid>
-<<<<<<< HEAD
-                    <Button Content="LIMPIAR" Height="23" HorizontalAlignment="Left" Margin="83,356,0,0" Name="Limpiar" Style="{DynamicResource BotonGris}" VerticalAlignment="Top" Width="66" Grid.Column="1" Click="Limpiar_Click" />
-                    <Button Content="AGREGAR VALORES" Grid.Column="1" Height="23" HorizontalAlignment="Left" Margin="173,356,0,0" Name="agregarValores" VerticalAlignment="Top" Width="134" Style="{StaticResource BotonGris}" Click="agregarValores_Click" />
+                    <Button Content="LIMPIAR" Height="36" HorizontalAlignment="Left" Margin="82,356,0,0" Name="Limpiar" Style="{DynamicResource BotonGris}" VerticalAlignment="Top" Width="68" Grid.Column="1" Click="Limpiar_Click" />
+                    <Button Content="TARIFAS" Grid.Column="1" Height="36" HorizontalAlignment="Left" Margin="173,356,0,0" Name="agregarValores" VerticalAlignment="Top" Width="162" Style="{StaticResource BotonGris}" Click="agregarValores_Click" />
                     <CheckBox Content="CheckBox" Grid.Column="1" Height="16" HorizontalAlignment="Left" Margin="29,-17,0,0" Name="checkBox1" VerticalAlignment="Top" />
-=======
-                    <Button Content="LIMPIAR" Height="39" HorizontalAlignment="Left" Margin="106,356,0,0" Name="Limpiar" Style="{DynamicResource BotonGris}" VerticalAlignment="Top" Width="99" Grid.Column="1" Click="Limpiar_Click" />
-                    <Button Content="TARIFAS" Grid.Column="1" Height="39" HorizontalAlignment="Left" Margin="232,356,0,0" Name="agregarValores" VerticalAlignment="Top" Width="139" Style="{StaticResource BotonGris}" Click="agregarValores_Click" />
->>>>>>> origin/ventaPasajes
                 </Grid>
 
             </TabItem>
@@ -81,65 +71,24 @@
 
                 </Grid>
             </TabItem>
-<<<<<<< HEAD
             <TabItem Header="AGREGAR VIAJES" Name="tabViajesDiarios" Selector.Selected="tabViajesDiarios_Selected">
-       
-        <Canvas Height="419" HorizontalAlignment="Left" Margin="0" Name="canvas1" VerticalAlignment="Top" Width="904">
-            <Grid Background="#FF482A7A" Height="332" Name="gridBusqueda" Width="282" Canvas.Left="9" Canvas.Top="29">
-                <Label Content="ORIGEN" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="104,33,0,0" Name="label14" VerticalAlignment="Top" />
-                <Label Content="DESTINO" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="102,88,0,0" Name="label15" VerticalAlignment="Top" />
-                        <Button Content="Ingresar" Height="23" HorizontalAlignment="Left" Margin="192,301,0,0" Name="button1" VerticalAlignment="Top" Width="75" Style="{StaticResource BotonGris}" Click="button1_Click" />
-                <ComboBox Height="23" HorizontalAlignment="Left" Margin="27,67,0,0" Name="comboOrigen" VerticalAlignment="Top" Width="214" Style="{StaticResource Combo}" DropDownClosed="comboOrigen_DropDownClosed" />
-                <ComboBox Height="23" Margin="27,122,41,0" Name="comboDestino" Style="{StaticResource Combo}" VerticalAlignment="Top" />
-                        <TextBlock Height="23" HorizontalAlignment="Left" Margin="106,218,0,0" Name="lbl_id_recorrido" Text="" VerticalAlignment="Top" Visibility="Hidden" />
-                    </Grid>
-            <Grid Background="#FFBBBABA" Canvas.Left="313" Canvas.Top="62" Height="299" Width="570" Name="gridAgregarViajes" Visibility="Hidden"></Grid>
-                    <Label Canvas.Left="459" Canvas.Top="10" Content="LISTADO DE RECORRIDOS" FontSize="18" Foreground="#FFBBBABA" Height="34" Name="label8" Width="263" FontWeight="Bold" />
-                </Canvas>
-        </TabItem>
-            <TabItem Header="EDITAR VIAJES" Selector.Selected="tabEditarViajes_Selected" Name="tabEditarViajes">
-=======
-            <TabItem Header="AGREGAR VIAJES DIARIOS" Name="tabViajesDiarios" Selector.Selected="tabViajesDiarios_Selected" Margin="3,0,-3,0">
 
                 <Canvas Height="419" HorizontalAlignment="Left" Margin="0" Name="canvas1" VerticalAlignment="Top" Width="904">
                     <Grid Background="#FF482A7A" Height="332" Name="gridBusqueda" Width="282" Canvas.Left="9" Canvas.Top="29">
                         <Label Content="ORIGEN" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="104,33,0,0" Name="label14" VerticalAlignment="Top" />
                         <Label Content="DESTINO" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="102,88,0,0" Name="label15" VerticalAlignment="Top" />
-                        <Label Content="IDENTIFICADOR DEL VIAJE" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="53,146,0,0" Name="label16" VerticalAlignment="Top" />
-                        <TextBox BorderBrush="#FFBBBABA" Foreground="#FFBBBABA" Height="23" HorizontalAlignment="Left" Margin="27,180,0,0" Name="identificador" Style="{StaticResource TextBoxGris}" VerticalAlignment="Top" Width="214">
-                            <TextBox.Background>
-                                <SolidColorBrush />
-                            </TextBox.Background>
-                        </TextBox>
-                        <Button Content="Ingresar" Height="23" HorizontalAlignment="Left" Margin="192,309,0,0" Name="button1" VerticalAlignment="Top" Width="75" Style="{StaticResource BotonGris}" Click="button1_Click" />
-                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="27,67,0,0" Name="comboOrigen" VerticalAlignment="Top" Width="214" Style="{StaticResource Combo}" DropDownClosed="comboOrigen_DropDownClosed" Loaded="comboOrigen_Loaded" />
-                        <ComboBox Height="23" Margin="27,122,41,0" Name="comboDestino" Style="{StaticResource Combo}" VerticalAlignment="Top" DropDownClosed="comboDestino_DropDownClosed" />
+                        <Button Content="Ingresar" Height="23" HorizontalAlignment="Left" Margin="192,301,0,0" Name="button1" VerticalAlignment="Top" Width="75" Style="{StaticResource BotonGris}" Click="button1_Click" />
+                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="27,67,0,0" Name="comboOrigen" VerticalAlignment="Top" Width="214" Style="{StaticResource Combo}" DropDownClosed="comboOrigen_DropDownClosed" />
+                        <ComboBox Height="23" Margin="27,122,41,0" Name="comboDestino" Style="{StaticResource Combo}" VerticalAlignment="Top" />
                         <TextBlock Height="23" HorizontalAlignment="Left" Margin="106,218,0,0" Name="lbl_id_recorrido" Text="" VerticalAlignment="Top" Visibility="Hidden" />
                     </Grid>
-                    <Grid Background="#FF482A7A" Canvas.Left="297" Canvas.Top="29" Height="332" Width="595" Name="datosViaje" Visibility="Hidden">
-
-                        <Button Content="Guardar" Height="23" HorizontalAlignment="Left" Margin="503,309,0,0" Name="button4" Style="{StaticResource BotonGris}" VerticalAlignment="Top" Width="75" Click="button4_Click" />
-                        <Label Content="Chofer" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="336,33,0,0" Name="label20" VerticalAlignment="Top" />
-                        <ComboBox Height="24" HorizontalAlignment="Left" Margin="406,33,0,0" Name="comboChofer" VerticalAlignment="Top" Width="183" Style="{StaticResource Combo}" Loaded="comboChofer_Loaded" />
-                        <Label Content="Bus" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="347,114,0,0" Name="label17" VerticalAlignment="Top" />
-                        <Label Content="Auxiliar" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="336,77,0,0" Name="label18" VerticalAlignment="Top" />
-                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="406,77,0,0" Name="comboAuxiliar" Style="{StaticResource Combo}" VerticalAlignment="Top" Width="183" Loaded="comboAuxiliar_Loaded" />
-                        <ComboBox Height="23" HorizontalAlignment="Left" Margin="406,114,0,0" Name="comboBus" Style="{StaticResource Combo}" VerticalAlignment="Top" Width="183" Loaded="comboBox5_Loaded" />
-                        <Label Content="Temporalidad" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="425,158,0,0" Name="label19" VerticalAlignment="Top" />
-                        <Label Content="Desde" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="372,192,0,0" Name="label21" VerticalAlignment="Top" />
-                        <Label Content="Hasta" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="485,192,0,0" Name="label22" VerticalAlignment="Top" />
-                        <DatePicker Height="25" HorizontalAlignment="Left" Margin="336,218,0,0" Name="fechaDesde" VerticalAlignment="Top" Width="113" Text="Seleccione" Focusable="False" />
-                        <DatePicker Height="25" HorizontalAlignment="Left" Margin="465,218,0,0" Name="fechaHasta" VerticalAlignment="Top" Width="113" Focusable="False" />
-                        <Grid Height="281" HorizontalAlignment="Left" Margin="26,23,0,0" Name="horarios" VerticalAlignment="Top" Width="304" Background="#FFBBBABA" MouseDown="horarios_MouseDown">
-
-                        </Grid>
-                    </Grid>
+                    <Grid Background="#FFBBBABA" Canvas.Left="313" Canvas.Top="62" Height="299" Width="570" Name="gridAgregarViajes" Visibility="Hidden"></Grid>
+                    <Label Canvas.Left="459" Canvas.Top="10" Content="LISTADO DE RECORRIDOS" FontSize="18" Foreground="#FFBBBABA" Height="34" Name="label8" Width="263" FontWeight="Bold" />
                 </Canvas>
             </TabItem>
-            <TabItem Header="EDITAR VIAJES DIARIOS" Selector.Selected="tabEditarViajes_Selected" Name="tabEditarViajes">
->>>>>>> origin/ventaPasajes
+            <TabItem Header="EDITAR VIAJES" Selector.Selected="tabEditarViajes_Selected" Name="tabEditarViajes">
                 <Canvas Name="canvas2" Margin="0" Width="904" Height="419">
-                    
+
                     <Grid Background="#FF482A7A" Canvas.Left="35" Canvas.Top="24" Height="369" Name="grid3" Width="282">
                         <Label Content="ORIGEN" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="102,50,0,0" Name="label23" VerticalAlignment="Top" />
                         <Label Content="DESTINO" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="102,113,0,0" Name="label24" VerticalAlignment="Top" />
@@ -177,7 +126,6 @@
                     <m:Map x:Name="myMap" CredentialsProvider="Ak1S2SJShGvomS8TqNQRFUIBPu0mEFh4v_UzPn5zTCAG-DNs05c73ZLBAhaad-5q" Margin="459,27,45,47" Mode="AerialWithLabels" Center="-35.806029,-71.407007" ZoomLevel="3"/>
                 </Grid>
             </TabItem>
-
         </TabControl>
 
     </Grid>
