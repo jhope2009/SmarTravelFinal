@@ -46,8 +46,8 @@
                     <ColumnDefinition Width="76*" />
                 </Grid.ColumnDefinitions>
             </Grid>
-            <Label Content="LLEGADA" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="208,15,0,0" x:Name="label6" VerticalAlignment="Top" />
-            <Label Content="SALIDA" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="137,15,0,0" x:Name="label8" VerticalAlignment="Top" />
+            <Label Content="LLEGADA" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="138,15,0,0" x:Name="label6" VerticalAlignment="Top" />
+            <Label Content="SALIDA" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="222,15,0,0" x:Name="label8" VerticalAlignment="Top" />
             <Label Content="PARADA" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="10,15,0,0" x:Name="label8_Copy" VerticalAlignment="Top" />
         </Grid>
         <Button Content="Cerrar" Height="37" HorizontalAlignment="Left" Margin="10,260,0,0" x:Name="botonCerrar" VerticalAlignment="Top" Width="283" Style="{StaticResource BotonGris}" Click="botonBuscar_Click" Cursor="Hand" />

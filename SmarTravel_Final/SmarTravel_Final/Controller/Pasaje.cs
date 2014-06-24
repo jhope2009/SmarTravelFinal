@@ -56,6 +56,5 @@ namespace SmarTravel_Final.Controller
             this.asiento = asiento;
             this.estado = estado;
         }
-
     }
 }

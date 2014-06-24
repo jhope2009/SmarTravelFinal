@@ -36,8 +36,8 @@ namespace SmarTravel_Final
                         {
                             intermedio = true;
                             itemsTabla[0] = h.parada.ciudad.nombre;
-                            itemsTabla[1] = h.salida;
-                            itemsTabla[2] = h.llegada;
+                            itemsTabla[1] = h.llegada;
+                            itemsTabla[2] = h.salida;
 
                             this.tablaParadas.RowDefinitions.Add(new RowDefinition());
                             this.tablaParadas.RowDefinitions[this.tablaParadas.RowDefinitions.Count - 1].Height = new System.Windows.GridLength(30);
@@ -58,8 +58,8 @@ namespace SmarTravel_Final
                         if(h.parada.ciudad.nombre == destino)
                         {
                             itemsTabla[0] = h.parada.ciudad.nombre;
-                            itemsTabla[1] = h.salida;
-                            itemsTabla[2] = h.llegada;
+                            itemsTabla[1] = h.llegada;
+                            itemsTabla[2] = h.salida;
 
                             this.tablaParadas.RowDefinitions.Add(new RowDefinition());
                             this.tablaParadas.RowDefinitions[this.tablaParadas.RowDefinitions.Count - 1].Height = new System.Windows.GridLength(30);
@@ -78,8 +78,8 @@ namespace SmarTravel_Final
                         else
                         {
                             itemsTabla[0] = h.parada.ciudad.nombre;
-                            itemsTabla[1] = h.salida;
-                            itemsTabla[2] = h.llegada;
+                            itemsTabla[1] = h.llegada;
+                            itemsTabla[2] = h.salida;
 
                             this.tablaParadas.RowDefinitions.Add(new RowDefinition());
                             this.tablaParadas.RowDefinitions[this.tablaParadas.RowDefinitions.Count - 1].Height = new System.Windows.GridLength(30);

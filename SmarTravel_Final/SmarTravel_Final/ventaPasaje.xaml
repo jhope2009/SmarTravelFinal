@@ -44,15 +44,17 @@
         <TextBox x:Name="textoLlegada" HorizontalAlignment="Left" Height="28" Margin="10,37,0,0" Grid.Row="2" TextWrapping="Wrap" Text="00:00" VerticalAlignment="Top" Width="60" Style="{DynamicResource TextBoxTransparente}" FontSize="18" Grid.Column="3" IsReadOnly="True"/>
         <Grid Grid.Column="5" HorizontalAlignment="Left" Height="476" Margin="36,0,0,0" Grid.Row="1" VerticalAlignment="Top" Width="455" Grid.RowSpan="6" Background="#FF482A7A">
             <Grid HorizontalAlignment="Left" Height="418" Margin="0,58,0,0" VerticalAlignment="Top" Width="455" Background="#FFBBBABA">
-                <Grid x:Name="gridAsientos" HorizontalAlignment="Left" Height="341" Margin="32,44,0,0" VerticalAlignment="Top" Width="392">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="59*"/>
-                        <ColumnDefinition Width="62*"/>
-                        <ColumnDefinition Width="146*"/>
-                        <ColumnDefinition Width="63*"/>
-                        <ColumnDefinition Width="62*"/>
-                    </Grid.ColumnDefinitions>
-                </Grid>
+                <ScrollViewer HorizontalAlignment="Left" Height="349" Margin="0,38,0,0" VerticalAlignment="Top" Width="455" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                    <Grid x:Name="gridAsientos" HorizontalAlignment="Left" VerticalAlignment="Top" Width="455">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="59*"/>
+                            <ColumnDefinition Width="62*"/>
+                            <ColumnDefinition Width="146*"/>
+                            <ColumnDefinition Width="63*"/>
+                            <ColumnDefinition Width="62*"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                </ScrollViewer>
                 <Label Content="ASIENTO:" Foreground="#FF341954" Height="28" HorizontalAlignment="Left" Margin="178,10,0,0" x:Name="label4_Copy6" VerticalAlignment="Top" Width="64" />
                 <TextBox x:Name="textoAsiento" HorizontalAlignment="Left" Height="43" Margin="242,5,0,0" TextWrapping="Wrap" Text="99" VerticalAlignment="Top" Width="65" Style="{DynamicResource TextBoxTransparente}" FontSize="20" IsReadOnly="True" Foreground="#FF341954"/>
             </Grid>

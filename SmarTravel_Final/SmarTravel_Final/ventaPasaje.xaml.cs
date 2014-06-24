@@ -51,14 +51,59 @@ namespace SmarTravel_Final
 
             if (viajeDiario.id > -1)
             {
-                int precio = TrayectoFacade.buscarPorId(viajeDiario.trayecto.id).precio;
-
+                int precio = viajeDiario.trayecto.precio;
                 this.textoFecha.Text = viajeDiario.fecha;
                 this.textoOrigen.Text = viajeDiario.trayecto.origen.nombre;
                 this.textoDestino.Text = viajeDiario.trayecto.destino.nombre;
-
                 this.textoTarifa.Text = precio.ToString();
                 this.textoTotal.Text = precio.ToString();
+
+                Button asiento;
+                for (int i = 1; i <= viajeDiario.asientosDisponibles; i=i+4)
+                { 
+                    this.gridAsientos.RowDefinitions.Add(new RowDefinition());
+                    this.gridAsientos.RowDefinitions[this.gridAsientos.RowDefinitions.Count - 1].Height = new System.Windows.GridLength(35);
+                    for (int n = 0; n < 5; n++)
+                    {
+                        //ASIENTOS LADO CHOFER
+                        if (n < 2)
+                        {
+                            string numero = (n + i).ToString();
+                            if (Convert.ToInt32(numero) > viajeDiario.asientosDisponibles) break;
+                            asiento = new Button();
+                            asiento.Cursor = Cursors.Hand;
+                            asiento.Style = Resources["BotonAzul"] as Style;
+                            asiento.Content = numero;
+                            asiento.Width = 34;
+                            asiento.Height = 34;
+                            asiento.Click += new RoutedEventHandler(selecciona_Asiento);
+                            asiento.Tag = numero;
+                            asiento.SetValue(Grid.ColumnProperty, n);
+                            asiento.SetValue(Grid.RowProperty, this.gridAsientos.RowDefinitions.Count - 1);
+                            this.gridAsientos.Children.Add(asiento);
+                        }
+                        else
+                        {
+                            //ASIENTOS OTRO LADO
+                            if (n > 2)
+                            {
+                                string numero = (n - 1 + i).ToString();
+                                if (Convert.ToInt32(numero) > viajeDiario.asientosDisponibles) break;
+                                asiento = new Button();
+                                asiento.Cursor = Cursors.Hand;
+                                asiento.Style = Resources["BotonAzul"] as Style;
+                                asiento.Content = numero;
+                                asiento.Width = 34;
+                                asiento.Height = 34;
+                                asiento.Click += new RoutedEventHandler(selecciona_Asiento);
+                                asiento.Tag = numero;
+                                asiento.SetValue(Grid.ColumnProperty, n);
+                                asiento.SetValue(Grid.RowProperty, this.gridAsientos.RowDefinitions.Count - 1);
+                                this.gridAsientos.Children.Add(asiento);                                
+                            }
+                        }
+                    }                    
+                }
             }
         }
 
@@ -183,6 +228,12 @@ namespace SmarTravel_Final
                 validar alert = new validar();
                 alert.show("Seleccione un asiento para el viaje");
             }             
+        }
+
+        private void selecciona_Asiento(object sender, RoutedEventArgs e)
+        {
+            Button b = (Button)sender;
+            this.textoAsiento.Text = b.Tag.ToString();            
         }
     }
 }
