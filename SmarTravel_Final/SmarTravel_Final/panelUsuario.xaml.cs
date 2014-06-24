@@ -237,11 +237,6 @@ namespace SmarTravel_Final
                 mensajeValidacion.show("Por favor ingrese una edad valida para el usuario.");
                 return false;
             }
-            else if (rut.Text == "")
-            {
-                mensajeValidacion.show("Por favor ingrese el rut para el usuario.");
-                return false;
-            }
             else if (verificador.Text == "")
             {
                 mensajeValidacion.show("Por favor ingrese el verificador del rut para el usuario.");
@@ -521,8 +516,11 @@ namespace SmarTravel_Final
                 ejey = 100;
             }
             string pdfFilename = rut.Text + "-" + verificador.Text + ".pdf";
-            string path = @"C:\Contratos\";
-            pdf.Save(path + pdfFilename);
+            string path = System.IO.Directory.GetCurrentDirectory();
+            path = path.Substring(0, path.Length - 9);
+            path = path + "Contratos/";
+            string filePath = path + System.IO.Path.GetFileName(pdfFilename);
+            pdf.Save(filePath);
 
             Process.Start(path + pdfFilename);
             return path + pdfFilename;

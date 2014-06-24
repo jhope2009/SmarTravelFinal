@@ -134,6 +134,9 @@
     <Compile Include="panelUsuario.xaml.cs">
       <DependentUpon>panelUsuario.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pruebas.xaml.cs">
+      <DependentUpon>Pruebas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="tablaValores.xaml.cs">
       <DependentUpon>tablaValores.xaml</DependentUpon>
     </Compile>
@@ -214,6 +217,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="panelUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pruebas.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
