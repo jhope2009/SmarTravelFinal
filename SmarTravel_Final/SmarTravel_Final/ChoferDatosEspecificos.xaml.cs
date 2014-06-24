@@ -36,6 +36,7 @@ namespace SmarTravel_Final
         private void btnGenerarContrato_Click(object sender, RoutedEventArgs e)
         {
             validar validaimg = new validar();
+            validaimg.Topmost = true;
             if (rutaimglicencia == "")
                 validaimg.show("No ha ingresado imagen de su licencia de conducir");
             else if (panelUsuario.validar1(dateVencimientoLicencia.Text, txtVencimientoLicencia.Text, txtBNumerolicencia.Text, txtBNumerolicencia.Text))
@@ -120,8 +121,11 @@ namespace SmarTravel_Final
                 ejey = 100;
             }
             string pdfFilename = txtBRutChofer.Text + "-" + txtBdigVerificadorChofer.Text + ".pdf" ;
-            string path = @"C:\Contratos\";
-            pdf.Save(path + pdfFilename);
+            string path = System.IO.Directory.GetCurrentDirectory();
+            path = path.Substring(0, path.Length - 9);
+            path = path + "Contratos/";
+            string filePath = path + pdfFilename;
+            pdf.Save(filePath);
 
             Process.Start(path + pdfFilename);
             return path + pdfFilename;

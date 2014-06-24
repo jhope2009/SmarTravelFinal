@@ -269,10 +269,10 @@ namespace SmarTravel_Final
                 try
                 {
                     MySqlConnection con = conexionDB.ObtenerConexion();
-                    //string rutUser = rutUsuario.Text;
-                    //string pass = passUsuario.Password;
-                    string rutUser = "18285166-3";
-                    string pass = "FELIPE";
+                    string rutUser = rutUsuario.Text;
+                    string pass = passUsuario.Password;
+                    //string rutUser = "18285166-3";
+                    //string pass = "FELIPE";
                     string sql = "SELECT RUT,CLAVE,NOMBRE_COMPLETO,CARGO FROM PERSONA WHERE RUT = '" + rutUser + "' AND CLAVE COLLATE latin1_bin = '" + pass + "' AND CARGO = 'ADMINISTRADOR'";
                     MySqlCommand cmd = new MySqlCommand(sql, con);
                     dr = cmd.ExecuteReader();
