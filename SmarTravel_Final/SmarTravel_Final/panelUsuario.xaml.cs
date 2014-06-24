@@ -518,7 +518,7 @@ namespace SmarTravel_Final
             string pdfFilename = rut.Text + "-" + verificador.Text + ".pdf";
             string path = System.IO.Directory.GetCurrentDirectory();
             path = path.Substring(0, path.Length - 9);
-            path = path + "Images/fotoPerfil/";
+            path = path + "Contratos/";
             string filePath = path + pdfFilename;
             pdf.Save(filePath);
 
