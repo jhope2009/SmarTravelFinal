@@ -790,6 +790,14 @@ namespace SmarTravel_Final
                     this.cDestinoEditar.Items.Add(ciudad.ciudad.nombre);
                 }
             }
+<<<<<<< HEAD
+=======
+            catch (Exception ex)
+            {
+                Console.WriteLine("cDestinoEditar_DropDownClosed: "+ex.Message);
+            }
+
+>>>>>>> origin/ventaPasajes
         }
 
         private void verValores_Click(object sender, RoutedEventArgs e)

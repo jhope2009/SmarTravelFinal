@@ -83,13 +83,16 @@
     <Compile Include="alerta.xaml.cs">
       <DependentUpon>alerta.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChoferDatosEspecificos.xaml.cs">
-      <DependentUpon>ChoferDatosEspecificos.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controller\CiudadFacade.cs" />
+    <Compile Include="Controller\Cliente.cs" />
+    <Compile Include="Controller\ClienteFacade.cs" />
     <Compile Include="Controller\Horario.cs" />
     <Compile Include="Controller\HorarioFacade.cs" />
     <Compile Include="Controller\ParadaFacade.cs" />
+    <Compile Include="Controller\Pasaje.cs" />
+    <Compile Include="Controller\PasajeFacade.cs" />
+    <Compile Include="Controller\Persona.cs" />
+    <Compile Include="Controller\PersonaFacade.cs" />
     <Compile Include="Controller\RecorridoFacade.cs" />
     <Compile Include="Controller\TrayectoFacade.cs" />
     <Compile Include="Controller\ViajeDiarioFacade.cs" />
@@ -109,9 +112,6 @@
     <Compile Include="Controller\ViajeDiario.cs" />
     <Compile Include="fichaBus.xaml.cs">
       <DependentUpon>fichaBus.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="fichaChofer.xaml.cs">
-      <DependentUpon>fichaChofer.xaml</DependentUpon>
     </Compile>
     <Compile Include="fichaPersonal.xaml.cs">
       <DependentUpon>fichaPersonal.xaml</DependentUpon>
@@ -142,6 +142,8 @@
     </Compile>
     <Compile Include="Pruebas.xaml.cs">
       <DependentUpon>Pruebas.xaml</DependentUpon>
+    <Compile Include="paradasViaje.xaml.cs">
+      <DependentUpon>paradasViaje.xaml</DependentUpon>
     </Compile>
     <Compile Include="tablaValores.xaml.cs">
       <DependentUpon>tablaValores.xaml</DependentUpon>
@@ -153,13 +155,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="ventaPasaje.xaml.cs">
+      <DependentUpon>ventaPasaje.xaml</DependentUpon>
+    </Compile>
     <Page Include="alerta.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ChoferDatosEspecificos.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="editarViajeDiario.xaml">
       <SubType>Designer</SubType>
@@ -176,10 +177,6 @@
     <Page Include="fichaBus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="fichaChofer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="fichaPersonal.xaml">
       <SubType>Designer</SubType>
@@ -231,6 +228,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pruebas.xaml">
+    <Page Include="paradasViaje.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -239,6 +237,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="validar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ventaPasaje.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
