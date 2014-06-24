@@ -202,9 +202,8 @@
                         <Button Content="INICIAR SESION" Height="23" HorizontalAlignment="Left" Margin="190,0,0,35" Name="button1" VerticalAlignment="Bottom"  Width="121" FontFamily="Century Gothic" Background="#FF341954" Foreground="#FFBBBABA" Click="button1_Click" Style="{StaticResource ButtonStyle}" />
                         <PasswordBox Height="23" Name="passUsuario" Margin="154,65,0,74" Background="#FF341954" Foreground="#FFBBBABA" FlowDirection="LeftToRight" Uid="passUsuario" Padding="10,1" Width="173" />
                     </Grid>
-                <Button Canvas.Left="6" Canvas.Top="464" Content="P" Height="19" Name="btnPruebas" Width="17" Style="{StaticResource ButtonStyle}" Opacity="0.1" />
             </Canvas>
-            <Canvas Canvas.Left="117" Canvas.Top="17" Height="465" Name="contenido" Width="869" Visibility="Visible"></Canvas>
+            <Canvas Canvas.Left="117" Canvas.Top="17" Height="465" Name="contenido" Width="869" Visibility="Hidden" />
         </Canvas>
     </Grid>
 </Window>

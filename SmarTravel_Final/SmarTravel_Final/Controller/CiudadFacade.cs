@@ -36,6 +36,9 @@ namespace SmarTravel_Final.Controller
             return ciudades;
         }
 
+
+
+
         public static Ciudad buscarPorId(int id)
         {
             Ciudad ciudad = null;
@@ -88,6 +91,36 @@ namespace SmarTravel_Final.Controller
                 catch (Exception ex)
                 {
                     Console.WriteLine(" Ciudad buscarPorNombre: "+ex.Message);
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+            return ciudad;
+        }
+
+        public static Ciudad buscarCiudadPorNombre(string nombre)
+        {
+            Ciudad ciudad = null;
+            if (nombre != "")
+            {
+                MySqlConnection con = conexionDB.ObtenerConexion();
+                try
+                {
+                    string sql = "SELECT ID, NOMBRE, REGION, NUMERO FROM CIUDAD WHERE NOMBRE ='"+nombre+"'";
+                    MySqlCommand cmd = new MySqlCommand(sql, con);
+                    MySqlDataReader dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        ciudad = new Ciudad(dr.GetInt32(0), dr.GetString(1), dr.GetString(2), dr.GetInt32(3));
+                    }
+                    dr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(" Ciudad buscarPorNombre: " + ex.Message);
                 }
                 finally
                 {

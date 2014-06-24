@@ -106,7 +106,74 @@ namespace SmarTravel_Final.Controller
             }
             return recorridos;
         }
-        
+
+        public static int totalRecorridos()
+        {
+            MySqlConnection con = conexionDB.ObtenerConexion();
+            string sql = "SELECT MAX(RECORRIDO) FROM PARADA";
+            MySqlCommand cmd = new MySqlCommand(sql, con);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            int numeroRecorridos = 0;
+            if (dr.HasRows == true)
+            {
+                while (dr.Read())
+                {
+                    numeroRecorridos = dr.GetInt32(0);
+                }
+
+                con.Close();
+
+                
+            }
+            return numeroRecorridos;
+        }
+
+        public static List<Recorrido> OrigenDestinoByRecorrido(Recorrido reco)
+        {
+            List<Recorrido> id = new List<Recorrido>();
+            MySqlConnection con = conexionDB.ObtenerConexion();
+            string sql = "SELECT ID,PARADA,ORIGEN,DESTINO_FINAL FROM RECORRIDO WHERE ID ="+reco.id;
+            MySqlCommand cmd = new MySqlCommand(sql, con);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            if (dr.HasRows == true)
+            {
+                while (dr.Read())
+                {
+                    Parada ciudad = ParadaFacade.buscarPorId(dr.GetInt32(1));
+                    Ciudad origen = CiudadFacade.buscarPorId(dr.GetInt32(2));
+                    Ciudad destino = CiudadFacade.buscarPorId(dr.GetInt32(3));
+                    id.Add(new Recorrido(dr.GetInt32(0), ciudad, origen, destino));
+                }
+            }
+            con.Close();
+            return id;
+        }
+        public static List<Recorrido> RecorridoByOrigenDestino(Ciudad origen, Ciudad Destino)
+        {
+            List<Recorrido> id = new List<Recorrido>();
+            MySqlConnection con = conexionDB.ObtenerConexion();
+            string sql = "SELECT ID,PARADA,ORIGEN,DESTINO_FINAL FROM RECORRIDO WHERE ORIGEN="+origen.id+" AND DESTINO_FINAL="+Destino.id;
+            MySqlCommand cmd = new MySqlCommand(sql, con);
+            MySqlDataReader dr = cmd.ExecuteReader();
+
+            if (dr.HasRows == true)
+            {
+                while (dr.Read())
+                {
+                    Parada ciudad = ParadaFacade.buscarPorId(dr.GetInt32(1));
+                    id.Add(new Recorrido(dr.GetInt32(0),ciudad,origen,Destino));
+                }
+
+                
+
+                
+            }
+            con.Close();
+            return id;
+        }
+
         public static void guardar(Recorrido recorrido)
         {
             try

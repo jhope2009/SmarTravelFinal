@@ -1,0 +1,26 @@
+﻿<Window x:Class="SmarTravel_Final.editarNewViajeDiario"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Editar un Viaje Diario" Height="557" Width="1065" Background="#FF341954" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize">
+    <Window.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="estilos.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+    <Grid Background="#FF482A7A">
+        <Grid Height="449" HorizontalAlignment="Left" Margin="12,41,0,0" Name="fechasViajes" VerticalAlignment="Top" Width="624" Background="#FFBBBABA" />
+        <Label Content="Chofer" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="655,85,0,0" Name="label20" VerticalAlignment="Top" Width="77" />
+        <ComboBox Height="24" HorizontalAlignment="Left" Margin="785,85,0,0" Name="comboChofer" VerticalAlignment="Top" Width="222" Style="{StaticResource Combo}" Loaded="comboChofer_Loaded" />
+        <Label Content="Auxiliar" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="655,115,0,0" Name="label1" VerticalAlignment="Top" Width="77" />
+        <ComboBox Height="24" HorizontalAlignment="Left" Margin="785,115,0,0" Name="comboAuxiliar"  VerticalAlignment="Top" Width="222" Style="{StaticResource Combo}" Loaded="comboAuxiliar_Loaded" />
+        <Label Content="Bus" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="655,153,0,0" Name="label2" VerticalAlignment="Top" Width="77" />
+        <ComboBox Height="24" HorizontalAlignment="Left" Margin="785,153,0,0" Name="comboBus"  VerticalAlignment="Top" Width="223" Style="{StaticResource Combo}" Loaded="comboBus_Loaded" />
+        <Label Content="Fecha" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="655,196,0,0" Name="label19" VerticalAlignment="Top" Width="147" />
+        <DatePicker Focusable="False" Height="25" HorizontalAlignment="Left" Margin="785,196,0,0" Name="fecha" Text="  " VerticalAlignment="Top" Width="222" IsEnabled="False" />
+        <Button Content="Actualizar" Height="23" HorizontalAlignment="Left" Margin="813,467,0,0" Name="editar" VerticalAlignment="Top" Width="153" Style="{StaticResource BotonGris}" Click="editar_Click" />
+    </Grid>
+</Window>

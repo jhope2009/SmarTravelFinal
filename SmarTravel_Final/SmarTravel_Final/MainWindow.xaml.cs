@@ -100,6 +100,8 @@ namespace SmarTravel_Final
 
             this.panelBuses.Visibility = Visibility.Hidden;
             panelPasaje.Visibility = Visibility.Hidden;
+
+            this.panelUsuario.accionesUsuario.SelectedIndex = 0;
             efectoPanel(panelUsuario);
         }
         private void bus_Click(object sender, RoutedEventArgs e)
@@ -122,7 +124,10 @@ namespace SmarTravel_Final
             this.panelUsuario.Visibility = Visibility.Hidden;
             this.panelRecorrido.Visibility = Visibility.Hidden;
             this.contenido.Visibility = Visibility.Visible;
+            this.panelPasaje.Visibility = Visibility.Hidden;
             efectoPanel(panelBuses);
+
+            this.panelBuses.tabControl1.SelectedIndex = 0;
             
         }
         private void cerrarSesion_Click(object sender, RoutedEventArgs e)
@@ -173,6 +178,7 @@ namespace SmarTravel_Final
             this.contenido.Visibility = Visibility.Visible;
             panelPasaje.Visibility = Visibility.Hidden;
 
+            panelRecorrido.tabControl1.SelectedIndex = 0;
             efectoPanel(panelRecorrido);
             //this.busquedaUsuario.Visibility = Visibility.Hidden;
             //this.accionesUsuario.Visibility = Visibility.Hidden;
@@ -194,6 +200,11 @@ namespace SmarTravel_Final
                 this.mapa.Background = colorFondo;
                 this.registo.Background = colorFondo;
             }
+            panelPasaje.Visibility = Visibility.Hidden;
+            panelUsuario.Visibility = Visibility.Hidden;
+            panelRecorrido.Visibility = Visibility.Hidden;
+            panelBuses.Visibility = Visibility.Hidden;
+            this.contenido.Visibility = Visibility.Hidden;
             panelPasaje.Visibility = Visibility.Hidden;
         }
         private void registo_Click(object sender, RoutedEventArgs e)
@@ -218,6 +229,8 @@ namespace SmarTravel_Final
             //panelPasaje.comboDestino.SelectedIndex = -1;
             this.contenido.Visibility = Visibility.Visible;
             panelPasaje.gridMuestraViajes.Visibility = Visibility.Hidden;
+
+            panelPasaje.tabControl1.SelectedIndex = 0;
             efectoPanel(panelPasaje);
         }
         private void usuarioActual_Click(object sender, RoutedEventArgs e)
@@ -256,10 +269,10 @@ namespace SmarTravel_Final
                 try
                 {
                     MySqlConnection con = conexionDB.ObtenerConexion();
-                    string rutUser = rutUsuario.Text;
-                    string pass = passUsuario.Password;
-                    //string rutUser = "18285166-3";
-                    //string pass = "FELIPE";
+                    //string rutUser = rutUsuario.Text;
+                    //string pass = passUsuario.Password;
+                    string rutUser = "18285166-3";
+                    string pass = "FELIPE";
                     string sql = "SELECT RUT,CLAVE,NOMBRE_COMPLETO,CARGO FROM PERSONA WHERE RUT = '" + rutUser + "' AND CLAVE COLLATE latin1_bin = '" + pass + "' AND CARGO = 'ADMINISTRADOR'";
                     MySqlCommand cmd = new MySqlCommand(sql, con);
                     dr = cmd.ExecuteReader();

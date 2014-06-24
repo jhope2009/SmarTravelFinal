@@ -16,7 +16,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Data;
 using System.Collections.ObjectModel;
-
+using SmarTravel_Final.Controller;
 namespace SmarTravel_Final
 {
     /// <summary>
@@ -27,7 +27,9 @@ namespace SmarTravel_Final
         int id_viaje = 0;
         List<string> paradas = new List<string>();
         List<string> listHorarios = new List<string>();
-        List<string> listHorariosUpdate = new List<string>();
+        List<string> listHorariosLlegadaUpdate = new List<string>();
+        List<string> listHorariosSalidaUpdate = new List<string>();
+        public static nuevoViaje nuevoViajeDiario = null;
         public editarViajeDiario()
         {
             InitializeComponent();
@@ -42,6 +44,21 @@ namespace SmarTravel_Final
         {
             MySqlConnection con = conexionDB.ObtenerConexion();
             string sql = "SELECT NOMBRE_COMPLETO FROM PERSONA WHERE RUT = '" + rut + "' AND CARGO = '" + cargo + "'";
+            string buscado = "";
+            MySqlCommand cmd = new MySqlCommand(sql, con);
+            MySqlDataReader dr = cmd.ExecuteReader();
+            while (dr.Read())
+            {
+                buscado = (dr.GetString(0));
+
+            }
+            con.Close();
+            return buscado;
+        }
+        private string obtenerRutPersonaByNombre(string nombre, string cargo)
+        {
+            MySqlConnection con = conexionDB.ObtenerConexion();
+            string sql = "SELECT RUT FROM PERSONA WHERE NOMBRE_COMPLETO = '" + nombre + "' AND CARGO = '" + cargo + "'";
             string buscado = "";
             MySqlCommand cmd = new MySqlCommand(sql, con);
             MySqlDataReader dr = cmd.ExecuteReader();
@@ -109,7 +126,8 @@ namespace SmarTravel_Final
 
 
                     MySqlConnection con = conexionDB.ObtenerConexion();
-                    string sql = "SELECT LLEGADA,SALIDA,NOMBRE FROM HORARIOS AS H INNER JOIN CIUDAD AS C ON H.PARADA = C.ID WHERE VIAJE = "+this.id_viaje;
+                    string sql = "SELECT LLEGADA,SALIDA,P.CIUDAD FROM HORARIOS AS H INNER JOIN PARADA AS P ON H.PARADA = P.ID WHERE VIAJE = " + this.id_viaje;
+                    
                     MySqlCommand cmd = new MySqlCommand(sql, con);
                     MySqlDataReader dr = cmd.ExecuteReader();
 
@@ -124,25 +142,29 @@ namespace SmarTravel_Final
                         {
                             listHorarios.Add(dr.GetString(1));
                         }
-                        
-                        
-                        paradas.Add(dr.GetString(2));
+
+                        Ciudad parada = CiudadFacade.buscarPorId(dr.GetInt32(2));
+                        paradas.Add(parada.nombre);
                        
 
                     }
                     con.Close();
 
-                   
 
+                    this.horarios.ColumnDefinitions[0].Width = new System.Windows.GridLength(120);
+                    this.horarios.ColumnDefinitions[1].Width = new System.Windows.GridLength(120);
+                    this.horarios.ColumnDefinitions[2].Width = new System.Windows.GridLength(220);
                     int largo = paradas.Count;
                     for (int z = 0; z < largo; z++)
                     {
 
                         //this.horarios.ColumnDefinitions.Add(new ColumnDefinition());
                         this.horarios.RowDefinitions.Add(new RowDefinition());
-                        //this.horarios.ColumnDefinitions[z].Width = new System.Windows.GridLength(100);
-                        //this.horarios.RowDefinitions[z].Height = new System.Windows.GridLength(50);
+                       
+                        this.horarios.RowDefinitions[z].Height = new System.Windows.GridLength(50);
                     }
+                    this.horarios.RowDefinitions[0].Height = new System.Windows.GridLength(30);
+                    this.horarios.RowDefinitions[horarios.RowDefinitions.Count-1].Height = new System.Windows.GridLength(50);
                     int contador = 0;
                     int registrohorario = 0;
                     for (int row = 1; row < this.horarios.RowDefinitions.Count; row++)
@@ -386,6 +408,7 @@ namespace SmarTravel_Final
             
                 // UPDATE
 
+                int contador = 0;
                 foreach (UIElement ui in this.horarios.Children){
                 int row = System.Windows.Controls.Grid.GetRow(ui);
                 int col = System.Windows.Controls.Grid.GetColumn(ui);
@@ -402,45 +425,58 @@ namespace SmarTravel_Final
                     if ( row > 0 && col < 2)
                         {
 
-                            listHorariosUpdate.Add(textoCelda);
-                            
+                            if (contador == 0)
+                            {
+                                listHorariosLlegadaUpdate.Add(textoCelda);
+                                contador = 1;
+                            }
+                            else {
+                                listHorariosSalidaUpdate.Add(textoCelda);
+                                contador = 0;
+                            }
                     }
                     
 
                 }
+                
             }
 
+                
                 MySqlConnection con;
-                MessageBox.Show("Largo PARADAS" + paradas.Count);
-                for (int i = 0; i <= (paradas.Count/2)+1; i = i + 2)
+                
+                for (int i = 0; i < (paradas.Count); i++)
                 {
                     con = conexionDB.ObtenerConexion();
-                    string updateString = "UPDATE HORARIOS SET llegada=?llegada WHERE viaje='" + this.id_viaje + "' AND PARADA='" + obtenerIdCiudad(this.paradas[i]) + "'";
-                    MessageBox.Show(updateString);
-                    MySqlCommand updateCommand = new MySqlCommand(updateString, con);
-                    updateCommand.Parameters.Add("?llegada", listHorariosUpdate[i]);
+                    Viaje ciudad = ViajeFacade.buscarPorId(this.id_viaje);
                     
+                    Parada paradaCiudad = ParadaFacade.buscarPorRecorridoCiudad(ciudad.recorrido, this.paradas[i]);
+
+                    string updateString = "UPDATE HORARIOS SET LLEGADA=?llegada, SALIDA=?salida WHERE VIAJE=?viaje AND PARADA=?parada";
+                    MySqlCommand updateCommand = new MySqlCommand(updateString, con);
+                    updateCommand.Parameters.Add("?llegada", listHorariosLlegadaUpdate[i]);
+                    updateCommand.Parameters.Add("?salida", listHorariosSalidaUpdate[i]);
+                    updateCommand.Parameters.Add("?viaje", this.id_viaje);
+                    updateCommand.Parameters.Add("?parada", paradaCiudad.id);
+
                     updateCommand.ExecuteNonQuery();
-                    MessageBox.Show("listHorariosUpdate :" + this.listHorariosUpdate[i]);
                     con.Close();
                 }
-            
-            
-            
-               
-               
-                
-                /*updateCommand.Parameters.Add("?nombre", nombre.Text);
-                updateCommand.Parameters.Add("?edad", edad.Text);
-                updateCommand.Parameters.Add("?direccion", direccion.Text);
-                updateCommand.Parameters.Add("?ciudad", numeroCiudad);
-                updateCommand.Parameters.Add("?fono", fono.Text);
-                updateCommand.Parameters.Add("?clave", clave.Text);
-                updateCommand.Parameters.Add("?sexo", sexo.Text);
-                updateCommand.Parameters.Add("?cargo", cargo.Text);*/
-                //updateCommand.ExecuteNonQuery();
-                //con.Close();
-                
+
+                MySqlConnection con2 = conexionDB.ObtenerConexion() ;
+                string updateDatosViajes = "UPDATE VIAJES_DIARIOS SET BUS=?bus, AUXILIAR=?auxiliar,CHOFER=?chofer WHERE VIAJE=?viaje";
+                MySqlCommand updateDatosCommand = new MySqlCommand(updateDatosViajes, con2);
+                updateDatosCommand.Parameters.Add("?bus", comboBus.Text);
+                updateDatosCommand.Parameters.Add("?auxiliar", obtenerRutPersonaByNombre(comboAuxiliar.Text, "AUXILIAR"));
+                updateDatosCommand.Parameters.Add("?chofer", obtenerRutPersonaByNombre(comboChofer.Text, "CHOFER"));
+                updateDatosCommand.Parameters.Add("?viaje", this.id_viaje);
+
+                updateDatosCommand.ExecuteNonQuery();
+                con2.Close();
+
+                nuevoViajeDiario = new nuevoViaje();
+                nuevoViajeDiario.Show();
+                nuevoViajeDiario.saludo.Text = "Gracias por actualizar nuestros registros";
+                nuevoViajeDiario.textBlock1.Text = "Se ha actualizado correctamente el viaje en el sistema";
             }
         }
         }

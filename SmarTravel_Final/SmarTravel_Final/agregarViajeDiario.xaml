@@ -1,0 +1,31 @@
+﻿<Window x:Class="SmarTravel_Final.agregarViajeDiario"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Agregar Viaje Diario" Height="558" Width="922" Background="#FF341954" WindowStartupLocation="CenterScreen" WindowStyle="SingleBorderWindow" ResizeMode="NoResize">
+    <Window.Resources>
+
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="estilos.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+    <Grid Background="#FF482A7A">
+        <Grid Height="443" HorizontalAlignment="Left" Margin="44,45,0,0" Name="horarios" VerticalAlignment="Top" Width="427" Background="#FFBBBABA" />
+        <Label Content="Chofer" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="535,85,0,0" Name="label20" VerticalAlignment="Top" Width="77" />
+        <ComboBox Height="24" HorizontalAlignment="Left" Margin="635,89,0,0" Name="comboChofer" VerticalAlignment="Top" Width="222" Style="{StaticResource Combo}" Loaded="comboChofer_Loaded" />
+        <Label Content="Auxiliar" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="535,129,0,0" Name="label1" VerticalAlignment="Top" Width="77" />
+        <ComboBox Height="24" HorizontalAlignment="Left" Margin="636,129,0,0" Name="comboAuxiliar"  VerticalAlignment="Top" Width="222"  Style="{StaticResource Combo}" Loaded="comboAuxiliar_Loaded" />
+        <Label Content="Bus" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="535,173,0,0" Name="label2" VerticalAlignment="Top" Width="77" />
+        <ComboBox Height="24" HorizontalAlignment="Left" Margin="636,173,0,0" Name="comboBus"  VerticalAlignment="Top" Width="223" Style="{StaticResource Combo}" Loaded="comboBus_Loaded" />
+        <Label Content="Temporalidad" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="624,239,0,0" Name="label19" VerticalAlignment="Top" Width="139" />
+        <Label Content="Desde" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="569,280,0,0" Name="label21" VerticalAlignment="Top" />
+        <Label Content="Hasta" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="732,280,0,0" Name="label22" VerticalAlignment="Top" />
+        <DatePicker Focusable="False" Height="25" HorizontalAlignment="Left" Margin="519,314,0,0" Name="fechaDesde" Text="Seleccione" VerticalAlignment="Top" Width="150" />
+        <DatePicker Focusable="False" Height="25" HorizontalAlignment="Left" Margin="705,314,0,0" Name="fechaHasta" Text="Seleccione" VerticalAlignment="Top" Width="153" />
+        <Button Content="Crear" Height="23" HorizontalAlignment="Left" Margin="705,465,0,0" Name="crear" VerticalAlignment="Top" Width="153" Style="{StaticResource BotonGris}" Click="crear_Click" />
+        <Label Content="Identificador" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="535,51,0,0" Name="label3" VerticalAlignment="Top" Width="77" />
+        <TextBox Height="23" HorizontalAlignment="Left" Margin="635,51,0,0" Name="identificador" VerticalAlignment="Top" Width="223" Style="{StaticResource TextBoxGris}" />
+    </Grid>
+</Window>

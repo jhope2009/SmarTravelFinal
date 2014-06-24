@@ -70,5 +70,69 @@ namespace SmarTravel_Final.Controller
             }
             return viajeDiarios;
         }
+
+        public static List<ViajeDiario> buscarViajeFecha(int idViaje)
+        {
+            List<ViajeDiario> viajeDiarios = new List<ViajeDiario>();
+
+            if (idViaje > -1)
+            {
+                MySqlConnection con = conexionDB.ObtenerConexion();
+                try
+                {
+                    string sql = "select ID, TRAYECTO, FECHA, BUS, CHOFER, AUXILIAR, ASIENTOS_DISPONIBLES, RUTA_ARCHIVO FROM VIAJES_DIARIOS WHERE VIAJE = " + idViaje+" GROUP BY fecha";
+                    MySqlCommand cmd = new MySqlCommand(sql, con);
+                    MySqlDataReader dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        viajeDiarios.Add(new ViajeDiario(dr.GetInt32(0), TrayectoFacade.buscarPorId(dr.GetInt32(1)), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetInt32(6)));
+                    }
+                    dr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+            return viajeDiarios;
+        }
+
+        public static ViajeDiario buscarViajeUnico(int idViaje,string fecha)
+        {
+            ViajeDiario viaje = null ; 
+
+            if (idViaje > -1)
+            {
+                MySqlConnection con = conexionDB.ObtenerConexion();
+                try
+                {
+                    string sql = "select ID, TRAYECTO, FECHA, BUS, CHOFER, AUXILIAR, ASIENTOS_DISPONIBLES, RUTA_ARCHIVO FROM VIAJES_DIARIOS WHERE VIAJE = " + idViaje + " AND FECHA ='" + fecha + "' limit 1";
+                    MySqlCommand cmd = new MySqlCommand(sql, con);
+                    MySqlDataReader dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        viaje = new ViajeDiario(dr.GetInt32(0), TrayectoFacade.buscarPorId(dr.GetInt32(1)), dr.GetString(2), dr.GetString(3), dr.GetString(4), dr.GetString(5), dr.GetInt32(6));
+                    }
+                    dr.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+            return viaje;
+        }
     }
+
+
 }
