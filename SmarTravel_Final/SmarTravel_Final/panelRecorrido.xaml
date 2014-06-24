@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
              mc:Ignorable="d" 
              d:DesignWidth="904" d:DesignHeight="460" Background="#BBBABA" FontFamily="Century Gothic" DataContext="{Binding}" Loaded="UserControl_Loaded" >
     <UserControl.Resources>
@@ -113,7 +114,7 @@
                     <ComboBox Height="23" HorizontalAlignment="Left" Margin="171,193,0,0" Name="comboRegion" Style="{StaticResource Combo}" VerticalAlignment="Top" Width="214" />
                     <Button Background="#FF341954" Click="crearCiudad_Click" Content="CREAR" Height="26" HorizontalAlignment="Left" Margin="289,280,0,0" Name="crearCiudad" Style="{DynamicResource BotonGris}" VerticalAlignment="Top" Width="96" />
                     <Label Content="A G R E G A R     C I U D A D" Foreground="#FFBBBABA" Height="28" HorizontalAlignment="Left" Margin="171,37,0,0" Name="agregarCiudades" VerticalAlignment="Top" />
-                    <Image Height="373" HorizontalAlignment="Left" Margin="532,23,0,0" Name="image1" Stretch="Fill" VerticalAlignment="Top" Width="281" Source="/SmarTravel_Final;component/Images/chilito.png" />
+                    <m:Map x:Name="myMap" CredentialsProvider="Ak1S2SJShGvomS8TqNQRFUIBPu0mEFh4v_UzPn5zTCAG-DNs05c73ZLBAhaad-5q" Margin="459,27,45,47" Mode="AerialWithLabels" Center="-35.806029,-71.407007" ZoomLevel="3"/>
                 </Grid>
             </TabItem>
         </TabControl>
