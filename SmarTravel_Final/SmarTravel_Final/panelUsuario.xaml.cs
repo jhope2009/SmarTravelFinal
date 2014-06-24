@@ -782,6 +782,7 @@ namespace SmarTravel_Final
         public static Boolean validar1(params string[] values)
         {
             validar mensajeValidacion = new validar();
+            mensajeValidacion.Topmost = true;
             for (int i = 0; i < values.Length; i += 2)
             {
                 if (values[i] == "")

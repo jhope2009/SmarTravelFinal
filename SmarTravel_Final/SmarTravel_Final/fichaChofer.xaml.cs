@@ -123,7 +123,9 @@ namespace SmarTravel_Final
 
         private void btnVerContrato_Click(object sender, RoutedEventArgs e)
         {
-            string path = @"C:\Contratos\";
+            string path = System.IO.Directory.GetCurrentDirectory();
+            path = path.Substring(0, path.Length - 9);
+            path = path + "Contratos/";
             Process.Start(path + txtrutchofer.Text+".pdf");
         }
 

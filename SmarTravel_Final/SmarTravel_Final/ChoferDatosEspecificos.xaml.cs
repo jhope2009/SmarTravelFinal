@@ -46,12 +46,12 @@ namespace SmarTravel_Final
                 try
                 {
                     MySqlConnection con = conexionDB.ObtenerConexion();
-                    String rutchofer = txtBRutChofer.Text+"-"+txtBdigVerificadorChofer.Text;
-                    
+                    String rutchofer = txtBRutChofer.Text+"-"+txtBdigVerificadorChofer.Text;               
 
                     string @path = System.IO.Directory.GetCurrentDirectory();
+
                     path = path.Substring(0, path.Length - 9);
-                    path = path + "Images/fotoPerfil/";
+                    path = path + "Images/fotoLicencia/";
                     string filePath = path + System.IO.Path.GetFileName(rutaimglicencia);
 
                     System.IO.File.Copy(rutaimglicencia, filePath, true);
@@ -69,6 +69,7 @@ namespace SmarTravel_Final
                     insertCommand.ExecuteNonQuery();
                     con.Close();
                     nuevoUsuario mensajeNuevo = new nuevoUsuario();
+                    mensajeNuevo.Topmost = true;
                     mensajeNuevo.show(txtBNombre.Text);
                 }
                 catch (Exception ex) 
