@@ -39,6 +39,10 @@ namespace SmarTravel_Final
         //Di<string> ciudadDestino = new List<string>();
 
         List<string> intermedios = new List<string>();
+
+        List<Recorrido> listadoId = new List<Recorrido>();
+        public static agregarViajeDiario addViaje = null;
+
         public panelRecorrido()
         {
             InitializeComponent();
@@ -255,213 +259,191 @@ namespace SmarTravel_Final
         private Boolean validarIngresoViajeDiario()
         {
             validar mensajeValidacion = new validar();
-            if (comboDestino.SelectedIndex == -1)
-            {
-                mensajeValidacion.show("Seleccione el destino del viaje.");
-                return false;
-            }
-            else if (identificador.Text == "")
+            if (comboOrigen.SelectedIndex == -1)
             {
 
-                mensajeValidacion.show("Ingrese el identificador del viaje.");
+                mensajeValidacion.show("Seleccione el origen del destino");
+                return false;
+            }
+            else if (comboDestino.SelectedIndex == -1)
+            {
+                mensajeValidacion.show("Seleccione el destino del viaje.");
                 return false;
             }
             return true;
 
 
         }
+        private Boolean validarEditViajeDiario()
+        {
+            validar mensajeValidacion = new validar();
+            if (cOrigenEditar.SelectedIndex == -1)
+            {
+
+                mensajeValidacion.show("Seleccione el origen del destino");
+                return false;
+            }
+            else if (cDestinoEditar.SelectedIndex == -1)
+            {
+                mensajeValidacion.show("Seleccione el destino del viaje.");
+                return false;
+            }
+            return true;
+
+
+        }
+        private void cabecerasAgregarViajes() {
+            gridAgregarViajes.Children.Clear();
+            gridAgregarViajes.ColumnDefinitions.Clear();
+            gridAgregarViajes.RowDefinitions.Clear();
+
+            this.gridAgregarViajes.RowDefinitions.Add(new RowDefinition());
+            // Intermedios
+            this.gridAgregarViajes.ColumnDefinitions.Add(new ColumnDefinition());
+            // BOTON
+            this.gridAgregarViajes.ColumnDefinitions.Add(new ColumnDefinition());
+            
+            Label intermediosHeader = new Label();
+            intermediosHeader.Content = "INTERMEDIOS";
+            intermediosHeader.Style = Resources["HeaderTabla"] as Style;
+
+            intermediosHeader.SetValue(Grid.ColumnProperty, 0);
+            intermediosHeader.SetValue(Grid.RowProperty, 0);
+            this.gridAgregarViajes.Children.Add(intermediosHeader);
+
+            Label buttonHeader = new Label();
+            buttonHeader.Content = " ";
+            buttonHeader.Style = Resources["HeaderTabla"] as Style;
+            buttonHeader.Width = 100;
+            buttonHeader.SetValue(Grid.ColumnProperty, 1);
+            buttonHeader.SetValue(Grid.RowProperty, 0);
+            this.gridAgregarViajes.Children.Add(buttonHeader);
+
+        
+        }
         private void button1_Click(object sender, RoutedEventArgs e)
         {
-            horarios.Children.Clear();
-            horarios.ColumnDefinitions.Clear();
-            horarios.RowDefinitions.Clear();
-            paradas.Clear();
-            TextBox tHorarios;
-
             if (validarIngresoViajeDiario())
             {
-                this.datosViaje.Visibility = Visibility.Visible;
+                //listadoId.Clear();
+                cabecerasAgregarViajes();
+                this.gridAgregarViajes.Visibility = Visibility.Visible;
+                Ciudad origen = CiudadFacade.buscarPorNombre(this.comboOrigen.SelectedItem.ToString());
+                Ciudad destino = CiudadFacade.buscarPorNombre(this.comboDestino.SelectedItem.ToString());
 
-                try
+                listadoId = RecorridoFacade.RecorridoByOrigenDestino(origen, destino);
+                List<string> nombreIntermedios = new List<string>();
+
+                for (int z = 0; z < listadoId.Count; z++)
                 {
-                    // ENCABEZADO 3 COLUMNAS EN LA PRIMERA FILA
+                    nombreIntermedios.Add(ParadaFacade.nombresIntermediosByRecorridos(listadoId[z].id));
 
-                    this.horarios.ColumnDefinitions.Add(new ColumnDefinition());
-                    this.horarios.ColumnDefinitions.Add(new ColumnDefinition());
-                    this.horarios.ColumnDefinitions.Add(new ColumnDefinition());
-                    this.horarios.RowDefinitions.Add(new RowDefinition());
+                }
 
+                int largo = listadoId.Count - 1;
+                this.gridAgregarViajes.ColumnDefinitions[0].Width = new System.Windows.GridLength(500);
+                this.gridAgregarViajes.ColumnDefinitions[1].Width = new System.Windows.GridLength(80);
+                for (int z = 0; z <= largo; z++)
+                {
+                    this.gridAgregarViajes.RowDefinitions.Add(new RowDefinition());
+                    this.gridAgregarViajes.RowDefinitions[z].Height = new System.Windows.GridLength(40);
 
-                    Label llegadaHeader = new Label();
-                    llegadaHeader.Content = "LLEGADA";
-                    llegadaHeader.Style = Resources["HeaderTabla"] as Style;
-
-                    llegadaHeader.SetValue(Grid.ColumnProperty, 0);
-                    llegadaHeader.SetValue(Grid.RowProperty, 0);
-                    this.horarios.Children.Add(llegadaHeader);
-
-                    Label salidadHeader = new Label();
-                    salidadHeader.Content = "SALIDA";
-                    salidadHeader.Style = Resources["HeaderTabla"] as Style;
-
-                    salidadHeader.SetValue(Grid.ColumnProperty, 1);
-                    salidadHeader.SetValue(Grid.RowProperty, 0);
-                    this.horarios.Children.Add(salidadHeader);
-
-                    Label intermediosHeader = new Label();
-                    intermediosHeader.Content = "INTERMEDIOS";
-                    intermediosHeader.Style = Resources["HeaderTabla"] as Style;
-                    intermediosHeader.Width = 200;
-                    intermediosHeader.SetValue(Grid.ColumnProperty, 2);
-                    intermediosHeader.SetValue(Grid.RowProperty, 0);
-                    this.horarios.Children.Add(intermediosHeader);
-
-
-                    MySqlConnection con = conexionDB.ObtenerConexion();
-                    string sql = "SELECT CIUDAD FROM PARADA WHERE RECORRIDO = '" + lbl_id_recorrido.Text + "'";
-                    MySqlCommand cmd = new MySqlCommand(sql, con);
-                    MySqlDataReader dr = cmd.ExecuteReader();
-
-                    while (dr.Read())
+                }
+                this.gridAgregarViajes.RowDefinitions[gridAgregarViajes.RowDefinitions.Count-1].Height = new System.Windows.GridLength(40);
+                int contador = 0;
+                TextBox texto;
+                for (int row = 1; row < this.gridAgregarViajes.RowDefinitions.Count; row++)
+                {
+                    for (int col = 0; col < this.gridAgregarViajes.ColumnDefinitions.Count; col++)
                     {
-
-                        paradas.Add(dr.GetString(0));
-
-
-                    }
-                    con.Close();
-
-                    int largo = paradas.Count;
-                    //MessageBox.Show("Largo parada"+largo);
-                    for (int z = 0; z < largo; z++)
-                    {
-
-                        //this.horarios.ColumnDefinitions.Add(new ColumnDefinition());
-                        this.horarios.RowDefinitions.Add(new RowDefinition());
-                        //this.horarios.ColumnDefinitions[z].Width = new System.Windows.GridLength(100);
-                        //this.horarios.RowDefinitions[z].Height = new System.Windows.GridLength(50);
-                    }
-                    int contador = 0;
-                    for (int row = 1; row < this.horarios.RowDefinitions.Count; row++)
-                    {
-                        for (int col = 0; col < this.horarios.ColumnDefinitions.Count; col++)
+                        if (col == 0)
                         {
-                            if ((col == 0 && row == 1) || (col == 1 && row == horarios.RowDefinitions.Count - 1))
-                            {
-                                tHorarios = new TextBox();
-                                tHorarios.Style = Resources["ItemTablaGuion"] as Style;
-                                tHorarios.Text = "-";
-                                tHorarios.SetValue(Grid.ColumnProperty, col);
-                                tHorarios.SetValue(Grid.RowProperty, row);
-                                this.horarios.Children.Add(tHorarios);
-                            }
-                            else if (col == 2 && row != 0)
-                            {
-                                if (contador < paradas.Count)
-                                {
-                                    string ciudadBuscada = "";
-                                    con.Open();
-                                    sql = "SELECT NOMBRE FROM CIUDAD WHERE ID = '" + paradas[contador] + "'";
-                                    cmd = new MySqlCommand(sql, con);
-                                    dr = cmd.ExecuteReader();
 
-                                    while (dr.Read())
-                                    {
-                                        ciudadBuscada = dr.GetString(0);
-                                    }
-                                    tHorarios = new TextBox();
-                                    tHorarios.Style = Resources["ItemTablaGuion"] as Style;
-                                    tHorarios.Text = ciudadBuscada;
-                                    tHorarios.SetValue(Grid.ColumnProperty, col);
-                                    tHorarios.SetValue(Grid.RowProperty, row);
-                                    this.horarios.Children.Add(tHorarios);
+                            texto = new TextBox();
+                            texto.Style = Resources["ItemTablaGuion"] as Style;
 
-                                    con.Close();
-                                }
-                            }
-                            else
-                            {
-                                tHorarios = new TextBox();
-                                tHorarios.Style = Resources["ItemTablaGuion"] as Style;
-                                tHorarios.Text = "00:00";
-                                tHorarios.MaxLength = 5;
-                                tHorarios.IsReadOnly = false;
-                                tHorarios.SetValue(Grid.ColumnProperty, col);
-                                tHorarios.SetValue(Grid.RowProperty, row);
-                                this.horarios.Children.Add(tHorarios);
-                            }
+                            texto.Text = nombreIntermedios[contador];
+                            texto.SetValue(Grid.ColumnProperty, col);
+                            texto.SetValue(Grid.RowProperty, row);
+                            texto.IsReadOnly = true;
+                            this.gridAgregarViajes.Children.Add(texto);
                         }
-                        contador++;
+
+                        if (col == 1)
+                        {
+                            BitmapImage btm = new BitmapImage(new Uri("/SmarTravel_Final;component/Images/crear.png", UriKind.Relative));
+                            Image img = new Image();
+                            img.Source = btm;
+                            img.Stretch = Stretch.Fill;
+                            img.Width = 50;
+                            img.Height = 30;
+                            Button bIngreso = new Button();
+                            bIngreso.Click += new RoutedEventHandler(bIngreso_Click);
+                            bIngreso.Content = img;
+                            bIngreso.Tag = Convert.ToString(contador);
+                            bIngreso.SetValue(Grid.ColumnProperty, col);
+                            bIngreso.SetValue(Grid.RowProperty, row);
+                             this.gridAgregarViajes.Children.Add(bIngreso);
+
+                        }
                     }
+                    contador++;
                 }
 
-                catch (Exception ex)
-                {
-                    validar validarError = new validar();
-                    validarError.show(ex.Message);
-                }
             }
         }
 
-        private void comboBox5_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.comboBus.Items.Clear();
-            MySqlConnection con = conexionDB.ObtenerConexion();
-            string sql = "SELECT PATENTE FROM BUS ORDER BY PATENTE ASC";
-            MySqlCommand cmd = new MySqlCommand(sql, con);
-
-            MySqlDataReader dr = cmd.ExecuteReader();
-
-            while (dr.Read())
-            {
-                this.comboBus.Items.Add(dr.GetString(0));
-            }
-        }
-
-
-
-        private void comboAuxiliar_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.comboAuxiliar.Items.Clear();
-            MySqlConnection con = conexionDB.ObtenerConexion();
-            string sql = "SELECT NOMBRE_COMPLETO FROM PERSONA WHERE CARGO ='AUXILIAR' ORDER BY NOMBRE_COMPLETO ASC";
-            MySqlCommand cmd = new MySqlCommand(sql, con);
-
-            MySqlDataReader dr = cmd.ExecuteReader();
-
-            while (dr.Read())
-            {
-                this.comboAuxiliar.Items.Add(dr.GetString(0));
-            }
-        }
-
-        private void comboChofer_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.comboChofer.Items.Clear();
-            MySqlConnection con = conexionDB.ObtenerConexion();
-            string sql = "SELECT NOMBRE_COMPLETO FROM PERSONA WHERE CARGO ='CHOFER' ORDER BY NOMBRE_COMPLETO ASC";
-            MySqlCommand cmd = new MySqlCommand(sql, con);
-
-            MySqlDataReader dr = cmd.ExecuteReader();
-
-            while (dr.Read())
-            {
-                this.comboChofer.Items.Add(dr.GetString(0));
-
-            }
-        }
-
-
+       
         private void tabViajesDiarios_Selected(object sender, RoutedEventArgs e)
         {
-            this.datosViaje.Visibility = Visibility.Hidden;
+            this.gridAgregarViajes.Visibility = Visibility.Hidden;
+            this.comboOrigen.Items.Clear();
             this.comboDestino.Items.Clear();
-            this.identificador.Text = "";
+
+
+            List<Parada> AllCiudadesGenerales = ParadaFacade.buscarOrigenesGenerales();
+            foreach (Parada ciudadOrigen in AllCiudadesGenerales)
+            {
+                Boolean validarCiudades = true;;
+
+                for (int i = 0; i < this.comboOrigen.Items.Count; i++)
+                {
+                    if (ciudadOrigen.ciudad.nombre.Equals(this.comboOrigen.Items.GetItemAt(i))) {
+
+                        validarCiudades = false;
+                    }
+                }
+                if (validarCiudades)
+                {
+                    this.comboOrigen.Items.Add(ciudadOrigen.ciudad.nombre);
+                }
+            }
+
         }
         private void tabEditarViajes_Selected(object sender, RoutedEventArgs e)
         {
             this.listadoRecorridos.Visibility = Visibility.Hidden;
+            this.cOrigenEditar.Items.Clear();
             this.cDestinoEditar.Items.Clear();
+
+            List<Parada> AllCiudadesGenerales = ParadaFacade.buscarOrigenesGenerales();
+            foreach (Parada ciudadOrigen in AllCiudadesGenerales)
+            {
+                Boolean validarCiudades = true; ;
+
+                for (int i = 0; i < this.cOrigenEditar.Items.Count; i++)
+                {
+                    if (ciudadOrigen.ciudad.nombre.Equals(this.cOrigenEditar.Items.GetItemAt(i)))
+                    {
+
+                        validarCiudades = false;
+                    }
+                }
+                if (validarCiudades)
+                {
+                    this.cOrigenEditar.Items.Add(ciudadOrigen.ciudad.nombre);
+                }
+            }
         }
         private void tabRecorridos_Selected(object sender, RoutedEventArgs e)
         {
@@ -484,172 +466,182 @@ namespace SmarTravel_Final
 
         private void button5_Click(object sender, RoutedEventArgs e)
         {
-
-            listadoRecorridos.RowDefinitions.Clear();
-            listadoRecorridos.ColumnDefinitions.Clear();
-            List<string> listIdentificador = new List<string>();
-            List<string> listRecorrido = new List<string>();
-            List<string> listViajes = new List<string>();
-
-            List<string> listHorarioSalida = new List<string>();
-            List<string> listHorarioLlegada = new List<string>();
-
-            this.listadoRecorridos.Visibility = Visibility.Visible;
-
-
-            try
+            if (validarEditViajeDiario())
             {
-                MySqlConnection con = conexionDB.ObtenerConexion();
-                int nombreOrigen = obtenerIdCiudad(this.cOrigenEditar.Text);
-                int nombreDestino = obtenerIdCiudad(this.cDestinoEditar.Text);
-                string sql = "SELECT V.ID,V.IDENTIFICADOR, T.RECORRIDO FROM TRAYECTO AS T INNER JOIN VIAJES AS V ON T.RECORRIDO = V.RECORRIDO WHERE ORIGEN = " + nombreOrigen + " AND DESTINO = " + nombreDestino;
-                MySqlCommand cmd = new MySqlCommand(sql, con);
 
-                MySqlDataReader dr = cmd.ExecuteReader();
+                listadoRecorridos.RowDefinitions.Clear();
+                listadoRecorridos.ColumnDefinitions.Clear();
+                this.listadoRecorridos.Visibility = Visibility.Visible;
+                
+                List<string> listHorarioSalida = new List<string>();
+                List<string> listHorarioLlegada = new List<string>();
 
-                while (dr.Read())
+                Ciudad origen = CiudadFacade.buscarPorNombre(this.cOrigenEditar.Text);
+                Ciudad destino = CiudadFacade.buscarPorNombre(this.cDestinoEditar.Text);
+                List<Viaje> allViajesByOrigenDestino = ViajeFacade.buscarViajePorOrigenAndDestino(origen, destino);
+                try
                 {
-                    listViajes.Add(dr.GetString(0));
-                    listIdentificador.Add(dr.GetString(1));
-                    listRecorrido.Add(dr.GetString(2));
 
-                }
-                con.Close();
-
-                // Obtener HORARIO DE SALIDA Y LLEGADA
-                for (int i = 0; i < listViajes.Count; i++)
-                {
-                    con.Open();
-                    sql = "SELECT SALIDA FROM HORARIOS WHERE LLEGADA = '-' AND VIAJE =" + listViajes[i];
-                    cmd = new MySqlCommand(sql, con);
-
-                    dr = cmd.ExecuteReader();
-
-                    while (dr.Read())
-                    {
-                        listHorarioSalida.Add(dr.GetString(0));
-
-                    }
-                    con.Close();
-
-                    con.Open();
-                    string sqlHoraLlegada = "SELECT LLEGADA FROM HORARIOS WHERE SALIDA = '-' AND VIAJE =" + listViajes[i];
-
-                    MySqlCommand cmd2 = new MySqlCommand(sqlHoraLlegada, con);
-
-                    MySqlDataReader dr2 = cmd2.ExecuteReader();
-
-                    while (dr2.Read())
+                    if (allViajesByOrigenDestino.Count > -1)
                     {
 
-                        listHorarioLlegada.Add(dr2.GetString(0));
+                        // Obtener HORARIO DE SALIDA Y LLEGADA
+                        for (int i = 0; i < allViajesByOrigenDestino.Count; i++)
+                        {
+
+                            MySqlConnection con = conexionDB.ObtenerConexion();
+                            string sql = "SELECT SALIDA FROM HORARIOS WHERE LLEGADA = '-' AND VIAJE =" + allViajesByOrigenDestino[i].id;
+                            MySqlCommand cmd = new MySqlCommand(sql, con);
+
+                            MySqlDataReader dr = cmd.ExecuteReader();
+
+                            while (dr.Read())
+                            {
+                                listHorarioSalida.Add(dr.GetString(0));
+
+                            }
+                            con.Close();
+
+                            con.Open();
+                            string sqlHoraLlegada = "SELECT LLEGADA FROM HORARIOS WHERE SALIDA = '-' AND VIAJE =" + allViajesByOrigenDestino[i].id;
+
+                            MySqlCommand cmd2 = new MySqlCommand(sqlHoraLlegada, con);
+
+                            MySqlDataReader dr2 = cmd2.ExecuteReader();
+
+                            while (dr2.Read())
+                            {
+
+                                listHorarioLlegada.Add(dr2.GetString(0));
 
 
+                            }
+                            con.Close();
+
+                        }
+
+
+                        darFormatoListadoRecorridos();
+
+                        // CREAR FILAS SEGUN RESULTADO
+                        int largo = allViajesByOrigenDestino.Count;
+                        this.listadoRecorridos.ColumnDefinitions[0].Width = new System.Windows.GridLength(180);
+                        this.listadoRecorridos.ColumnDefinitions[1].Width = new System.Windows.GridLength(185);
+                        this.listadoRecorridos.ColumnDefinitions[2].Width = new System.Windows.GridLength(120);
+                        this.listadoRecorridos.ColumnDefinitions[3].Width = new System.Windows.GridLength(60);
+
+                        for (int z = 0; z < largo; z++)
+                        {
+
+                            this.listadoRecorridos.RowDefinitions.Add(new RowDefinition());
+                            this.listadoRecorridos.RowDefinitions[z].Height = new System.Windows.GridLength(40);
+
+                        }
+                        this.listadoRecorridos.RowDefinitions[0].Height = new System.Windows.GridLength(30);
+                        this.listadoRecorridos.RowDefinitions[listadoRecorridos.RowDefinitions.Count - 1].Height = new System.Windows.GridLength(40);
+
+
+                        int contador = 0;
+                        TextBox tHorarios;
+                        for (int row = 1; row < this.listadoRecorridos.RowDefinitions.Count; row++)
+                        {
+                            for (int col = 0; col < this.listadoRecorridos.ColumnDefinitions.Count; col++)
+                            {
+
+                                if (col == 0)
+                                {
+                                    tHorarios = new TextBox();
+                                    tHorarios.Style = Resources["ItemTablaGuion"] as Style;
+                                    tHorarios.Text = origen.nombre + "- " + destino.nombre;
+                                    tHorarios.SetValue(Grid.ColumnProperty, col);
+                                    tHorarios.SetValue(Grid.RowProperty, row);
+                                    tHorarios.IsReadOnly = true;
+                                    this.listadoRecorridos.Children.Add(tHorarios);
+
+                                }
+                                if (col == 1)
+                                {
+                                    tHorarios = new TextBox();
+                                    tHorarios.Style = Resources["ItemTablaGuion"] as Style;
+                                    tHorarios.Text = allViajesByOrigenDestino[contador].identificador;
+                                    tHorarios.SetValue(Grid.ColumnProperty, col);
+                                    tHorarios.SetValue(Grid.RowProperty, row);
+                                    tHorarios.IsReadOnly = true;
+                                    this.listadoRecorridos.Children.Add(tHorarios);
+
+                                }
+                                if (col == 2)
+                                {
+                                    tHorarios = new TextBox();
+                                    tHorarios.Style = Resources["ItemTablaGuion"] as Style;
+
+                                    tHorarios.Text = listHorarioSalida[contador] + " - " + listHorarioLlegada[contador];
+                                    tHorarios.SetValue(Grid.ColumnProperty, col);
+                                    tHorarios.SetValue(Grid.RowProperty, row);
+                                    tHorarios.IsReadOnly = true;
+                                    this.listadoRecorridos.Children.Add(tHorarios);
+
+                                }
+                                if (col == 3)
+                                {
+                                    BitmapImage btm = new BitmapImage(new Uri("/SmarTravel_Final;component/Images/busquedaIcon.png", UriKind.Relative));
+                                    Image img = new Image();
+                                    img.Source = btm;
+                                    img.Stretch = Stretch.Fill;
+                                    img.Width = 30;
+                                    img.Height = 30;
+                                    Button b = new Button();
+                                    b.Click += new RoutedEventHandler(b_Click);
+
+                                    //b.Content = "VER"
+                                    b.Content = img;
+
+                                    b.Tag = Convert.ToString(allViajesByOrigenDestino[contador].id);
+                                    b.SetValue(Grid.ColumnProperty, col);
+                                    b.SetValue(Grid.RowProperty, row);
+
+
+                                    this.listadoRecorridos.Children.Add(b);
+
+                                }
+                            } // Fin columnas
+                            contador++;
+
+                        }// FIn tabla
                     }
-                    con.Close();
 
-                }
-
-                darFormatoListadoRecorridos();
-
-                // CREAR FILAS SEGUN RESULTADO
-                int largo = listViajes.Count;
-                for (int z = 0; z < largo; z++)
-                {
-
-
-                    this.listadoRecorridos.RowDefinitions.Add(new RowDefinition());
-
-                }
-
-
-                int contador = 0;
-                TextBox tHorarios;
-                for (int row = 1; row < this.listadoRecorridos.RowDefinitions.Count; row++)
-                {
-                    for (int col = 0; col < this.listadoRecorridos.ColumnDefinitions.Count; col++)
+                    else
                     {
-
-                        if (col == 0)
-                        {
-                            tHorarios = new TextBox();
-                            tHorarios.Style = Resources["ItemTablaGuion"] as Style;
-                            tHorarios.Text = obtenerNombreCiudad(nombreOrigen);
-                            tHorarios.SetValue(Grid.ColumnProperty, col);
-                            tHorarios.SetValue(Grid.RowProperty, row);
-                            tHorarios.IsReadOnly = true;
-                            this.listadoRecorridos.Children.Add(tHorarios);
-
-                        }
-                        if (col == 1)
-                        {
-                            tHorarios = new TextBox();
-                            tHorarios.Style = Resources["ItemTablaGuion"] as Style;
-                            tHorarios.Text = obtenerNombreCiudad(nombreDestino);
-                            tHorarios.SetValue(Grid.ColumnProperty, col);
-                            tHorarios.SetValue(Grid.RowProperty, row);
-                            tHorarios.IsReadOnly = true;
-                            this.listadoRecorridos.Children.Add(tHorarios);
-
-                        }
-                        if (col == 2)
-                        {
-                            tHorarios = new TextBox();
-                            tHorarios.Style = Resources["ItemTablaGuion"] as Style;
-                            tHorarios.Text = listIdentificador[contador];
-                            tHorarios.SetValue(Grid.ColumnProperty, col);
-                            tHorarios.SetValue(Grid.RowProperty, row);
-                            tHorarios.IsReadOnly = true;
-                            this.listadoRecorridos.Children.Add(tHorarios);
-
-                        }
-                        if (col == 3)
-                        {
-                            tHorarios = new TextBox();
-                            tHorarios.Style = Resources["ItemTablaGuion"] as Style;
-                            tHorarios.Text = listHorarioSalida[contador] + " - " + listHorarioLlegada[contador];
-                            tHorarios.SetValue(Grid.ColumnProperty, col);
-                            tHorarios.SetValue(Grid.RowProperty, row);
-                            tHorarios.IsReadOnly = true;
-                            this.listadoRecorridos.Children.Add(tHorarios);
-
-                        }
-                        if (col == 4)
-                        {
-                            BitmapImage btm = new BitmapImage(new Uri("/SmarTravel_Final;component/Images/busquedaIcon.png", UriKind.Relative));
-                            Image img = new Image();
-                            img.Source = btm;
-                            img.Stretch = Stretch.Fill;
-                            img.Width = 30;
-                            img.Height = 30;
-                            Button b = new Button();
-                            b.Click += new RoutedEventHandler(b_Click);
-
-                            //b.Content = "VER"
-                            b.Content = img;
-
-                            b.Tag = Convert.ToString(listViajes[contador]);
-                            b.SetValue(Grid.ColumnProperty, col);
-                            b.SetValue(Grid.RowProperty, row);
-
-
-                            this.listadoRecorridos.Children.Add(b);
-
-                        }
+                        validar v = new validar();
+                        v.show("No hay viajes diarios creados");
                     }
-                    contador++;
+                    
 
+                    
+                } // Fin try
+                catch (Exception ex)
+                {
+                    validar v = new validar();
+                    v.show(ex.Message);
                 }
+                
+            } // Fin validar datos
+        
 
-            }
-            catch (Exception ex)
-            {
-                validar v = new validar();
-                v.show(ex.Message);
-            }
+                    
 
+        }
+        public void bIngreso_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var fila = button.Tag;       
+            
+            addViaje = new agregarViajeDiario();
+            addViaje.Show();
 
-
+            addViaje.getIdRecorrido(listadoId[Convert.ToInt32(fila)].id);
+            addViaje.crearTabla();
+            
 
 
         }
@@ -670,35 +662,28 @@ namespace SmarTravel_Final
         private void darFormatoListadoRecorridos()
         {
 
-            this.listadoRecorridos.ColumnDefinitions.Add(new ColumnDefinition());
-            this.listadoRecorridos.ColumnDefinitions.Add(new ColumnDefinition());
-            this.listadoRecorridos.ColumnDefinitions.Add(new ColumnDefinition());
-            this.listadoRecorridos.ColumnDefinitions.Add(new ColumnDefinition());
-            this.listadoRecorridos.ColumnDefinitions.Add(new ColumnDefinition());
+           
             this.listadoRecorridos.RowDefinitions.Add(new RowDefinition());
 
+            this.listadoRecorridos.ColumnDefinitions.Add(new ColumnDefinition());
+            this.listadoRecorridos.ColumnDefinitions.Add(new ColumnDefinition());
+            this.listadoRecorridos.ColumnDefinitions.Add(new ColumnDefinition());
+            this.listadoRecorridos.ColumnDefinitions.Add(new ColumnDefinition());
 
-            Label origenHeader = new Label();
-            origenHeader.Content = "ORIGEN";
-            origenHeader.Style = Resources["HeaderTabla"] as Style;
+            Label origenDestinoHeader = new Label();
+            origenDestinoHeader.Content = "ORIGEN - DESTINO";
+            origenDestinoHeader.Style = Resources["HeaderTabla"] as Style;
 
-            origenHeader.SetValue(Grid.ColumnProperty, 0);
-            origenHeader.SetValue(Grid.RowProperty, 0);
-            this.listadoRecorridos.Children.Add(origenHeader);
+            origenDestinoHeader.SetValue(Grid.ColumnProperty, 0);
+            origenDestinoHeader.SetValue(Grid.RowProperty, 0);
+            this.listadoRecorridos.Children.Add(origenDestinoHeader);
 
-            Label destinoHeader = new Label();
-            destinoHeader.Content = "DESTINO";
-            destinoHeader.Style = Resources["HeaderTabla"] as Style;
-
-            destinoHeader.SetValue(Grid.ColumnProperty, 1);
-            destinoHeader.SetValue(Grid.RowProperty, 0);
-            this.listadoRecorridos.Children.Add(destinoHeader);
 
             Label identificadorHeader = new Label();
             identificadorHeader.Content = "IDENTIFICADOR";
             identificadorHeader.Style = Resources["HeaderTabla"] as Style;
             identificadorHeader.Width = 200;
-            identificadorHeader.SetValue(Grid.ColumnProperty, 2);
+            identificadorHeader.SetValue(Grid.ColumnProperty, 1);
             identificadorHeader.SetValue(Grid.RowProperty, 0);
             this.listadoRecorridos.Children.Add(identificadorHeader);
 
@@ -706,7 +691,7 @@ namespace SmarTravel_Final
             horarioHeader.Content = "HORARIO";
             horarioHeader.Style = Resources["HeaderTabla"] as Style;
             horarioHeader.Width = 200;
-            horarioHeader.SetValue(Grid.ColumnProperty, 3);
+            horarioHeader.SetValue(Grid.ColumnProperty, 2);
             horarioHeader.SetValue(Grid.RowProperty, 0);
             this.listadoRecorridos.Children.Add(horarioHeader);
 
@@ -714,232 +699,13 @@ namespace SmarTravel_Final
             verHeader.Content = "";
             verHeader.Style = Resources["HeaderTabla"] as Style;
             verHeader.Width = 100;
-            verHeader.SetValue(Grid.ColumnProperty, 4);
+            verHeader.SetValue(Grid.ColumnProperty,3);
             verHeader.SetValue(Grid.RowProperty, 0);
             this.listadoRecorridos.Children.Add(verHeader);
-            int precio = this.listadoRecorridos.Children.Count;
+            //int precio = this.listadoRecorridos.Children.Count;
         }
 
-        private void comboOrigen_Loaded(object sender, RoutedEventArgs e)
-        {
-
-
-            this.comboOrigen.Items.Clear();
-            ciudadOrigen.Clear();
-            ciudadesDistintas.Clear();
-            ciudadDestino.Clear();
-            id_recorrido.Clear();
-            id_recorrido_seleccion.Clear();
-            try
-            {
-                MySqlConnection con = conexionDB.ObtenerConexion();
-                string sql = "SELECT MAX(RECORRIDO) FROM PARADA";
-                MySqlCommand cmd = new MySqlCommand(sql, con);
-                MySqlDataReader dr = cmd.ExecuteReader();
-
-                int numeroRecorridos = 0;
-                if (dr.HasRows == true)
-                {
-                    while (dr.Read())
-                    {
-                        numeroRecorridos = dr.GetInt32(0);
-                    }
-
-                    con.Close();
-
-                    int i;
-
-                    // RECORRO LOS RECORRIDOS GENERALES.
-                    for (i = 0; i <= numeroRecorridos; i++)
-                    {
-                        con.Open();
-                        string sqlRecorridos = "SELECT NOMBRE FROM PARADA INNER JOIN CIUDAD ON PARADA.CIUDAD = CIUDAD.ID WHERE RECORRIDO = '" + i + "' LIMIT 1";
-                        cmd = new MySqlCommand(sqlRecorridos, con);
-
-                        dr = cmd.ExecuteReader();
-                        while (dr.Read())
-                        {
-                            // GUARDO TODOS LOS ORIGENES
-                            ciudadOrigen.Add(dr.GetString(0));
-                            // ID RECORRIDO
-                            id_recorrido.Add(i);
-
-
-                        }
-                        con.Close();
-                    }
-
-                    con.Open();
-                    string sqlciudadDestino = "SELECT NOMBRE FROM PARADA INNER JOIN CIUDAD ON PARADA.CIUDAD = CIUDAD.ID WHERE SIGUIENTE = -1";
-                    cmd = new MySqlCommand(sqlciudadDestino, con);
-
-                    dr = cmd.ExecuteReader();
-                    while (dr.Read())
-                    {
-                        ciudadDestino.Add(dr.GetString(0));
-                    }
-                    con.Close();
-
-                    ciudadesDistintas = ciudadOrigen.Distinct().ToList();
-
-                    for (int j = 0; j < ciudadesDistintas.Count; j++)
-                    {
-                        comboOrigen.Items.Add(ciudadesDistintas[j]);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-        private void comboOrigen_DropDownClosed(object sender, EventArgs e)
-        {
-            id_recorrido_seleccion.Clear();
-            comboDestino.Items.Clear();
-            // OBTENER ID CIUDAD ELEGIDA.
-
-            string ciudadOrigenElegida = this.comboOrigen.Text;
-
-            try
-            {
-                // RECORRER LISTADO DE ORIGENES
-                for (int i = 0; i < ciudadOrigen.Count; i++)
-                {
-                    //int cityOrigen= Convert.ToInt32(ciudadOrigen[i]);
-
-                    if (ciudadOrigen[i].Equals(ciudadOrigenElegida))
-                    {
-                        id_recorrido_seleccion.Add(id_recorrido[i]);
-
-                        this.comboDestino.Items.Add(ciudadDestino[i]);
-                    }
-                }
-            }
-
-            catch (Exception ex)
-            {
-                validar errorCiudad = new validar();
-                errorCiudad.show(ex.Message);
-            }
-        }
-
-        private void comboDestino_DropDownClosed(object sender, EventArgs e)
-        {
-            try
-            {
-                int seleccion = this.comboDestino.SelectedIndex;
-                this.lbl_id_recorrido.Text = Convert.ToString(this.id_recorrido_seleccion[seleccion]);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
-        private Boolean validarInsertViajeDiario()
-        {
-
-            validar mensajeValidacion = new validar();
-            string fechaActual = DateTime.Today.ToString("dd-MM-yyyy");
-
-            if (comboChofer.SelectedIndex == -1)
-            {
-                mensajeValidacion.show("Seleccione el chofer para el viaje.");
-                return false;
-            }
-            else if (comboAuxiliar.SelectedIndex == -1)
-            {
-
-                mensajeValidacion.show("Seleccione el auxiliar para el viaje.");
-                return false;
-            }
-            else if (comboBus.SelectedIndex == -1)
-            {
-
-                mensajeValidacion.show("Seleccione el bus para el viaje.");
-                return false;
-            }
-            else if (fechaDesde.Text == "")
-            {
-
-                mensajeValidacion.show("Seleccione la fecha inicial del viaje.");
-                return false;
-            }
-            else if (fechaHasta.Text == "")
-            {
-
-                mensajeValidacion.show("Seleccione la fecha final para el viaje.");
-                return false;
-            }
-
-            else if (DateTime.Parse(fechaActual).CompareTo(DateTime.Parse(this.fechaDesde.Text)) > 0)
-            {
-                mensajeValidacion.show("La fecha inicial es menor que la fecha actual.");
-                return false;
-            }
-            else if (DateTime.Parse(this.fechaDesde.Text).CompareTo(DateTime.Parse(this.fechaHasta.Text)) > 0)
-            {
-                mensajeValidacion.show("La fecha inicial es menor que la fecha final.");
-                return false;
-            }
-            foreach (UIElement ui in this.horarios.Children)
-            {
-                int row = System.Windows.Controls.Grid.GetRow(ui);
-                int col = System.Windows.Controls.Grid.GetColumn(ui);
-
-                if ((row == 0) && (col == 0 || col == 1 || col == 2))
-                {
-                    Label label = (Label)ui;
-                }
-                else
-                {
-                    TextBox txt = (TextBox)ui;
-                    string textoCelda = txt.Text;
-                    if (!textoCelda.Equals(""))
-                    {
-                        if (!textoCelda.Substring(0, 1).Equals("-") && (row > 0 && col < 2))
-                        {
-                            try
-                            {
-                                int horas = Convert.ToInt32(textoCelda.Substring(0, 2));
-                                //int horas = Int32.Parse(textoCelda.Substring(0, 2));
-                                int minutos = Convert.ToInt32(textoCelda.Substring(3, 2));
-                                if (!textoCelda.Substring(2, 1).Equals(":"))
-                                {
-                                    mensajeValidacion.show("El horario debe tener el formato hh:mm");
-                                    return false;
-                                }
-
-                                if (horas > 24)
-                                {
-                                    mensajeValidacion.show("La hora no debe ser superior a 24 horas");
-                                    return false;
-                                }
-
-                                if (minutos > 60)
-                                {
-                                    mensajeValidacion.show("La minutos no deben ser superior a 60 minutos");
-                                    return false;
-                                }
-                            }
-                            catch
-                            {
-                                mensajeValidacion.show("Un horario se encuentra mal ingresado, no ingrese letras en el horario.");
-                                return false;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        mensajeValidacion.show("Existe al menos un horario que no ha sido ingresado.");
-                        return false;
-                    }
-
-                }
-            }
-
-            return true;
-        }
+        
 
         private int obtenerIdCiudad(string nombreCiudad)
         {
@@ -972,175 +738,11 @@ namespace SmarTravel_Final
             con.Close();
             return nombreCiudad;
         }
-        private string obtenerRutPersona(string nombreCompleto, string cargo)
-        {
-            MySqlConnection con = conexionDB.ObtenerConexion();
-            string sql = "SELECT RUT FROM PERSONA WHERE NOMBRE_COMPLETO = '" + nombreCompleto + "' AND CARGO = '" + cargo + "'";
-            string rutBuscado = "";
-            MySqlCommand cmd = new MySqlCommand(sql, con);
-            MySqlDataReader dr = cmd.ExecuteReader();
-            while (dr.Read())
-            {
-                rutBuscado = (dr.GetString(0));
-            }
-            con.Close();
-            return rutBuscado;
-        }
-        private string obtenerNombrePersonaByRut(string rut, string cargo)
-        {
-            MySqlConnection con = conexionDB.ObtenerConexion();
-            string sql = "SELECT NOMBRE_COMPLETO FROM PERSONA WHERE RUT = '" + rut + "' AND CARGO = '" + cargo + "'";
-            string buscado = "";
-            MySqlCommand cmd = new MySqlCommand(sql, con);
-            MySqlDataReader dr = cmd.ExecuteReader();
-            while (dr.Read())
-            {
-                buscado = (dr.GetString(0));
-
-            }
-            con.Close();
-            return buscado;
-        }
+       
         private void button4_Click(object sender, RoutedEventArgs e)
         {
-            List<string> rango_fecha = new List<string>();
-            List<string> listado_horarios = new List<string>();
-            List<int> id_trayectos = new List<int>();
-            if (validarInsertViajeDiario())
-            {
-
-                DateTime inicio = DateTime.Parse(this.fechaDesde.Text);
-                DateTime final = DateTime.Parse(this.fechaHasta.Text);
-
-                for (DateTime i = inicio; i <= final; i = i.AddDays(1))
-                {
-                    rango_fecha.Add(i.ToString("dd-MM-yyyy"));
-
-                }
-                foreach (UIElement ui in this.horarios.Children)
-                {
-
-
-                    int row = System.Windows.Controls.Grid.GetRow(ui);
-                    int col = System.Windows.Controls.Grid.GetColumn(ui);
-
-                    if ((row == 0) && (col == 0 || col == 1 || col == 2))
-                    {
-                        Label label = (Label)ui;
-
-                    }
-                    else
-                    {
-                        TextBox txt = (TextBox)ui;
-
-                        listado_horarios.Add(txt.Text);
-                    }
-                }
-                string id_recorrido = lbl_id_recorrido.Text;
-                string identificadorViaje = identificador.Text;
-                string fechaInicioViaje = fechaDesde.Text;
-                string fechaFinViaje = fechaHasta.Text;
-
-                try
-                {
-                    // INSERT EN LA TABLA TRAYECTO GUARDO EL VIAJE
-                    MySqlConnection con = conexionDB.ObtenerConexion();
-                    string insertString = "INSERT INTO viajes (RECORRIDO,IDENTIFICADOR,DESDE,HASTA) VALUES (?recorrido,?identificador,?desde,?hasta)";
-
-                    MySqlCommand cmd = new MySqlCommand(insertString, con);
-                    cmd.Parameters.Add("?recorrido", Convert.ToInt32(id_recorrido));
-                    cmd.Parameters.Add("?identificador", identificadorViaje);
-                    cmd.Parameters.Add("?desde", fechaInicioViaje);
-                    cmd.Parameters.Add("?hasta", fechaFinViaje);
-
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-
-                    con.Open();
-                    // OBTENGO LOS TRAYECTOS SEGUN EL VIAJE
-                    string selectTrayectos = "SELECT ID FROM TRAYECTO WHERE RECORRIDO = " + lbl_id_recorrido.Text;
-
-                    cmd = new MySqlCommand(selectTrayectos, con);
-
-                    MySqlDataReader dr;
-                    dr = cmd.ExecuteReader();
-                    while (dr.Read())
-                    {
-                        id_trayectos.Add(dr.GetInt32(0));
-
-                    }
-                    con.Close();
-                    con.Open();
-                    int id_viaje = 0;
-                    //OBTENGO EL ID DEL VIAJE CREADO.
-                    string selectIDVIAJE = "SELECT ID FROM VIAJES WHERE RECORRIDO = " + lbl_id_recorrido.Text + " AND IDENTIFICADOR = '" + identificadorViaje + "'";
-                    cmd = new MySqlCommand(selectIDVIAJE, con);
-                    dr = cmd.ExecuteReader();
-                    while (dr.Read())
-                    {
-                        id_viaje = (dr.GetInt32(0));
-
-                    }
-
-                    con.Close();
-
-
-                    // INSERT EN VIAJES DIARIOS
-                    string rutChofer = obtenerRutPersona(comboChofer.Text, "CHOFER");
-                    string rutAuxiliar = obtenerRutPersona(comboAuxiliar.Text, "AUXILIAR");
-                    for (int i = 0; i < rango_fecha.Count; i++)
-                    {
-                        for (int j = 0; j < id_trayectos.Count; j++)
-                        {
-                            con.Open();
-
-                            insertString = "INSERT INTO viajes_diarios (VIAJE,TRAYECTO,FECHA,BUS,CHOFER,AUXILIAR,ASIENTOS_DISPONIBLES,RUTA_ARCHIVO) VALUES (?viaje,?trayecto,?fecha,?bus,?chofer,?auxiliar,45,'VACIO')";
-
-                            cmd = new MySqlCommand(insertString, con);
-                            cmd.Parameters.Add("?viaje", id_viaje);
-                            cmd.Parameters.Add("?trayecto", id_trayectos[j]);
-                            cmd.Parameters.Add("?fecha", rango_fecha[i]);
-                            cmd.Parameters.Add("?bus", comboBus.Text);
-                            cmd.Parameters.Add("?chofer", rutChofer);
-                            cmd.Parameters.Add("?auxiliar", rutAuxiliar);
-
-                            cmd.ExecuteNonQuery();
-                            con.Close();
-                        }
-                    }
-
-
-                    // INSERT EN HORARIOS
-                    for (int i = 0; i < listado_horarios.Count; i = i + 3)
-                    {
-                        con.Open();
-                        insertString = "INSERT INTO HORARIOS (VIAJE,LLEGADA,SALIDA,PARADA) VALUES (?viaje,?llegada,?salida,?parada)";
-
-                        cmd = new MySqlCommand(insertString, con);
-                        cmd.Parameters.Add("?viaje", id_viaje);
-                        cmd.Parameters.Add("?llegada", listado_horarios[i]);
-                        cmd.Parameters.Add("?salida", listado_horarios[i + 1]);
-                        cmd.Parameters.Add("?parada", obtenerIdCiudad(listado_horarios[i + 2]));
-
-                        cmd.ExecuteNonQuery();
-                        con.Close();
-                    }
-
-
-                    nuevoViaje nuevoViajeDiario = new nuevoViaje();
-                    nuevoViajeDiario.Show();
-
-                    comboDestino.Items.Clear();
-                    identificador.Text = "";
-                    datosViaje.Visibility = Visibility.Hidden;
-                    comboOrigen.SelectedIndex = -1;
-                } // FIN TRY
-                catch (Exception ex)
-                {
-                    validar vInsert = new validar();
-                    vInsert.show(ex.Message);
-                }
-            } // FIN IF DATOS VALIDOS
+            
+           
         }
 
         private void horarios_MouseDown(object sender, MouseButtonEventArgs e)
@@ -1148,113 +750,46 @@ namespace SmarTravel_Final
 
         }
 
-        private void cOrigenEditar_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.cOrigenEditar.Items.Clear();
-
-            ciudadOrigen.Clear();
-            ciudadesDistintas.Clear();
-            ciudadDestino.Clear();
-            id_recorrido.Clear();
-            id_recorrido_seleccion.Clear();
-            try
-            {
-                MySqlConnection con = conexionDB.ObtenerConexion();
-                string sql = "SELECT MAX(RECORRIDO) FROM PARADA";
-                MySqlCommand cmd = new MySqlCommand(sql, con);
-                MySqlDataReader dr = cmd.ExecuteReader();
-
-                int numeroRecorridos = 0;
-                while (dr.Read())
-                {
-                    numeroRecorridos = dr.GetInt32(0);
-                }
-
-                con.Close();
-                int i;
-                // RECORRO LOS RECORRIDOS GENERALES.
-                for (i = 0; i <= numeroRecorridos; i++)
-                {
-                    con.Open();
-                    string sqlRecorridos = "SELECT NOMBRE FROM PARADA INNER JOIN CIUDAD ON PARADA.CIUDAD = CIUDAD.ID WHERE RECORRIDO = '" + i + "' LIMIT 1";
-                    cmd = new MySqlCommand(sqlRecorridos, con);
-                    dr = cmd.ExecuteReader();
-                    while (dr.Read())
-                    {
-                        // GUARDO TODOS LOS ORIGENES
-                        ciudadOrigen.Add(dr.GetString(0));
-                        // ID RECORRIDO
-                        id_recorrido.Add(i);
-                    }
-                    con.Close();
-                }
-
-                con.Open();
-                string sqlciudadDestino = "SELECT NOMBRE FROM PARADA INNER JOIN CIUDAD ON PARADA.CIUDAD = CIUDAD.ID WHERE SIGUIENTE = -1";
-                cmd = new MySqlCommand(sqlciudadDestino, con);
-
-                dr = cmd.ExecuteReader();
-                while (dr.Read())
-                {
-                    ciudadDestino.Add(dr.GetString(0));
-                }
-                con.Close();
-
-                ciudadesDistintas = ciudadOrigen.Distinct().ToList();
-
-                for (int j = 0; j < ciudadesDistintas.Count; j++)
-                {
-                    cOrigenEditar.Items.Add(ciudadesDistintas[j]);
-                }
-            }
-            catch (Exception ex)
-            {
-                validar v = new validar();
-                v.show(ex.Message);
-            }
-        }
-
+      
         private void cOrigenEditar_DropDownClosed(object sender, EventArgs e)
         {
-            id_recorrido_seleccion.Clear();
             cDestinoEditar.Items.Clear();
             // OBTENER ID CIUDAD ELEGIDA.
 
-            string ciudadOrigenElegida = this.cOrigenEditar.Text;
+            List<int> recorridos = new List<int>();
 
-            try
+            string ciudadOrigenElegida = this.cOrigenEditar.Text;
+            Ciudad origen = CiudadFacade.buscarCiudadPorNombre(ciudadOrigenElegida);
+
+            List<Parada> Origenes = ParadaFacade.buscarOrigenesGenerales();
+            foreach (Parada ciudadesOrigenes in Origenes)
             {
-                // RECORRER LISTADO DE ORIGENES
-                for (int i = 0; i < ciudadOrigen.Count; i++)
+                if (ciudadesOrigenes.ciudad.nombre.Equals(ciudadOrigenElegida))
                 {
-                    if (ciudadOrigen[i].Equals(ciudadOrigenElegida))
+                    recorridos.Add(ciudadesOrigenes.recorrido);
+                }
+
+            }
+
+            List<Parada> destinos = ParadaFacade.buscarDestinosGeneralesByCiudad(origen, recorridos);
+
+            foreach (Parada ciudad in destinos)
+            {
+                Boolean validarCiudades = true; ;
+
+                for (int i = 0; i < this.cDestinoEditar.Items.Count; i++)
+                {
+                    if (ciudad.ciudad.nombre.Equals(this.cDestinoEditar.Items.GetItemAt(i)))
                     {
-                        id_recorrido_seleccion.Add(id_recorrido[i]);
-                        this.cDestinoEditar.Items.Add(ciudadDestino[i]);
+
+                        validarCiudades = false;
                     }
                 }
+                if (validarCiudades)
+                {
+                    this.cDestinoEditar.Items.Add(ciudad.ciudad.nombre);
+                }
             }
-            catch (Exception ex)
-            {
-                validar errorCiudad = new validar();
-                errorCiudad.show(ex.Message);
-            }
-        }
-
-        private void cDestinoEditar_DropDownClosed(object sender, EventArgs e)
-        {
-            try
-            {
-                int seleccion = this.cDestinoEditar.SelectedIndex;
-
-                this.id_recorridoEditar.Text = Convert.ToString(this.id_recorrido_seleccion[seleccion]);
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
         }
 
         private void verValores_Click(object sender, RoutedEventArgs e)
@@ -1390,5 +925,307 @@ namespace SmarTravel_Final
                 Console.WriteLine("comboDestinoReco_SelectionChanged: " + ex.Message);
             }
         }
+
+  
+
+        private void comboOrigen_DropDownClosed(object sender, EventArgs e)
+        {
+            comboDestino.Items.Clear();
+            // OBTENER ID CIUDAD ELEGIDA.
+
+            List<int> recorridos = new List<int>();
+
+            string ciudadOrigenElegida = this.comboOrigen.Text;
+            Ciudad origen = CiudadFacade.buscarCiudadPorNombre(ciudadOrigenElegida);
+
+            List<Parada> Origenes = ParadaFacade.buscarOrigenesGenerales();
+            foreach (Parada ciudadesOrigenes in Origenes)
+            {
+                if (ciudadesOrigenes.ciudad.nombre.Equals(ciudadOrigenElegida))
+                {
+                    recorridos.Add(ciudadesOrigenes.recorrido);
+                }
+
+            }
+            
+            List<Parada> destinos = ParadaFacade.buscarDestinosGeneralesByCiudad(origen,recorridos);
+
+            foreach (Parada ciudad in destinos)
+            {
+                Boolean validarCiudades = true; ;
+
+                for (int i = 0; i < this.comboDestino.Items.Count; i++)
+                {
+                    if (ciudad.ciudad.nombre.Equals(this.comboDestino.Items.GetItemAt(i)))
+                    {
+
+                        validarCiudades = false;
+                    }
+                }
+                if (validarCiudades)
+                {
+                    this.comboDestino.Items.Add(ciudad.ciudad.nombre);
+                }
+            }
+                                                               
+        }
+
+        
+        public void formatoTablaViaje(){
+
+            this.ListadoViajes.Children.Clear();
+            this.ListadoViajes.RowDefinitions.Clear();
+            this.ListadoViajes.ColumnDefinitions.Clear();
+            this.ListadoViajes.RowDefinitions.Add(new RowDefinition());
+
+            this.ListadoViajes.ColumnDefinitions.Add(new ColumnDefinition());
+            this.ListadoViajes.ColumnDefinitions.Add(new ColumnDefinition());
+            this.ListadoViajes.ColumnDefinitions.Add(new ColumnDefinition());
+            this.ListadoViajes.ColumnDefinitions.Add(new ColumnDefinition());
+            this.ListadoViajes.ColumnDefinitions.Add(new ColumnDefinition());
+            this.ListadoViajes.ColumnDefinitions.Add(new ColumnDefinition());
+
+            Label intermediosHeader = new Label();
+            intermediosHeader.Content = "VIAJE";
+            intermediosHeader.Style = Resources["HeaderTabla"] as Style;
+
+            intermediosHeader.SetValue(Grid.ColumnProperty, 0);
+            intermediosHeader.SetValue(Grid.RowProperty, 0);
+            this.ListadoViajes.Children.Add(intermediosHeader);
+
+
+            Label horarioHeader = new Label();
+            horarioHeader.Content = "HORARIO";
+            horarioHeader.Style = Resources["HeaderTabla"] as Style;
+            horarioHeader.Width = 200;
+            horarioHeader.SetValue(Grid.ColumnProperty, 1);
+            horarioHeader.SetValue(Grid.RowProperty, 0);
+            this.ListadoViajes.Children.Add(horarioHeader);
+
+            Label identificadorHeader = new Label();
+            identificadorHeader.Content = "IDENTIFICADOR";
+            identificadorHeader.Style = Resources["HeaderTabla"] as Style;
+            identificadorHeader.Width = 200;
+            identificadorHeader.SetValue(Grid.ColumnProperty, 2);
+            identificadorHeader.SetValue(Grid.RowProperty, 0);
+            this.ListadoViajes.Children.Add(identificadorHeader);
+
+            Label desdeHeader = new Label();
+            desdeHeader.Content = "DESDE";
+            desdeHeader.Style = Resources["HeaderTabla"] as Style;
+            desdeHeader.Width = 200;
+            desdeHeader.SetValue(Grid.ColumnProperty, 3);
+            desdeHeader.SetValue(Grid.RowProperty, 0);
+            this.ListadoViajes.Children.Add(desdeHeader);
+
+            Label hastaHeader = new Label();
+            hastaHeader.Content = "HASTA";
+            hastaHeader.Style = Resources["HeaderTabla"] as Style;
+            hastaHeader.Width = 200;
+            hastaHeader.SetValue(Grid.ColumnProperty, 4);
+            hastaHeader.SetValue(Grid.RowProperty, 0);
+            this.ListadoViajes.Children.Add(hastaHeader);
+
+            Label verHeader = new Label();
+            verHeader.Content = "";
+            verHeader.Style = Resources["HeaderTabla"] as Style;
+            verHeader.Width = 100;
+            verHeader.SetValue(Grid.ColumnProperty, 5);
+            verHeader.SetValue(Grid.RowProperty, 0);
+            this.ListadoViajes.Children.Add(verHeader);
+
+
+            //int largo = paradas.Count;
+            this.ListadoViajes.ColumnDefinitions[0].Width = new System.Windows.GridLength(210);
+            this.ListadoViajes.ColumnDefinitions[1].Width = new System.Windows.GridLength(130);
+            this.ListadoViajes.ColumnDefinitions[2].Width = new System.Windows.GridLength(210);
+            this.ListadoViajes.ColumnDefinitions[3].Width = new System.Windows.GridLength(110);
+            this.ListadoViajes.ColumnDefinitions[4].Width = new System.Windows.GridLength(110);
+            this.ListadoViajes.ColumnDefinitions[5].Width = new System.Windows.GridLength(90);
+            
+            
+        }
+        private void tabEditarViajeDiario_Selected(object sender, RoutedEventArgs e)
+        {
+            formatoTablaViaje();
+            List<Viaje> allViajes = ViajeFacade.buscarAllViajes();
+            List<string> listHorarioSalida = new List<string>();
+            List<string> listHorarioLlegada = new List<string>();
+            int largo = allViajes.Count;
+            for (int z = 0; z < largo; z++)
+            {
+                this.ListadoViajes.RowDefinitions.Add(new RowDefinition());
+
+                this.ListadoViajes.RowDefinitions[z].Height = new System.Windows.GridLength(40);
+            }
+            this.ListadoViajes.RowDefinitions[0].Height = new System.Windows.GridLength(25);
+            this.ListadoViajes.RowDefinitions[ListadoViajes.RowDefinitions.Count - 1].Height = new System.Windows.GridLength(40);
+
+
+            List<string> nombreIntermedios = new List<string>();
+            foreach (Viaje viaje in allViajes)
+            {
+                List<Recorrido> listado = RecorridoFacade.OrigenDestinoByRecorrido(viaje.reco);
+                foreach (Recorrido ciudad in listado)
+                {
+                    // TENGO LOS ORIGENES Y DESTINOS DE LOS VIAJES
+                    nombreIntermedios.Add(ciudad.origen.nombre + " - " + ciudad.destino.nombre);
+                }
+            }
+
+            if (allViajes.Count > -1)
+            {
+                
+                // Obtener HORARIO DE SALIDA Y LLEGADA
+                for (int i = 0; i < allViajes.Count; i++)
+                {
+
+                    MySqlConnection con = conexionDB.ObtenerConexion();   
+                    string sql = "SELECT SALIDA FROM HORARIOS WHERE LLEGADA = '-' AND VIAJE =" + allViajes[i].id;
+                    MySqlCommand cmd = new MySqlCommand(sql, con);
+
+                    MySqlDataReader dr = cmd.ExecuteReader();
+
+                    while (dr.Read())
+                    {
+                        listHorarioSalida.Add(dr.GetString(0));
+
+                    }
+
+                    dr.Close();
+                    con.Close();
+                    con.Open();
+                    string sqlHoraLlegada = "SELECT LLEGADA FROM HORARIOS WHERE SALIDA = '-' AND VIAJE =" + allViajes[i].id;
+
+                    MySqlCommand cmd2 = new MySqlCommand(sqlHoraLlegada, con);
+
+                    MySqlDataReader dr2 = cmd2.ExecuteReader();
+
+                    while (dr2.Read())
+                    {
+
+                        listHorarioLlegada.Add(dr2.GetString(0));
+
+
+                    }
+                    con.Close();
+
+                }
+
+
+                TextBox celda;
+                int contador = 0;
+                for (int row = 1; row < this.ListadoViajes.RowDefinitions.Count; row++)
+                {
+                    for (int col = 0; col < this.ListadoViajes.ColumnDefinitions.Count; col++)
+                    {
+
+                        if (col == 0)
+                        {
+                            celda = new TextBox();
+                            celda.Style = Resources["ItemTablaGuion"] as Style;
+                            celda.Text = nombreIntermedios[contador];
+                            celda.SetValue(Grid.ColumnProperty, col);
+                            celda.SetValue(Grid.RowProperty, row);
+                            celda.IsReadOnly = true;
+                            this.ListadoViajes.Children.Add(celda);
+
+                        }
+                        if (col == 1)
+                        {
+                            celda = new TextBox();
+                            celda.Style = Resources["ItemTablaGuion"] as Style;
+                            celda.Text = listHorarioSalida[contador] +" - "+ listHorarioLlegada[contador];
+                            celda.SetValue(Grid.ColumnProperty, col);
+                            celda.SetValue(Grid.RowProperty, row);
+                            celda.IsReadOnly = true;
+                            this.ListadoViajes.Children.Add(celda);
+
+                        }
+                        if (col == 2)
+                        {
+                            celda = new TextBox();
+                            celda.Style = Resources["ItemTablaGuion"] as Style;
+                            celda.Text = allViajes[contador].identificador;
+                            celda.SetValue(Grid.ColumnProperty, col);
+                            celda.SetValue(Grid.RowProperty, row);
+                            celda.IsReadOnly = true;
+                            this.ListadoViajes.Children.Add(celda);
+
+                        }
+                        if (col == 3)
+                        {
+                            celda = new TextBox();
+                            celda.Style = Resources["ItemTablaGuion"] as Style;
+
+                            celda.Text = allViajes[contador].fechaDesde;
+                            celda.SetValue(Grid.ColumnProperty, col);
+                            celda.SetValue(Grid.RowProperty, row);
+                            celda.IsReadOnly = true;
+                            this.ListadoViajes.Children.Add(celda);
+
+                        }
+                        if (col == 4)
+                        {
+                            celda = new TextBox();
+                            celda.Style = Resources["ItemTablaGuion"] as Style;
+
+                            celda.Text = allViajes[contador].fechaHasta;
+                            celda.SetValue(Grid.ColumnProperty, col);
+                            celda.SetValue(Grid.RowProperty, row);
+                            celda.IsReadOnly = true;
+                            this.ListadoViajes.Children.Add(celda);
+
+                        }
+                        if (col == 5)
+                        {
+                            BitmapImage btm = new BitmapImage(new Uri("/SmarTravel_Final;component/Images/busquedaIcon.png", UriKind.Relative));
+                            Image img = new Image();
+                            img.Source = btm;
+                            img.Stretch = Stretch.Fill;
+                            img.Width = 30;
+                            img.Height = 30;
+                            Button buttonNewViaje = new Button();
+                            buttonNewViaje.Click += new RoutedEventHandler(buttonNewViaje_Click);
+
+                            //b.Content = "VER"
+                            buttonNewViaje.Content = img;
+
+                            buttonNewViaje.Tag = Convert.ToString(allViajes[contador].id);
+                            buttonNewViaje.SetValue(Grid.ColumnProperty, col);
+                            buttonNewViaje.SetValue(Grid.RowProperty, row);
+
+
+                            this.ListadoViajes.Children.Add(buttonNewViaje);
+
+                        }
+
+                    }
+                    contador++;
+
+                }
+            }
+
+
+        } // Fin metodo
+
+
+        public void buttonNewViaje_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            var fila = button.Tag;
+
+            editarNewViajeDiario edit = new editarNewViajeDiario();
+            edit.Show();
+
+            edit.getIdViaje(Convert.ToInt32(fila.ToString()));
+            edit.crearTabla();
+
+
+        }
+
+
+
+
     }
 }
