@@ -14,6 +14,7 @@ namespace SmarTravel_Final.Controller
         public string fechaHasta;        
         public List<ViajeDiario> viajesDiarios;
         public List<Horario> horarios;
+        public Recorrido reco;
 
         public Viaje() { }
 
@@ -32,6 +33,16 @@ namespace SmarTravel_Final.Controller
         {
             this.id = id;
             this.recorrido = recorrido;
+            this.identificador = identificador;
+            this.fechaDesde = desde;
+            this.fechaHasta = hasta;
+            this.viajesDiarios = viajesDiarios;
+            this.horarios = horarios;
+        }
+        public Viaje(int id, Recorrido recorrido, string identificador, string desde, string hasta, List<ViajeDiario> viajesDiarios, List<Horario> horarios)
+        {
+            this.id = id;
+            this.reco = recorrido;
             this.identificador = identificador;
             this.fechaDesde = desde;
             this.fechaHasta = hasta;

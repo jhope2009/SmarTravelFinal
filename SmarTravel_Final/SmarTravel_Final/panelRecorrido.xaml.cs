@@ -1215,7 +1215,7 @@ namespace SmarTravel_Final
             var button = sender as Button;
             var fila = button.Tag;
 
-            editarNewViajeDiario edit = new editarNewViajeDiario();
+            editarViajeDiario edit = new editarViajeDiario ();
             edit.Show();
 
             edit.getIdViaje(Convert.ToInt32(fila.ToString()));

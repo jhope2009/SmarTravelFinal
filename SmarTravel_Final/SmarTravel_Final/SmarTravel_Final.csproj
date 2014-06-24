@@ -77,6 +77,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="agregarViajeDiario.xaml.cs">
+      <DependentUpon>agregarViajeDiario.xaml</DependentUpon>
+    </Compile>
     <Compile Include="alerta.xaml.cs">
       <DependentUpon>alerta.xaml</DependentUpon>
     </Compile>
@@ -146,6 +149,10 @@
     <Compile Include="validar.xaml.cs">
       <DependentUpon>validar.xaml</DependentUpon>
     </Compile>
+    <Page Include="agregarViajeDiario.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="alerta.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

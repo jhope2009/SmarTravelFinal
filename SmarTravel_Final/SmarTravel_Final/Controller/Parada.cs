@@ -9,6 +9,7 @@ namespace SmarTravel_Final.Controller
     {
         public int id;
         public Ciudad ciudad;
+        public int recorrido;
         public Parada siguiente;
 
         public Parada() 
@@ -28,6 +29,13 @@ namespace SmarTravel_Final.Controller
             this.id = id;
             this.ciudad = ciudad;
             this.siguiente = siguiente;
-        }              
+        }
+        public Parada(int id, int Recorrido, Ciudad ciudad, Parada siguiente)
+        {
+            this.id = id;
+            this.recorrido = Recorrido;
+            this.ciudad = ciudad;
+            this.siguiente = siguiente;
+        }       
     }
 }
